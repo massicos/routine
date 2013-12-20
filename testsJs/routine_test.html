@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Refactored date examples</title>
+        <link rel="stylesheet" href="css/qunit.css">
+        <script src="js/qunit.js"></script>
+        <script src="../www/js/lib/jquery.min.js"></script>
+        <script src="../www/js/personne.js"></script>
+        <script>
+            test("personne constructeur", function() {
+                var p = new Personne("Léanne");
+                equal(p.getPrenom(), "Léanne");
+            });
+
+            test("personne dateFinItemRoutine", function() {
+                var p = new Personne("Léanne");
+                var d = new Date(1993, 06, 09, 21, 00);
+                p.setDateFinItemRoutine(d);
+                equal(p.getDateFinItemRoutine().getTime(), d.getTime());
+            });
+
+            test("personne dateFinRoutine", function() {
+                var p = new Personne("Léanne");
+                var dateFin = new Date(1993, 06, 09, 21, 00);
+
+                p.setDateFinRoutine(dateFin);
+                equal(p.getDateFinRoutine(), dateFin);
+            });
+
+            test("personne tempsMinuteFinRoutine", function() {
+                var p = new Personne("Léanne");
+                var dateFin = new Date(1993, 06, 09, 21, 00);
+
+                p.setDateFinItemRoutine(dateFin);
+                var secondesRestantes = p.getSecondeItemRoutine(new Date(1993, 06, 09, 19, 00), 10800000);
+                var troisHeuresMillisecondes = 10800000;
+                ok(troisHeuresMillisecondes - secondesRestantes < 8000);
+            });
+        </script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+    </body>
+</html>

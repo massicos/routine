@@ -1,0 +1,4 @@
+<?php
+
+define('CHEMIN_DESTINATION', '/var/www/html/routine-preprod');
+

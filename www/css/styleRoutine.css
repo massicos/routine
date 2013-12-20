@@ -1,0 +1,197 @@
+.couteneurRoutines {
+
+}
+.routine .ui-selecting {
+    background: #FECA40;
+}
+.routine .ui-selected {
+    background: #F39814;
+    color: white;
+}
+.routine {
+    list-style-type: decimal;
+    /*
+    margin: 0;
+    padding: 0;
+    */
+}
+.routine li {
+
+    margin: 3px;
+    font-weight: bold;
+    font-size: large;
+    /*
+    padding: 0.4em;
+    font-size: 1.4em;
+    height: 18px;*/
+}
+.routineItemTermine {
+    color:gray;
+    text-decoration: line-through;
+}
+.routineItemImg {
+    height:90px;
+    width:auto;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    vertical-align: middle;
+}
+.routineItemInfoTemps {
+    margin-left: 15px;
+}
+.routineItemInfoEtoiles {
+    margin-left: 15px;
+}
+.tempsMillisecondes {
+    display: none;
+}
+
+body {
+    font-size: 62.5%;
+    font-family: "Trebuchet MS", "Arial", "Helvetica", "Verdana", "sans-serif";
+}
+h1 {
+    color: red;
+}
+.enfant{
+    display:inline-block;
+    width:35%;
+    border: black solid;
+    border-radius: 5px;
+    padding: 5px 5px;
+    overflow: auto;
+    vertical-align: top;
+}
+.enfantInfo{
+    border-bottom: black solid;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+.enfantInfoPerso {
+    display: inline-block;
+}
+.enfantInfoResultat {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 10px;
+}
+.photoEnfant {
+    display:inline-block;
+    height:90px; width:auto;
+    border-radius: 5px;
+    text-align:center;
+}
+.nomEnfant {
+    color:orange;
+    font-weight:bold;
+    text-align:center;
+    font-size: x-large;
+    text-decoration: underline overline;
+    display:block;
+}
+.nbrEtoilesImg {
+    display:inline-block;
+}
+.nbrEtoilesTexte {
+    display:block;
+    text-align: center;
+    font-weight: bolder;
+    font-size: large;
+}
+.etoileImg {
+    display: inline;
+}
+.message {
+    border: orange solid;
+    border-radius: 5px;
+    text-align:center;
+    width:50%;
+    margin-top: 3px;
+    margin-bottom: 10px;
+}
+.emoticon {
+    display:inline-block;
+    height:90px;
+    width:auto;
+}
+.nbrEtoilesImg {
+    /*border: yellowgreen solid;*/
+}
+.nbrEtoilesTexte {
+    /*border: yellow solid;*/
+}
+
+.ui-progressbar {
+    position: relative;
+}
+.progress-label {
+    position: absolute;
+    left: 50%;
+    top: 4px;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 #fff;
+}
+.tempsJeux {
+    border-left: 3px solid black;
+    border-right: 3px solid black;
+    border-bottom: 3px solid black;
+    background-color: red;
+    height: 150px;
+    width: 75px;
+    display: inline-block;
+
+}
+
+.tempsJeuxIndicateur {
+    background-color: white;
+    height: 0px;
+    width: 75px;
+}
+
+.tempsRoutine {
+    display: inline-block;
+}
+
+.tempsMinutes {
+    display: inline-block;
+}
+
+.infoTemps {
+    border: 3px solid orange;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding: 3px
+}
+
+.tableauBord {
+    /*border: 3px solid orange;
+    border-radius: 5px;
+    */
+    display: inline-block
+}
+
+.tempsJeuxMinutes {
+    display: inline;
+}
+
+.tempsTotalRoutineMinutes {
+    display: inline;
+}
+
+em {
+    font-weight: bold;
+}
+
+.tempsJeuxMinuteInput {
+    border: 1px solid black;
+    width: 30px;
+}
+
+.tempsJeuxMinutesBouton {
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.tempsJeuxDateFinRoutine {
+    display: none;
+}
