@@ -1,0 +1,136 @@
+.
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Routine</title>
+<link rel="stylesheet" href="css/styleRoutine.css">
+<link rel="stylesheet" href="css/base/jquery.ui.all.css">
+<script src="js/lib/jquery.min.js"></script>
+
+<script src="js/lib/ui/jquery.ui.core.js"></script>
+<script src="js/lib/ui/jquery.ui.widget.js"></script>
+<script src="js/lib/ui/jquery.ui.mouse.js"></script>
+<script src="js/lib/ui/jquery.ui.selectable.js"></script>
+<script src="js/lib/ui/jquery.ui.progressbar.js"></script>
+
+<script src="js/itemRoutine.js"></script>
+<script src="js/routine.js"></script>
+<script src="js/routinePageObj.js"></script>
+
+
+</head>
+<body>
+	<h1>Routine</h1>
+
+	<div class="conteneurRoutines">
+		<div class="enfant" id="enfantCharles">
+			<div class="enfantInfo">
+				<div class="enfantInfoPerso">
+					<img class="photoEnfant"
+						src="../routinePerso/images/photos/nom1.jpg">
+					<div class="nomEnfant">Nom1</div>
+				</div>
+				<div class="tableauBord">
+					<div class="tableauBordInfoTemps">
+						<div class="tableauBordTempsRoutine">
+							<em class="tableauBordTempsLabel">Heure de fin :</em>
+							<div class="tableauBordTempsHeureFin">10</div>
+							<input type="text" class="tableauBordTempsHeureFinInput">
+							<input type="button"
+								class="tableauBordTempsHeureFinBouton tableauBordTempsHeureFinBoutonGo"
+								value="Go"> <input type="button"
+								class="tableauBordTempsHeureFinBouton tableauBordTempsHeureFinBoutonStop"
+								value="X">| <em>Temps total - routine :</em>
+							<div class="tableauBordTempsTotalRoutineMinutes">X</div>
+							minutes
+						</div>
+					</div>
+					<div class="enfantInfoResultat">
+						<div class="nbrEtoilesImg"></div>
+						<div class="nbrEtoilesTexte">0</div>
+					</div>
+					<div class="tempsJeux">
+						<div class="tempsJeuxIndicateur"></div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="message">
+				<div class="messageImg"></div>
+				<div class="messageEtoiles"></div>
+				<div class="messageTexte"></div>
+			</div>
+			<div class="chrono">
+				<div class="progressbar" id="progressbarCharles">
+					<div class="progress-label">En attente...</div>
+				</div>
+				<input type="button" class="boutonStop" value="Stop">
+			</div>
+
+			<ol class="routine" id="charlesRoutine">
+				<li class="routineItem"><img src="" class="routineItemImg">
+					<span class="routineItemIndex">0</span> <span
+					class="routineItemTexte">item routine vide</span> <span
+					class="routineItemInfoTemps"><img
+						src="images/icons/time.png"> <span class="tempsMinutes">0</span></span>
+					<span class="routineItemInfoEtoiles"><img
+						src="images/icons/star.png"> <span class="etoiles">0</span></span></li>
+			</ol>
+		</div>
+		<div class="enfant" id="enfantLeanne">
+			<div class="enfantInfo">
+				<div class="enfantInfoPerso">
+					<img class="photoEnfant"
+						src="../routinePerso/images/photos/nom2.jpg">
+					<div class="nomEnfant">Nom2</div>
+				</div>
+				<div class="tableauBord">
+					<div class="infoTemps">
+						<div class="tempsRoutine">
+							<em class="tempsLabel">TempsLabel</em>
+							<div class="tempsHeureFin">10</div>
+							<input type="text" class="tempsJeuxMinuteInput"> <input
+								type="button" class="tempsHeureFinBouton tempsHeureFinBoutonGo"
+								value="Go"> <input type="button"
+								class="tempsHeureFinBouton tempsHeureFinBoutonStop" value="X">|
+							<em>Temps total - routine :</em>
+							<div class="tempsTotalRoutineMinutes">X</div>
+							minutes
+						</div>
+					</div>
+					<div class="enfantInfoResultat">
+						<div class="nbrEtoilesImg"></div>
+						<div class="nbrEtoilesTexte">0</div>
+					</div>
+					<div class="tempsJeux">
+						<div class="tempsJeuxIndicateur"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="message">
+				<div class="messageImg"></div>
+				<div class="messageEtoiles"></div>
+				<div class="messageTexte"></div>
+			</div>
+			<div class="chrono">
+				<div class="progressbar" id="progressbarCharles">
+					<div class="progress-label">En attente...</div>
+				</div>
+				<input type="button" class="boutonStop" value="Stop">
+			</div>
+
+			<ol class="routine" id="charlesRoutine">
+				<li class="routineItem"><img src="" class="routineItemImg">
+					<span class="routineItemIndex">0</span> <span
+					class="routineItemTexte">item routine vide</span> <span
+					class="routineItemInfoTemps"><img
+						src="images/icons/time.png"> <span class="tempsMinutes">0</span></span>
+					<span class="routineItemInfoEtoiles"><img
+						src="images/icons/star.png"> <span class="etoiles">0</span></span></li>
+			</ol>
+		</div>
+</body>
+</html>

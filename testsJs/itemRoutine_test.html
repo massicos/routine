@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>ItemRoutine - Tests</title>
+        <link rel="stylesheet" href="css/qunit.css">
+        <script src="js/qunit.js"></script>
+        <script src="../www/js/lib/jquery.min.js"></script>
+        <script src="../www/js/itemRoutine.js"></script>
+        <script>
+            var itemRoutine = false;
+            
+            function debuterItemRoutine(dateDebut) {
+                equal(itemRoutine.getStatut(), 0);
+                equal(itemRoutine.getStatut(), statuts.ATTENTE);
+                itemRoutine.debuter(dateDebut);
+                equal(itemRoutine.getDateDebut(), dateDebut);            	
+            }
+
+            module("module A", {  
+                setup: function() {
+                   itemRoutine = new ItemRoutine("Texte de l'item", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3);
+                },
+                teardown: function() {
+// clean up after each test
+                }
+            });
+
+            test("ItemRoutine getTexte", function() {
+                equal(itemRoutine.getTexte(), "Texte de l'item");
+            });
+
+            test("ItemRoutine getCheminImage", function() {
+                equal(itemRoutine.getCheminImage(), "routinePerso/images/itemsRoutine/dejeuner.jpg");
+            });
+
+            test("ItemRoutine getTempsMinutes", function() {
+                equal(itemRoutine.getTempsMinutes(), 15);
+            });
+
+            test("ItemRoutine getNbrEtoiles", function() {
+                equal(itemRoutine.getNbrEtoiles(), 3);
+            });
+
+            test("ItemRoutine getDateDebut Meme heure", function() {
+                var dateDebut = new Date(1993, 06, 09, 21, 00);
+                debuterItemRoutine(dateDebut);
+                
+                equal(itemRoutine.getDateDebut(), dateDebut);
+                dateDebut.setMinutes(dateDebut.getMinutes() + itemRoutine.getTempsMinutes());
+                equal(itemRoutine.getDateFin().getTime(), dateDebut.getTime());
+                equal(itemRoutine.getStatut(), statuts.EN_COURS);
+            });
+            
+            test("ItemRoutine getDateDebut Changement d'heure", function() {
+                var dateDebut = new Date(1993, 06, 09, 21, 55);
+                debuterItemRoutine(dateDebut);
+                
+                equal(itemRoutine.getDateDebut(), dateDebut);
+                dateDebut.setMinutes(dateDebut.getMinutes() + itemRoutine.getTempsMinutes());
+                equal(itemRoutine.getDateFin().getTime(), dateDebut.getTime());
+                equal(itemRoutine.getStatut(), statuts.EN_COURS);
+            });            
+
+            test("ItemRoutine getSecondesEcoulees 10", function() {
+                var dateDebut = new Date(1993, 06, 09, 21, 00);
+                debuterItemRoutine(dateDebut);
+                
+                equal(itemRoutine.getSecondesEcoulees(new Date(1993, 06, 09, 21, 00, 10)), 10);
+            });
+            
+            test("ItemRoutine getSecondesEcoulees 70", function() {
+                var dateDebut = new Date(1993, 06, 09, 21, 00);
+                debuterItemRoutine(dateDebut);
+                
+                equal(itemRoutine.getSecondesEcoulees(new Date(1993, 06, 09, 21, 01, 10)), 70);
+            });            
+
+        </script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <a href="http://www.fondationdessourds.net/ext/gestionvideos/files/1249746963asse_nat.flv">video</a>
+    </body>
+</html>

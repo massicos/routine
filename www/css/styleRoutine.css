@@ -148,15 +148,15 @@ h1 {
     width: 75px;
 }
 
-.tempsRoutine {
+.tableauBordTempsRoutine {
     display: inline-block;
 }
 
-.tempsMinutes {
+.tableauBordTempsMinutes {
     display: inline-block;
 }
 
-.infoTemps {
+.tableauBordInfoTemps {
     border: 3px solid orange;
     border-radius: 5px;
     margin-bottom: 5px;
@@ -170,11 +170,11 @@ h1 {
     display: inline-block
 }
 
-.tempsJeuxMinutes {
+.tableauBordTempsJeuxMinutes {
     display: inline;
 }
 
-.tempsTotalRoutineMinutes {
+.tableauBordTempsTotalRoutineMinutes {
     display: inline;
 }
 
@@ -182,16 +182,16 @@ em {
     font-weight: bold;
 }
 
-.tempsJeuxMinuteInput {
+.tableauBordTempsHeureFinInput {
     border: 1px solid black;
-    width: 30px;
+    width: 40px;
 }
 
-.tempsJeuxMinutesBouton {
+.tableauBordTempsJeuxMinutesBouton {
     border: 2px solid black;
     border-radius: 5px;
 }
 
-.tempsJeuxDateFinRoutine {
+.tableauBordTempsJeuxDateFinRoutine {
     display: none;
 }
