@@ -126,8 +126,33 @@
             	var itemRoutine = p.getItemRoutine(0);
             	itemRoutine.setStatut(statuts.EN_COURS);
             	equal(p.estEnCoursItemRoutine(), true);
-            });                      
+            });
 
+            test("Routine getItemRoutineEnCours 0", function() {
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3));
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
+            	var itemRoutine = p.getItemRoutine(0);
+            	itemRoutine.setStatut(statuts.EN_COURS);
+            	var itemRoutineEnCours = p.getItemRoutineEnCours();  
+            	equal(itemRoutineEnCours.getTexte(), "Texte de l'item 0");
+            });
+            
+            test("Routine getItemRoutineEnCours 1", function() {
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3));
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
+            	var itemRoutine = p.getItemRoutine(1);
+            	itemRoutine.setStatut(statuts.EN_COURS);
+            	var itemRoutineEnCours = p.getItemRoutineEnCours();  
+            	equal(itemRoutineEnCours.getTexte(), "Texte de l'item 1");
+            });
+            
+            test("Routine getItemRoutineEnCours false", function() {
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3));
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
+            	var itemRoutineEnCours = p.getItemRoutineEnCours();  
+            	equal(itemRoutineEnCours, false);
+            });            
+            
         </script>
     </head>
     <body>

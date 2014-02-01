@@ -120,6 +120,18 @@ function Routine(prenom)
     		}
     	}
     	return false;
+    }
+    
+    this.getItemRoutineEnCours = getItemRoutineEnCours;
+    function getItemRoutineEnCours()
+    {
+    	var max = this.itemsRoutine.length;
+    	for (var i = 0; i < max; i++){
+    		if (this.itemsRoutine[i].getStatut() == statuts.EN_COURS) {
+    			return this.itemsRoutine[i];
+    		}
+    	}
+    	return false;
     }    
 
 }

@@ -63,10 +63,10 @@ $(document).ready(function() {
             var enfant = $(event.target).closest(".enfant");
             var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
             
-            var index = $(itemRoutine).find(".ui-selected").find(".routineItemIndex").text();
-            //alert("index = " + index);
-            var itemRoutine = this.routine.getItemRoutine(index);
-            //itemRoutine.
+            var index = $(enfant).find(".ui-selected").find(".routineItemIndex").text();
+            alert("index = " + index);
+            var itemRoutine = routine.getItemRoutine(index);
+            itemRoutine.debuter(new Date());
             
             var routineView = new RoutineView(routine);
     		routineView.selectionItemRoutine(enfant, $(event.target));
@@ -79,19 +79,19 @@ $(document).ready(function() {
         $(".progressbar").each(function() {
             var enfant = $(this).closest(".enfant");
             var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
-            //alert($(enfant).find(".nomEnfant").text() + " " + p.getDateFinItemRoutine());
-            if (routine.getDateFinItemRoutine() !== false) {
+            //alert("estEnCoursItemRoutine (" + routine.getPrenom() + ") = " + routine.estEnCoursItemRoutine());
+            
+            if (routine.estEnCoursItemRoutine()) {
                 auMoinsUneRoutineActive = true;
 
                 var val = $(this).progressbar("value");
-                var tempsRoutineItem = $(enfant).find(".ui-selected").find(".tempsMillisecondes").text();
-                if (val < tempsRoutineItem) {
-                    seconde = p.getSecondeItemRoutine(new Date(), tempsRoutineItem / 1000);
-                    //alert(seconde);
-                    $(this).progressbar("value", seconde);
+                var itemRoutineEnCours = routine.getItemRoutineEnCours();
+                var secondes = itemRoutineEnCours.getSecondesEcoulees(new Date());
+                //alert(secondes);
+                if (val < secondes) {
+                    $(this).progressbar("value", Math.round(secondes));
                 }
             }
-
         });
         if (auMoinsUneRoutineActive) {
             setTimeout(progress, 3000);
