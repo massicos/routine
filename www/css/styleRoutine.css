@@ -182,14 +182,20 @@ em {
     font-weight: bold;
 }
 
-.tableauBordTempsHeureFinInput {
+.tableauBordTempsFinInput {
     border: 1px solid black;
-    width: 40px;
+    width: 20px;
 }
 
-.tableauBordTempsJeuxMinutesBouton {
+.tableauBordTempsHeureFin {
+	display: inline;
+}
+
+.tableauBordTempsHeureFinBouton {
     border: 2px solid black;
     border-radius: 5px;
+    margin-right: 3px;
+    margin-left: 3px;
 }
 
 .tableauBordTempsJeuxDateFinRoutine {

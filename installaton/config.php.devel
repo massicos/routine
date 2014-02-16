@@ -1,4 +1,4 @@
 <?php
 
-define('CHEMIN_DESTINATION', '/home/massicos/public_html/routine-devel');
+define('CHEMIN_DESTINATION', '/app/apache2/htdocs/routine-devel');
 

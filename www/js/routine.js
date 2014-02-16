@@ -90,7 +90,8 @@ function Routine(prenom)
     	var total = 0;
     	var max = this.itemsRoutine.length;
     	for (var i = 0; i < max; i++){
-    		if (this.itemsRoutine[i].getStatut() != statuts.FINI) {
+    		if (this.itemsRoutine[i].getStatut() != statuts.FINI_SUCCES
+    		        && this.itemsRoutine[i].getStatut() != statuts.FINI_ECHEC) {
     			total += this.itemsRoutine[i].getTempsMinutes();
     		}
     	}
@@ -132,6 +133,23 @@ function Routine(prenom)
     		}
     	}
     	return false;
+    }
+
+    this.getNbrEtoiles = getNbrEtoiles;
+    function getNbrEtoiles()
+    {
+    	if (this.itemsRoutine.length == 0) {
+            return false;
+    	}
+
+      var nbrEtoiles = 0;
+    	var max = this.itemsRoutine.length;
+    	for (var i = 0; i < max; i++){
+    		if (this.itemsRoutine[i].getStatut() == statuts.FINI_SUCCES) {
+    			nbrEtoiles += this.itemsRoutine[i].getNbrEtoiles();
+    		}
+    	}
+    	return nbrEtoiles;
     }    
 
 }

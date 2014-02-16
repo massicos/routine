@@ -1,5 +1,5 @@
 //var STATUT = new Array("En attente", "En cours", "Fini");
-var statuts = {ATTENTE: 0, EN_COURS: 1, FINI: 2};
+var statuts = {ATTENTE: 0, EN_COURS: 1, FINI_SUCCES: 2, FINI_ECHEC: 3};
 
 function ItemRoutine(texte, cheminImage, tempsMinutes, nbrEtoiles)
 {
@@ -26,6 +26,12 @@ function ItemRoutine(texte, cheminImage, tempsMinutes, nbrEtoiles)
     function getTempsMinutes()
     {
         return this.tempsMinutes;
+    }
+
+    this.getTempsSecondes = getTempsSecondes;
+    function getTempsSecondes()
+    {
+        return this.tempsMinutes * 60;
     }
 
     this.getNbrEtoiles = getNbrEtoiles;

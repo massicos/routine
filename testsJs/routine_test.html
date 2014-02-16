@@ -90,7 +90,7 @@
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3));
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
             	var itemRoutine = p.getItemRoutine(0);
-            	itemRoutine.setStatut(statuts.FINI);
+            	itemRoutine.setStatut(statuts.FINI_SUCCES);
             	equal(p.getTotalTempsItemsRoutineNonCompletes(), 17);
             });
 
@@ -151,7 +151,68 @@
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
             	var itemRoutineEnCours = p.getItemRoutineEnCours();  
             	equal(itemRoutineEnCours, false);
-            });            
+            });
+
+            test("Routine getNbrEtoiles 0-1", function() {  
+            	equal(p.getNbrEtoiles(), 0);
+            });
+                        
+            test("Routine getNbrEtoiles 0-2", function() {
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3));
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));  
+            	equal(p.getNbrEtoiles(), 0);
+            });
+            
+            test("Routine getNbrEtoiles 0-2", function() {
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3));
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
+            	var itemRoutine = p.getItemRoutine(0);
+            	itemRoutine.setStatut(statuts.EN_COURS);
+            	var itemRoutineEnCours = p.getItemRoutineEnCours();  
+            	equal(p.getNbrEtoiles(), 0);
+            });
+            
+            test("Routine getNbrEtoiles 2", function() {
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 2));
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
+            	var itemRoutine = p.getItemRoutine(0);
+            	itemRoutine.setStatut(statuts.FINI_SUCCES);
+            	var itemRoutineEnCours = p.getItemRoutineEnCours();  
+            	equal(p.getNbrEtoiles(), 2);
+            });
+            
+            test("Routine getNbrEtoiles 3-1", function() {
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 2));
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
+            	var itemRoutine = p.getItemRoutine(1);
+            	itemRoutine.setStatut(statuts.FINI_SUCCES);
+            	var itemRoutineEnCours = p.getItemRoutineEnCours();  
+            	equal(p.getNbrEtoiles(), 3);
+            });
+
+            test("Routine getNbrEtoiles 3-2", function() {
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 2));
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
+            	var itemRoutine = p.getItemRoutine(0);
+            	itemRoutine.setStatut(statuts.FINI_ECHEC);
+            	var itemRoutineEnCours = p.getItemRoutineEnCours();
+            	var itemRoutine = p.getItemRoutine(1);
+            	itemRoutine.setStatut(statuts.FINI_SUCCES);
+            	var itemRoutineEnCours = p.getItemRoutineEnCours();            	  
+            	equal(p.getNbrEtoiles(), 3);
+            });
+            
+            test("Routine getNbrEtoiles 5", function() {
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 2));
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
+            	var itemRoutine = p.getItemRoutine(0);
+            	itemRoutine.setStatut(statuts.FINI_SUCCES);
+            	var itemRoutineEnCours = p.getItemRoutineEnCours();
+            	var itemRoutine = p.getItemRoutine(1);
+            	itemRoutine.setStatut(statuts.FINI_SUCCES);
+            	var itemRoutineEnCours = p.getItemRoutineEnCours();            	  
+            	equal(p.getNbrEtoiles(), 5);
+            });
             
         </script>
     </head>

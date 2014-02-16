@@ -3,7 +3,7 @@ $(document).ready(function() {
 	var routines = new Array();
 	routines[0] = new Routine("Charles");
 	routines[0].setPhoto("../routinePerso/images/photos/Charles1.jpg");
-	routines[0].addItemRoutine(new ItemRoutine("Texte de l'item 0-C", "../routinePerso/images/itemsRoutine/habiller.jpg", 15, 1));
+	routines[0].addItemRoutine(new ItemRoutine("Texte de l'item 0-C", "../routinePerso/images/itemsRoutine/habiller.jpg", 1, 1));
 	routines[0].addItemRoutine(new ItemRoutine("Texte de l'item 1-C", "../routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 2));	
 	routines[1] = new Routine("Léanne");
 	routines[1].setPhoto("../routinePerso/images/photos/Leanne1.jpg");
@@ -34,14 +34,14 @@ $(document).ready(function() {
         var enfant = $(this).closest(".enfant");
         var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
         var routineView = new RoutineView(routine);
-		routineView.affichageBoutonGo(enfant);
+		  routineView.affichageBoutonGo(enfant);
     });
     
     $(".tableauBordTempsHeureFinBoutonStop").click(function() {
         var enfant = $(this).closest(".enfant");
         var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
         var routineView = new RoutineView(routine);
-		routineView.affichageBoutonStop(enfant);
+		  routineView.affichageBoutonStop(enfant);
     });
 
     $(".progressbar").each(function() {
@@ -51,9 +51,18 @@ $(document).ready(function() {
                 $(this).find(".progress-label").text($(this).progressbar("value"));
             },
             complete: function() {
+                var enfant = $(this).closest(".enfant");
+                var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
+                var routineView = new RoutineView(routine);
+                            	
                 $(this).find(".progress-label").text("Complété !");
-                verifierTemps(this);
-                routineItemMarquerCompleter(this);
+                var itemRoutineEnCours = routine.getItemRoutineEnCours();
+        	       itemRoutineEnCours.setStatut(statuts.FINI_ECHEC);
+        	       routineView.afficherEmoticon(enfant, "images/emoticons/face-sad.png");
+        	       routineView.itemRoutineMarquerCompleter(enfant);
+        	       
+        	       var tempsLibre = routine.getTempsLibreSecondes(new Date());
+    		       routineView.rafraichirTempsJeux(enfant, tempsLibre);
             }
         });
     });    
@@ -64,12 +73,15 @@ $(document).ready(function() {
             var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
             
             var index = $(enfant).find(".ui-selected").find(".routineItemIndex").text();
-            alert("index = " + index);
+            //alert("index = " + index);
             var itemRoutine = routine.getItemRoutine(index);
             itemRoutine.debuter(new Date());
             
             var routineView = new RoutineView(routine);
-    		routineView.selectionItemRoutine(enfant, $(event.target));
+    		   routineView.selectionItemRoutine(enfant, $(event.target));
+    		   
+    		   var tempsLibre = routine.getTempsLibreSecondes(new Date());
+    		   routineView.rafraichirTempsJeux(enfant, tempsLibre);
         }
     });
     
@@ -98,6 +110,34 @@ $(document).ready(function() {
         }
     }    
 	
+	
+    $(".boutonStop").click(function() {
+        var enfant = $(this).closest(".enfant");
+        var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
+        var routineView = new RoutineView(routine);
+        
+        var itemRoutineEnCours = routine.getItemRoutineEnCours();
+        
+        var secondes = Math.round(itemRoutineEnCours.getSecondesEcoulees(new Date()));
+        //alert(Math.round(secondes)  + " " +  itemRoutineEnCours.getTempsSecondes());
+        if (secondes <= itemRoutineEnCours.getTempsSecondes()) {
+           //alert("Bravo");
+           itemRoutineEnCours.setStatut(statuts.FINI_SUCCES);
+           routineView.afficherEtoiles(enfant, routine.getNbrEtoiles());
+           routineView.afficherEmoticon(enfant, "images/emoticons/face-smile.png");
+           
+           var tempsLibre = routine.getTempsLibreSecondes(new Date());
+    		  routineView.rafraichirTempsJeux(enfant, tempsLibre);
+        }
+        else {
+        	  itemRoutineEnCours.setStatut(statuts.FINI_ECHEC);
+        	  routineView.afficherEmoticon(enfant, "images/emoticons/face-sad.png");
+        	  //alert("Trop tard");
+        }
+        routineView.itemRoutineMarquerCompleter(enfant);  
+        //routineItemMarquerCompleter(this);
+    });
+        	
 	function RoutineView(routine) {
 		this.routine = routine;
 		
@@ -109,6 +149,7 @@ $(document).ready(function() {
 			this.affichageTableauBordInitial(enfant);
 			this.affichageItemsRoutineInitial(enfant);
 			$(enfant).find(".chrono").hide();
+			$(enfant).find(".message").hide();
 	    }
 	    
 	    this.affichageTableauBordInitial = affichageTableauBordInitial;
@@ -118,9 +159,9 @@ $(document).ready(function() {
 	    	$(enfant).find(".tableauBordTempsHeureFin").hide();
 	    	$(enfant).find(".tableauBordTempsHeureFinBoutonStop").hide();
 	    	$(enfant).find(".tableauBordTempsTotalRoutineMinutes").text(this.routine.getTotalTempsItemsRoutineNonCompletes());
-	    	$(enfant).find(".nbrEtoilesImg").hide();
-	    	$(enfant).find(".nbrEtoilesTexte").hide();
+	    	$(enfant).find(".enfantInfoResultat").hide();
 	    	$(enfant).find(".tempsJeux").hide();
+	    	$(enfant).find(".tableauBordTempsLibre").hide();
 	    }
 	    
 	    this.affichageItemsRoutineInitial = affichageItemsRoutineInitial;
@@ -143,22 +184,22 @@ $(document).ready(function() {
 	    
 	    this.affichageBoutonGo = affichageBoutonGo;
 	    function affichageBoutonGo(enfant) {
-	        var tempTotalRoutineMinutes = this.routine.getTotalTempsItemsRoutineNonCompletes();
-	        var heure = $(enfant).find(".tableauBordTempsHeureFinInput").val()[0] + $(enfant).find(".tableauBordTempsHeureFinInput").val()[1];
-	        var minutes = $(enfant).find(".tableauBordTempsHeureFinInput").val()[3] + $(enfant).find(".tableauBordTempsHeureFinInput").val()[4];
+	        var heure = $(enfant).find(".tableauBordTempsHeuresFinInput").val();
+	        var minutes = $(enfant).find(".tableauBordTempsMinutesFinInput").val();
+	        //alert(heure + ":" + minutes);
 	        var dateFin = new Date();
 	        dateFin.setHours(heure, minutes, 0);
 	        routine.setDateFin(dateFin);
 	        var tempsLibre = routine.getTempsLibreSecondes(new Date());
 	        if (tempsLibre > 0) {
 	        	var tableauBord = $(enfant).find(".tableauBord");
-	            $(tableauBord).find(".tableauBordTempsHeureFinInput").hide();
+	            $(tableauBord).find(".tableauBordTempsFinEdit").hide();
 	            $(tableauBord).find(".tableauBordTempsHeureFinBoutonGo").hide();
 	            $(tableauBord).find(".tableauBordTempsHeureFinBoutonStop").show();
-	            $(tableauBord).find(".tableauBordTempsHeureFin").text($(enfant).find(".tableauBordTempsHeureFinInput").val());
+	            //alert(heure + ":" + minutes);
+	            $(tableauBord).find(".tableauBordTempsHeureFin").text(heure + ":" + minutes);
 	            $(tableauBord).find(".tableauBordTempsHeureFin").show();
-	            //rafraichirTempsJeux($(this).closest(".enfant").find(".tempsJeux"), tempsJeuxMinutes);
-	            
+	            this.rafraichirTempsJeux(enfant, tempsLibre);
 	        }
 	        else {
 	            alert("Le temps total doit être plus grand que le temps total de la routine");
@@ -167,11 +208,12 @@ $(document).ready(function() {
 	    
 	    this.affichageBoutonStop = affichageBoutonStop;
 	    function affichageBoutonStop(enfant) {
-	    	$(enfant).find(".tableauBordTempsTotalRoutineMinutes").text(this.routine.getTotalTempsItemsRoutine());
+	    	  $(enfant).find(".tableauBordTempsTotalRoutineMinutes").text(this.routine.getTotalTempsItemsRoutine());
 
 	        var tableauBord = $(enfant).find(".tableauBord");
-	        $(tableauBord).find(".tableauBordTempsHeureFinInput").val("00:00");
-	        $(tableauBord).find(".tableauBordTempsHeureFinInput").show();
+	        $(tableauBord).find(".tableauBordTempsHeuresFinInput").val("00");
+	        $(tableauBord).find(".tableauBordTempsMinutesFinInput").val("00");
+	        $(tableauBord).find(".tableauBordTempsFinEdit").show();
 	        $(tableauBord).find(".tableauBordTempsHeureFinBoutonGo").show();
 	        $(tableauBord).find(".tableauBordTempsHeureFinBoutonStop").hide();
 	        $(tableauBord).find(".tableauBordTempsHeureFin").hide();
@@ -193,17 +235,74 @@ $(document).ready(function() {
             var tempsItemRoutine = parseInt(itemRoutine.getTempsMinutes()) * 60;
             progressbarLocal.progressbar("option", "max", tempsItemRoutine);
             //alert(itemRoutine.getTempsMinutes() + " " + tempsItemRoutine);
-            
+          
+            $(enfant).find(".boutonStop").show();
+            $(enfant).find(".message").hide();  
             setTimeout(progress, 3000);
-            /*
-            var tempsItemRoutine = $(event.target).find(".ui-selected").find(".tempsMillisecondes").text() / 1000;
-            var d = new Date();
-            d = new Date(d.getTime() + (parseInt(tempsRoutineItem) * 1000));
-            personnes[$(event.target).closest(".enfant").find(".nomEnfant").text()].setDateFinItemRoutine(d);
-            progressbarLocal.progressbar("option", "max", tempsRoutineItem);
-
-            setTimeout(progress, 3000);
-            */
-	    }	    
+	    }
+	
+       this.afficherEtoiles = afficherEtoiles;
+       function afficherEtoiles(enfant, nbrEtoile) {
+   	    var objDestination = $(enfant).find(".nbrEtoilesImg");
+          $(objDestination).empty();
+          var i = 0;
+          for (i = 0; i < parseInt(nbrEtoile); i++) {
+              var star = $('<img/>', {
+                  src: "images/icons/star.png",
+                  class: "etoileImg"
+              });
+              $(objDestination).prepend(star);
+          }
+          $(enfant).find(".nbrEtoilesTexte").text(nbrEtoile);
+          $(enfant).find(".enfantInfoResultat").show();
+       }
+   
+      this.itemRoutineMarquerCompleter = itemRoutineMarquerCompleter;   
+      function itemRoutineMarquerCompleter(enfant) {
+          $(enfant).find(".ui-selected").addClass("routineItemTermine");
+          $(enfant).find(".ui-selected").selectable({disabled: true});
+          $(enfant).find(".routineItem").removeClass("ui-selected");
+          
+          var tempTotalRoutineMinutes = this.routine.getTotalTempsItemsRoutineNonCompletes();
+          $(enfant).find(".tableauBordTempsTotalRoutineMinutes").text(tempTotalRoutineMinutes);
+          
+      }
+  
+      this.afficherEmoticon = afficherEmoticon;
+      function afficherEmoticon(enfant, src) {
+      	 var objDestination = $(enfant).find(".messageImg")
+          $(objDestination).empty();
+          var star = $('<img/>', {
+              src: src,
+              class: "emoticon"
+          });
+          $(objDestination).prepend(star);
+          $(enfant).find(".message").show();
+          $(enfant).find(".boutonStop").hide();
+      }
+  
+      this.rafraichirTempsJeux = rafraichirTempsJeux;
+      function rafraichirTempsJeux(enfant, tempsJeuxRoutine) {
+      	 var obj = $(enfant).find(".tempsJeux");
+      	 tempsJeuxRoutine = Math.round(tempsJeuxRoutine / 60);
+      	 $(enfant).find(".tableauBordTempsLibreMinutes").text(tempsJeuxRoutine);
+          $(enfant).find(".tableauBordTempsLibre").show();
+      	 if (tempsJeuxRoutine >  60) {
+              tempsJeuxRoutine = 60;      	 
+      	 }
+      	 //alert("tempsJeuxRoutine = " + tempsJeuxRoutine);
+      	 $(obj).show();
+          if (parseInt(tempsJeuxRoutine) < 0) {
+              tempsJeuxRoutine = parseInt(tempsJeuxRoutine) * -1;
+          }
+          var height = Math.abs((parseInt(tempsJeuxRoutine) * 150 / 60) - 150);
+          //alert("height = " + height);
+          
+          $(obj).find(".tempsJeuxIndicateur").attr({style: "height: " + height + "px;"});
+          $(obj).closest(".tableauBord").find(".tempsJeuxMinutes").text(tempsJeuxRoutine);
+          $(obj).show();
+      }       
 	}
+
+
 });
