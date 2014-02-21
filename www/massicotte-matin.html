@@ -1,4 +1,4 @@
-.<!doctype html>
+<!doctype html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -13,30 +13,43 @@
         <script src="js/lib/ui/jquery.ui.selectable.js"></script>
         <script src="js/lib/ui/jquery.ui.progressbar.js"></script>
 
-        <script src="js/personne.js"></script>
-        <script src="js/routine.js"></script>
+        <script src="js/itemRoutine.js"></script>
+        <script src="js/routine.js"></script>  
+        <script src="js/routinePage.js"></script>        
+
 
 
     </head>
     <body>
         <h1>Routine</h1>
 
-        <div class="dateDebutRoutine"></div>
         <div class="conteneurRoutines">
             <div class="enfant" id="enfantCharles">
                 <div class="enfantInfo">
                     <div class="enfantInfoPerso">
-                        <img class="photoEnfant" src="../routinePerso/images/photos/Charles1.jpg">
-                        <div class="nomEnfant">Charles</div>
+                        <img class="photoEnfant"
+                             src="../routinePerso/images/photos/nom1.jpg">
+                        <div class="nomEnfant">Nom1</div>
                     </div>
                     <div class="tableauBord">
-                        <div class="infoTemps">
-                            <div class="tempsRoutine">
-                                <em class="tempsLabel">Temps de jeux :</em> <div class="tempsJeuxMinutes">10</div> <input type="text" class="tempsJeuxMinuteInput"> minutes
-                                <input type="button" class="tempsJeuxMinutesBouton tempsJeuxMinutesBoutonGo" value="Go">
-                                <input type="button" class="tempsJeuxMinutesBouton tempsJeuxMinutesBoutonStop" value="X">|
-                                <em>Temps total - routine :</em> <div class="tempsTotalRoutineMinutes">7</div> minutes
-                                <div class="tempsJeuxDateFinRoutine">0</div>
+                        <div class="tableauBordInfoTemps">
+                            <div class="tableauBordTempsRoutine">
+                                <em class="tableauBordTempsLabel">Heure de fin :</em>
+                                <div class="tableauBordTempsHeureFin">10</div>
+                                <span class="tableauBordTempsFinEdit">
+                                    <input type="text" class="tableauBordTempsFinInput tableauBordTempsHeuresFinInput">:<input type="text" class="tableauBordTempsFinInput tableauBordTempsMinutesFinInput">
+                                </span>
+                                <input type="button"
+                                       class="tableauBordTempsHeureFinBouton tableauBordTempsHeureFinBoutonGo"
+                                       value="Go"> <input type="button"
+                                       class="tableauBordTempsHeureFinBouton tableauBordTempsHeureFinBoutonStop"
+                                       value="X"> | <em>Temps total - routine :</em>
+                                <div class="tableauBordTempsTotalRoutineMinutes">X</div>
+                                minutes 
+                                <span class="tableauBordTempsLibre"> | 
+                                    <em class="tableauBordTempsLibreLabel">Temps libre :</em>
+                                    <span class="tableauBordTempsLibreMinutes">0</span>
+                                    minutes</span>
                             </div>
                         </div>
                         <div class="enfantInfoResultat">
@@ -48,35 +61,57 @@
                         </div>
                     </div>
                 </div>
+
+
                 <div class="message">
                     <div class="messageImg"></div>
                     <div class="messageEtoiles"></div>
                     <div class="messageTexte"></div>
                 </div>
                 <div class="chrono">
-                    <div class="progressbar" id="progressbarCharles"><div class="progress-label">En attente...</div></div>
-                    <input type="button" class="boutonStop" value="Stop"></div>
+                    <div class="progressbar" id="progressbarCharles">
+                        <div class="progress-label">En attente...</div>
+                    </div>
+                    <input type="button" class="boutonStop" value="Stop">
+                </div>
 
                 <ol class="routine" id="charlesRoutine">
-                    <li class="routineItem"><img src="../routinePerso/images/itemsRoutine/dejeuner.jpg" class="routineItemImg"> Déjeuner <span class="routineItemInfoTemps"><img src="images/icons/time.png"> <span class="tempsMillisecondes">900000</span> <span class="tempsMinutes">0</span></span> <span class="routineItemInfoEtoiles"><img src="images/icons/star.png"> <span class="etoiles">8</span></span></li>
-                    <li class="routineItem"><img src="../routinePerso/images/itemsRoutine/habiller.jpg" class="routineItemImg"> S'habiller <span class="routineItemInfoTemps"><img src="images/icons/time.png"> <span class="tempsMillisecondes">480000</span> <span class="tempsMinutes">0</span></span> <span class="routineItemInfoEtoiles"><img src="images/icons/star.png"> <span class="etoiles">4</span></span></li>
-                    <li class="routineItem"><img src="../routinePerso/images/itemsRoutine/brosserDents.jpg" class="routineItemImg"> Brosser les dents <span class="routineItemInfoTemps"><img src="images/icons/time.png"> <span class="tempsMillisecondes">180000</span> <span class="tempsMinutes">0</span></span> <span class="routineItemInfoEtoiles"><img src="images/icons/star.png"> <span class="etoiles">3</span></span></li>
+                    <li class="routineItem"><img src="" class="routineItemImg">
+                        <span class="routineItemIndex">0</span> <span
+                            class="routineItemTexte">item routine vide</span> <span
+                            class="routineItemInfoTemps"><img
+                                src="images/icons/time.png"> <span class="tempsMinutes">0</span></span>
+                        <span class="routineItemInfoEtoiles"><img
+                                src="images/icons/star.png"> <span class="etoiles">0</span></span></li>
                 </ol>
             </div>
+
             <div class="enfant" id="enfantLeanne">
                 <div class="enfantInfo">
                     <div class="enfantInfoPerso">
-                        <img class="photoEnfant" src="../routinePerso/images/photos/Leanne1.jpg">
-                        <div class="nomEnfant">Léanne</div>
+                        <img class="photoEnfant"
+                             src="../routinePerso/images/photos/nom1.jpg">
+                        <div class="nomEnfant">Nom1</div>
                     </div>
                     <div class="tableauBord">
-                        <div class="infoTemps">
-                            <div class="tempsRoutine">
-                                <em class="tempsLabel">Temps de jeux :</em> <div class="tempsJeuxMinutes">10</div> <input type="text" class="tempsJeuxMinuteInput"> minutes
-                                <input type="button" class="tempsJeuxMinutesBouton tempsJeuxMinutesBoutonGo" value="Go">
-                                <input type="button" class="tempsJeuxMinutesBouton tempsJeuxMinutesBoutonStop" value="X">|
-                                <em>Temps total - routine :</em> <div class="tempsTotalRoutineMinutes">7</div> minutes
-                                <div class="tempsJeuxDateFinRoutine">0</div>
+                        <div class="tableauBordInfoTemps">
+                            <div class="tableauBordTempsRoutine">
+                                <em class="tableauBordTempsLabel">Heure de fin :</em>
+                                <div class="tableauBordTempsHeureFin">10</div>
+                                <span class="tableauBordTempsFinEdit">
+                                    <input type="text" class="tableauBordTempsFinInput tableauBordTempsHeuresFinInput">:<input type="text" class="tableauBordTempsFinInput tableauBordTempsMinutesFinInput">
+                                </span>
+                                <input type="button"
+                                       class="tableauBordTempsHeureFinBouton tableauBordTempsHeureFinBoutonGo"
+                                       value="Go"> <input type="button"
+                                       class="tableauBordTempsHeureFinBouton tableauBordTempsHeureFinBoutonStop"
+                                       value="X"> | <em>Temps total - routine :</em>
+                                <div class="tableauBordTempsTotalRoutineMinutes">X</div>
+                                minutes 
+                                <span class="tableauBordTempsLibre"> | 
+                                    <em class="tableauBordTempsLibreLabel">Temps libre :</em>
+                                    <span class="tableauBordTempsLibreMinutes">0</span>
+                                    minutes</span>
                             </div>
                         </div>
                         <div class="enfantInfoResultat">
@@ -89,20 +124,27 @@
                     </div>
                 </div>
 
+
                 <div class="message">
                     <div class="messageImg"></div>
                     <div class="messageEtoiles"></div>
                     <div class="messageTexte"></div>
                 </div>
                 <div class="chrono">
-                    <div class="progressbar" id="progressbarLeanne"><div class="progress-label">En attente...</div></div>
-                    <input type="button" class="boutonStop" value="Stop"></div>
+                    <div class="progressbar" id="progressbarCharles">
+                        <div class="progress-label">En attente...</div>
+                    </div>
+                    <input type="button" class="boutonStop" value="Stop">
+                </div>
 
-                <ol class="routine" id="leanneRoutine">
-                    <li class="routineItem"><img src="../routinePerso/images/itemsRoutine/dejeuner.jpg" class="routineItemImg"> Déjeuner <span class="routineItemInfoTemps"><img src="images/icons/time.png"> <span class="tempsMillisecondes">900000</span> <span class="tempsMinutes">0</span></span> <span class="routineItemInfoEtoiles"><img src="images/icons/star.png"> <span class="etoiles">8</span></span></li>
-                    <li class="routineItem"><img src="../routinePerso/images/itemsRoutine/habiller.jpg" class="routineItemImg"> S'habiller <span class="routineItemInfoTemps"><img src="images/icons/time.png"> <span class="tempsMillisecondes">480000</span> <span class="tempsMinutes">0</span></span> <span class="routineItemInfoEtoiles"><img src="images/icons/star.png"> <span class="etoiles">4</span></span></li>
-                    <li class="routineItem"><img src="../routinePerso/images/itemsRoutine/brosserDents.jpg" class="routineItemImg"> Brosser les dents <span class="routineItemInfoTemps"><img src="images/icons/time.png"> <span class="tempsMillisecondes">180000</span> <span class="tempsMinutes">0</span></span> <span class="routineItemInfoEtoiles"><img src="images/icons/star.png"> <span class="etoiles">3</span></span></li>
-                    <li class="routineItem"><img src="../routinePerso/images/itemsRoutine/peigner.jpg" class="routineItemImg"> Se peigner <span class="routineItemInfoTemps"><img src="images/icons/time.png"> <span class="tempsMillisecondes">300000</span> <span class="tempsMinutes">0</span></span> <span class="routineItemInfoEtoiles"><img src="images/icons/star.png"> <span class="etoiles">4</span></span></li>
+                <ol class="routine" id="charlesRoutine">
+                    <li class="routineItem"><img src="" class="routineItemImg">
+                        <span class="routineItemIndex">0</span> <span
+                            class="routineItemTexte">item routine vide</span> <span
+                            class="routineItemInfoTemps"><img
+                                src="images/icons/time.png"> <span class="tempsMinutes">0</span></span>
+                        <span class="routineItemInfoEtoiles"><img
+                                src="images/icons/star.png"> <span class="etoiles">0</span></span></li>
                 </ol>
             </div>
         </div>
