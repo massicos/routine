@@ -36,7 +36,17 @@ if ($niveau == "prod" || $niveau == "preprod") {
     convertir_fichiers_utf8_a_iso('../www/js', CHEMIN_DESTINATION . '/js');
     shell_exec("chown -R apache:apache " . CHEMIN_DESTINATION);
     shell_exec("chmod -R 755 " . CHEMIN_DESTINATION);
+    shell_exec("chown -R apache:apache " . CHEMIN_DESTINATION_PHP);
+    shell_exec("chmod -R 755 " . CHEMIN_DESTINATION_PHP);
+    
+    echo "################################################################################################\n";
+    echo "Sur une installation sur lhg il faut rouler ceci car il les rm ne fonctionne pas (Routine-20) : \n";
+    echo("rm -f " . CHEMIN_DESTINATION . "/config.*.php\n");
+    echo("rm -f " . CHEMIN_DESTINATION . "/js/config.*.js\n");
+    echo "################################################################################################\n";    
 }
+
+
 
 echo "-----------------------\n";
 echo "Fin de l'installation\n";

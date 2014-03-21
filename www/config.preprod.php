@@ -1,6 +1,6 @@
 <?php
 
-define('NIVEAU', "prepprod");
+define('NIVEAU', "preprod");
 require_once('/app/routine-' . NIVEAU .  '/classes/configApp.php');
 
 global $configApp;
