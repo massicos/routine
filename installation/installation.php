@@ -12,11 +12,26 @@ if (file_exists(CHEMIN_DESTINATION)) {
     echo "Repertoire inexistant - Creation de " . CHEMIN_DESTINATION . "\n";
     mkdir(CHEMIN_DESTINATION, 0755);
 }
+if (file_exists(CHEMIN_DESTINATION_PHP)) {
+    echo "Destruction du contenu de " . CHEMIN_DESTINATION_PHP . "\n";
+    shell_exec("rm -fr " . CHEMIN_DESTINATION_PHP . "/*");
+} else {
+    echo "Repertoire inexistant - Creation de " . CHEMIN_DESTINATION_PHP . "\n";
+    mkdir(CHEMIN_DESTINATION_PHP, 0755);
+}
 
 echo "Copie des fichiers\n";
 shell_exec("cp -R ../www/* " . CHEMIN_DESTINATION);
+shell_exec("cp -R ../src/* " . CHEMIN_DESTINATION_PHP);
+
+echo "Installation des fichiers de config\n";
+shell_exec("mv " . CHEMIN_DESTINATION . "/config." . $niveau . ".php " . CHEMIN_DESTINATION . "/config.php");
+shell_exec("rm -f " . CHEMIN_DESTINATION . "/config.*.php");
+shell_exec("mv " . CHEMIN_DESTINATION . "/js/config." . $niveau . ".js " . CHEMIN_DESTINATION . "/js/config.js");
+shell_exec("rm -f " . CHEMIN_DESTINATION . "/js/config.*.js");
 
 if ($niveau == "prod" || $niveau == "preprod") {
+    echo "Conversion des fichiers\n";
     convertir_fichiers_utf8_a_iso('../www', CHEMIN_DESTINATION);
     convertir_fichiers_utf8_a_iso('../www/js', CHEMIN_DESTINATION . '/js');
     shell_exec("chown -R apache:apache " . CHEMIN_DESTINATION);

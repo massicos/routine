@@ -1,8 +1,14 @@
-function Routine(prenom)
+function Routine(prenom, nbrEtoilesRecompenseTotal, idFamille, idEnfant, idRoutine)
 {
     this.prenom = prenom;
     this.photo = false;
     this.dateFin = false;
+    this.nbrEtoilesRecompenseTotal = nbrEtoilesRecompenseTotal;
+    
+    this.idFamille = idFamille;
+    this.idEnfant = idEnfant;
+    this.idRoutine = idRoutine;
+    
     this.itemsRoutine = new Array();
 
     this.getPrenom = getPrenom;
@@ -47,12 +53,30 @@ function Routine(prenom)
         return this.dateFin;
     }
 
+    this.getIdFamille = getIdFamille;
+    function getIdFamille()
+    {
+        return this.idFamille;
+    }
+
+    this.getIdEnfant = getIdEnfant;
+    function getIdEnfant()
+    {
+        return this.idEnfant;
+    }
+    
+    this.getIdRoutine = getIdRoutine;
+    function getIdRoutine()
+    {
+        return this.idRoutine;
+    }
+    
     this.getNbrItemRoutine = getNbrItemRoutine;
     function getNbrItemRoutine()
     {
         return this.itemsRoutine.length;
     }
-
+    
     this.addItemRoutine = addItemRoutine;
     function addItemRoutine(itemRoutine)
     {
@@ -150,6 +174,69 @@ function Routine(prenom)
     		}
     	}
     	return nbrEtoiles;
-    }    
+    }
+    
+    this.getNbrEtoilesRecompenseTotal = getNbrEtoilesRecompenseTotal;
+    function getNbrEtoilesRecompenseTotal() {
+	return this.nbrEtoilesRecompenseTotal;
+    }
+    
+    this.addNbrEtoilesRecompenseTotal = addNbrEtoilesRecompenseTotal;
+    function addNbrEtoilesRecompenseTotal(nbrEtoiles) {
+	this.nbrEtoilesRecompenseTotal = this.nbrEtoilesRecompenseTotal + nbrEtoiles;
+    }
+    
+    this.charger = charger;
+    function charger(url) {
+	
+        url = url + "?idFamille=" + this.idFamille + "&idEnfant=" + this.idEnfant + "&idRoutine=" + this.idRoutine;
+        var jqxhr = $.ajax( {
+		url: url,
+		dataType: "json",
+		async: false,
+		context: this
+	    })
+            .done(function(msg) {
+		this.prenom = msg.prenom;
+		this.nbrEtoilesRecompenseTotal = msg.nbrEtoilesRecompenseTotal;
+	        console.log( "success " +  this.prenom + " " + this.nbrEtoilesRecompenseTotal);
+	    })
+	    .fail(function(msg) {
+		console.log("bidon");
+		console.debug(msg);
+	        console.log( "error" + msg.erreur);
+	     })
+	    .always(function() {
+	        console.log( "complete" );
+	    });
+   
+	//alert(this.prenom + " " + msg.nbrEtoilesRecompenseTotal);
+    }
 
+   this.sauvegaderNbrEtoilesRecompenseTotal = sauvegaderNbrEtoilesRecompenseTotal;
+   function sauvegaderNbrEtoilesRecompenseTotal(url, nbrEtoiles) {
+
+        url = url + "?idFamille=" + this.idFamille + "&idEnfant=" + this.idEnfant + "&idRoutine=" + this.idRoutine + "&nbrEtoiles=" + nbrEtoiles;
+        var jqxhr = $.ajax( {
+		url: url,
+		dataType: "json",
+		async: false,
+		context: this
+	    })
+            .done(function(msg) {
+		this.prenom = msg.prenom;
+		this.nbrEtoilesRecompenseTotal = msg.nbrEtoilesRecompenseTotal;
+	        console.log( "success " +  this.prenom + " " + this.nbrEtoilesRecompenseTotal);
+	    })
+	    .fail(function(msg) {
+		console.log("bidon");
+		console.debug(msg);
+	        console.log( "error" + msg.erreur);
+	     })
+	    .always(function() {
+	        console.log( "complete" );
+	    });
+   
+	//alert(this.prenom + " " + msg.nbrEtoilesRecompenseTotal);
+    }    
 }

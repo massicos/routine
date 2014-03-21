@@ -1,4 +1,5 @@
 <?php
 
 define('CHEMIN_DESTINATION', '/var/www/html/routine');
+define('CHEMIN_DESTINATION_PHP', '/app/routine');
 

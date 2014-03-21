@@ -1,12 +1,14 @@
 $(document).ready(function() {
-
+	    
 	var routines = new Array();
-	routines[0] = new Routine("Charles");
+	routines[0] = new Routine("0", 0, 1, 2, 1);
+	routines[0].charger("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_charger.php");
 	routines[0].setPhoto("../routinePerso/images/photos/Charles1.jpg");
 	routines[0].addItemRoutine(new ItemRoutine("Déjeuner", "../routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 8));
 	routines[0].addItemRoutine(new ItemRoutine("S'habiller", "../routinePerso/images/itemsRoutine/habiller.jpg", 8, 4));
 	routines[0].addItemRoutine(new ItemRoutine("Brosser les dents", "../routinePerso/images/itemsRoutine/brosserDents.jpg", 5, 3));	
-	routines[1] = new Routine("Léanne");
+	routines[1] = new Routine("1", 0, 1, 1, 1);
+	routines[1].charger("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_charger.php");
 	routines[1].setPhoto("../routinePerso/images/photos/Leanne1.jpg");
 	routines[1].addItemRoutine(new ItemRoutine("Déjeuner", "../routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 8));
 	routines[1].addItemRoutine(new ItemRoutine("S'habiller", "../routinePerso/images/itemsRoutine/habiller.jpg", 8, 4));
@@ -21,7 +23,6 @@ $(document).ready(function() {
 		var routineView = new RoutineView(routines[i]);
 		routineView.affichageInitial($(".enfant")[i]);
 	}
-
 
 	function trouverRoutine(prenom) {
 		var max = routines.length;
@@ -126,6 +127,18 @@ $(document).ready(function() {
         if (secondes <= itemRoutineEnCours.getTempsSecondes()) {
            //alert("Bravo");
            itemRoutineEnCours.setStatut(statuts.FINI_SUCCES);
+           routine.addNbrEtoilesRecompenseTotal(itemRoutineEnCours.getNbrEtoiles());
+/*
+           var paramUrl = "";
+           if (routine.getPrenom() == "Léanne") {
+              paramUrl = "idFamille=1&idEnfant=1&idRoutine=1";
+           }
+           else {
+              paramUrl = "idFamille=1&idEnfant=2&idRoutine=1";
+           }
+*/
+           //var paramUrl = "nbrEtoiles=" + itemRoutineEnCours.getNbrEtoiles();
+           routine.sauvegaderNbrEtoilesRecompenseTotal("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_addNbrEtoiles.php", itemRoutineEnCours.getNbrEtoiles());
            routineView.afficherEtoiles(enfant, routine.getNbrEtoiles());
            routineView.afficherEmoticon(enfant, "images/emoticons/face-smile.png");
            
@@ -149,6 +162,7 @@ $(document).ready(function() {
 	    {
 			$(enfant).find(".nomEnfant").text(this.routine.getPrenom());
 			$(enfant).find(".photoEnfant").attr("src", this.routine.getPhoto());
+			$(enfant).find(".nbrEtoilesRecompenseTotal").text(this.routine.getNbrEtoilesRecompenseTotal());
 			this.affichageTableauBordInitial(enfant);
 			this.affichageItemsRoutineInitial(enfant);
 			$(enfant).find(".chrono").hide();
@@ -258,6 +272,8 @@ $(document).ready(function() {
           }
           $(enfant).find(".nbrEtoilesTexte").text(nbrEtoile);
           $(enfant).find(".enfantInfoResultat").show();
+
+	      $(enfant).find(".nbrEtoilesRecompenseTotal").text(this.routine.getNbrEtoilesRecompenseTotal());
        }
    
       this.itemRoutineMarquerCompleter = itemRoutineMarquerCompleter;   

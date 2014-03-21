@@ -88,6 +88,11 @@ h1 {
     font-size: x-large;
     text-decoration: underline overline;
     display:block;
+    margin-bottom: 3px ;
+    margin-top: 3px
+}
+.totaux {
+    text-align: center;    
 }
 .nbrEtoilesImg {
     display:inline-block;
