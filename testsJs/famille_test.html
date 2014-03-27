@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Famille - Tests</title>
+        <link rel="stylesheet" href="css/qunit.css">
+        <script src="js/qunit.js"></script>
+        <script src="../www/js/lib/jquery.min.js"></script>
+        <script src="../www/js/itemRoutine.js"></script>
+        <script src="../www/js/routine.js"></script>
+        <script src="../www/js/famille.js"></script>
+        <script>
+            var p = false;
+
+            module("module A", {
+                setup: function() {
+                   famille = new Famille("Massicotte", 0.05, 0.25);
+                },
+                teardown: function() {
+// clean up after each test 
+                }
+            });
+
+            test("Famille getNom", function() {
+                equal(famille.getNom(), "Massicotte");
+            });
+
+            test("Famille getMontantParEtoile", function() {
+                equal(famille.getMontantParEtoile(), 0.05);
+            });
+
+            test("Famille getMontantParSuccesComplet", function() {
+                equal(famille.getMontantParSuccesComplet(), 0.25);
+            });
+
+            test("Famille getNbrRoutines 0", function() {
+                equal(famille.getNbrRoutines(), 0);
+            });         
+
+            test("Famille getNbrRoutines 1", function() {
+                famille.addRoutine(new Routine("Léanne", 0, 1, 2, 3));
+                equal(famille.getNbrRoutines(), 1);
+            });
+
+            test("Famille getNbrRoutines 2", function() {
+                famille.addRoutine(new Routine("Léanne", 0, 1, 2, 3));
+                famille.addRoutine(new Routine("Charles", 0, 1, 1, 3));
+                equal(famille.getNbrRoutines(), 2);
+            });
+
+            test("Famille getRoutineParIndex 0", function() {
+                equal(famille.getRoutineParIndex(0), false);
+            });
+
+            test("Famille getRoutineParIndex 1", function() {
+                famille.addRoutine(new Routine("Léanne", 0, 1, 2, 3));
+                var routine = famille.getRoutineParIndex(0);
+                equal(routine.getPrenom(), "Léanne");
+            });
+
+            test("Famille getRoutineParIndex 2", function() {
+                famille.addRoutine(new Routine("Léanne", 0, 1, 2, 3));
+                famille.addRoutine(new Routine("Charles", 0, 1, 1, 3));
+                var routine = famille.getRoutineParIndex(0);
+                equal(routine.getPrenom(), "Léanne");
+                routine = famille.getRoutineParIndex(1);
+                equal(routine.getPrenom(), "Charles");
+            });
+        </script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+    </body>
+</html>
