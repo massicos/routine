@@ -17,6 +17,24 @@ function Routine(prenom, nbrEtoilesRecompenseTotal, idFamille, idEnfant, idRouti
         return this.prenom;
     }
 
+    this.getPrenomNormalise = getPrenomNormalise
+    function getPrenomNormalise(){
+            var r=this.prenom.toLowerCase();
+            r = r.replace(new RegExp(/\s/g),"");
+            r = r.replace(new RegExp(/[àáâãäå]/g),"a");
+            r = r.replace(new RegExp(/æ/g),"ae");
+            r = r.replace(new RegExp(/ç/g),"c");
+            r = r.replace(new RegExp(/[èéêë]/g),"e");
+            r = r.replace(new RegExp(/[ìíîï]/g),"i");
+            r = r.replace(new RegExp(/ñ/g),"n");                
+            r = r.replace(new RegExp(/[òóôõö]/g),"o");
+            r = r.replace(new RegExp(/œ/g),"oe");
+            r = r.replace(new RegExp(/[ùúûü]/g),"u");
+            r = r.replace(new RegExp(/[ýÿ]/g),"y");
+            r = r.replace(new RegExp(/\W/g),"");
+            return r;
+    };
+
     this.setPrenom = setPrenom;
     function setPrenom(prenom)
     {
@@ -128,7 +146,11 @@ function Routine(prenom, nbrEtoilesRecompenseTotal, idFamille, idEnfant, idRouti
     	var totalTempsItemsRoutineNonCompletes = this.getTotalTempsItemsRoutineNonCompletes();
     	dateComparaison.setMinutes(dateComparaison.getMinutes() + totalTempsItemsRoutineNonCompletes);
 
-    	return (this.dateFin - dateComparaison) / 1000;
+    	var tempsLibre = (this.dateFin - dateComparaison) / 1000;
+        if (tempsLibre < 0) {
+            return 0;
+        }
+        return tempsLibre;
     }
     
     this.estEnCoursItemRoutine = estEnCoursItemRoutine;
@@ -144,6 +166,19 @@ function Routine(prenom, nbrEtoilesRecompenseTotal, idFamille, idEnfant, idRouti
     			return true;
     		}
     	}
+    	return false;
+    }
+
+    this.estPretDebuter = estPretDebuter;
+    function estPretDebuter()
+    {
+    	if (this.itemsRoutine.length == 0) {
+            return false;
+    	}
+        if (this.dateFin != false) {
+            return true;
+        }
+
     	return false;
     }
     
@@ -178,12 +213,12 @@ function Routine(prenom, nbrEtoilesRecompenseTotal, idFamille, idEnfant, idRouti
     
     this.getNbrEtoilesRecompenseTotal = getNbrEtoilesRecompenseTotal;
     function getNbrEtoilesRecompenseTotal() {
-	return this.nbrEtoilesRecompenseTotal;
+        return this.nbrEtoilesRecompenseTotal;
     }
     
     this.addNbrEtoilesRecompenseTotal = addNbrEtoilesRecompenseTotal;
     function addNbrEtoilesRecompenseTotal(nbrEtoiles) {
-	this.nbrEtoilesRecompenseTotal = this.nbrEtoilesRecompenseTotal + nbrEtoiles;
+        this.nbrEtoilesRecompenseTotal = this.nbrEtoilesRecompenseTotal + nbrEtoiles;
     }
     
     this.charger = charger;
@@ -209,8 +244,6 @@ function Routine(prenom, nbrEtoilesRecompenseTotal, idFamille, idEnfant, idRouti
 	    .always(function() {
 	        console.log( "complete" );
 	    });
-   
-	//alert(this.prenom + " " + msg.nbrEtoilesRecompenseTotal);
     }
 
    this.sauvegaderNbrEtoilesRecompenseTotal = sauvegaderNbrEtoilesRecompenseTotal;
@@ -236,7 +269,5 @@ function Routine(prenom, nbrEtoilesRecompenseTotal, idFamille, idEnfant, idRouti
 	    .always(function() {
 	        console.log( "complete" );
 	    });
-   
-	//alert(this.prenom + " " + msg.nbrEtoilesRecompenseTotal);
     }    
 }

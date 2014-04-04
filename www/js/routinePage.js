@@ -19,7 +19,7 @@ $(document).ready(function() {
 	//var LABEL_TEMPS_LIBRE = "Temps de jeux :";
 
 	var max = routines.length;
-	for ( var i = 0; i < max; i++) {
+	for (var i = 0; i < max; i++) {
 		var routineView = new RoutineView(routines[i]);
 		routineView.affichageInitial($(".enfant")[i]);
 	}
@@ -33,6 +33,22 @@ $(document).ready(function() {
 		}
 		return null;
 	}
+
+    function rafraichirInfo() {
+		var max = routines.length;
+		for (var i = 0; i < max; i++) {
+            if (routines[i].estPretDebuter()) {
+		        if (!routines[i].estEnCoursItemRoutine()) {
+		            var tempsLibre = routines[i].getTempsLibreSecondes(new Date());
+		            var routineView = new RoutineView(routines[i]);
+		            routineView.rafraichirTempsJeux($("#enfant_" + routines[i].getPrenomNormalise()), tempsLibre);
+		        }
+            }
+        }
+        setTimeout(rafraichirInfo, 10000);
+    }
+    setTimeout(rafraichirInfo, 10000);
+
 	
     $(".tableauBordTempsHeureFinBoutonGo").click(function() {
         var enfant = $(this).closest(".enfant");
@@ -123,27 +139,15 @@ $(document).ready(function() {
         var itemRoutineEnCours = routine.getItemRoutineEnCours();
         
         var secondes = Math.round(itemRoutineEnCours.getSecondesEcoulees(new Date()));
-        //alert(Math.round(secondes)  + " " +  itemRoutineEnCours.getTempsSecondes());
         if (secondes <= itemRoutineEnCours.getTempsSecondes()) {
-           //alert("Bravo");
            itemRoutineEnCours.setStatut(statuts.FINI_SUCCES);
            routine.addNbrEtoilesRecompenseTotal(itemRoutineEnCours.getNbrEtoiles());
-/*
-           var paramUrl = "";
-           if (routine.getPrenom() == "Léanne") {
-              paramUrl = "idFamille=1&idEnfant=1&idRoutine=1";
-           }
-           else {
-              paramUrl = "idFamille=1&idEnfant=2&idRoutine=1";
-           }
-*/
-           //var paramUrl = "nbrEtoiles=" + itemRoutineEnCours.getNbrEtoiles();
            routine.sauvegaderNbrEtoilesRecompenseTotal("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_addNbrEtoiles.php", itemRoutineEnCours.getNbrEtoiles());
            routineView.afficherEtoiles(enfant, routine.getNbrEtoiles());
            routineView.afficherEmoticon(enfant, "images/emoticons/face-smile.png");
            
            var tempsLibre = routine.getTempsLibreSecondes(new Date());
-    		  routineView.rafraichirTempsJeux(enfant, tempsLibre);
+           routineView.rafraichirTempsJeux(enfant, tempsLibre);
         }
         else {
         	  itemRoutineEnCours.setStatut(statuts.FINI_ECHEC);

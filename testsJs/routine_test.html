@@ -20,10 +20,16 @@
                 }
             });
 
-            test("Routine constructeur", function() {
+            test("Routine constructeur 1", function() {
                 equal(p.getPrenom(), "Léanne");
                 p.setPrenom("Charles");
                 equal(p.getPrenom(), "Charles");
+            });
+
+            test("Routine constructeur 2", function() {
+                equal(p.getPrenomNormalise(), "leanne");
+                p.setPrenom("Charles");
+                equal(p.getPrenomNormalise(), "charles");
             });
 
             test("Routine photo", function() {
@@ -94,20 +100,36 @@
             	equal(p.getTotalTempsItemsRoutineNonCompletes(), 17);
             });
 
-            test("Routine getTempsLibre", function() {
+            function setUpGetTempsLibre() {
             	var dateFin = new Date(1993, 06, 09, 21, 00);
             	p.setDateFin(dateFin);
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3));
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
+            }
+
+            test("Routine getTempsLibre 1", function() {
+                setUpGetTempsLibre();
             	equal(p.getTempsLibreSecondes(new Date(1993, 06, 09, 20, 00)), 1680);
             });
 
-            test("Routine getTempsLibre", function() {
-            	var dateFin = new Date(1993, 06, 09, 21, 00);
-            	p.setDateFin(dateFin);
-            	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3));
-            	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
+            test("Routine getTempsLibre 2", function() {
+                setUpGetTempsLibre();
             	equal(p.getTempsLibreSecondes(new Date(1993, 06, 09, 20, 08)), 1200);
+            });
+
+            test("Routine getTempsLibre 3", function() {
+                setUpGetTempsLibre();
+            	equal(p.getTempsLibreSecondes(new Date(1993, 06, 09, 21, 00)), 0);
+            });
+
+            test("Routine getTempsLibre 4", function() {
+                setUpGetTempsLibre();
+            	equal(p.getTempsLibreSecondes(new Date(1993, 06, 09, 20, 28)), 0);
+            });
+
+            test("Routine getTempsLibre 5", function() {
+                setUpGetTempsLibre();
+            	equal(p.getTempsLibreSecondes(new Date(1993, 06, 09, 20, 27)), 60);
             });
 
             test("Routine estEnCoursItemRoutine faux vide", function() {
@@ -216,30 +238,36 @@
 	    
             test("Routine getNbrEtoilesRecompenseTotal 1", function() { 
             	equal(p.getNbrEtoilesRecompenseTotal(), 0);
-		p = new Routine("Léanne", 5, 1, 1, 1);
-		equal(p.getNbrEtoilesRecompenseTotal(), 5);
+                p = new Routine("Léanne", 5, 1, 1, 1);
+                equal(p.getNbrEtoilesRecompenseTotal(), 5);
             });
 	    
             test("Routine addNbrEtoilesRecompenseTotal 1", function() {
-		p.addNbrEtoilesRecompenseTotal(10);
-		equal(p.getNbrEtoilesRecompenseTotal(), 10);
+                p.addNbrEtoilesRecompenseTotal(10);
+                equal(p.getNbrEtoilesRecompenseTotal(), 10);
             });
 	    
-	    
+            test("Routine estPretDebuter 0", function() {
+            	equal(p.estPretDebuter(), false);
+            });
+
+            test("Routine estPretDebuter 1", function() {
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 2));
+            	equal(p.estPretDebuter(), false);
+            });
+
+            test("Routine estPretDebuter 2", function() {
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 2));
+                var dateFin = new Date(1993, 06, 09, 21, 00);
+                p.setDateFin(dateFin);
+            	equal(p.estPretDebuter(), true);
+            });
 	    
             test("Routine getIds 1", function() {
-		equal(p.getIdFamille(), 1);
-		equal(p.getIdEnfant(), 2);
-		equal(p.getIdRoutine(), 3);
-            });	    
-	    /*
-            test("Routine charger 1", function() {
-		p = new Routine("vide", 0);
-		p.charger("http://localhost/routine-devel/services/routine_charger.php?idFamille=1&idEnfant=1&idRoutine=1");
-		equal(p.getPrenom(), "Léanne");
-		equal(p.getNbrEtoilesRecompenseTotal(), 18);
+                equal(p.getIdFamille(), 1);
+                equal(p.getIdEnfant(), 2);
+                equal(p.getIdRoutine(), 3);
             });
-            */
             
         </script>
     </head>
