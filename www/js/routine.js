@@ -184,6 +184,19 @@ function Routine(prenom, nbrEtoilesRecompenseTotal, idFamille, idEnfant, idRouti
     	return false;
     }
 
+    this.getItemRoutinePause = getItemRoutinePause;
+    function getItemRoutinePause()
+    {
+return this.itemsRoutine[0];
+    	var max = this.itemsRoutine.length;
+    	for (var i = 0; i < max; i++){
+    		if (this.itemsRoutine[i].getStatut() == statuts.EN_COURS) {
+    			return this.itemsRoutine[i];
+    		}
+    	}
+    	return false;
+    }
+
     this.getNbrEtoiles = getNbrEtoiles;
     function getNbrEtoiles()
     {

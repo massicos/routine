@@ -129,7 +129,28 @@ $(document).ready(function() {
             setTimeout(progress, 3000);
         }
     }    
-	
+
+    $(".boutonPause").click(function() {
+        var enfant = $(this).closest(".enfant");
+        var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
+        var routineView = new RoutineView(routine);
+        
+        var itemRoutineEnCours = routine.getItemRoutineEnCours();
+        itemRoutineEnCours.setStatut(statuts.PAUSE);
+
+        routineView.itemRoutinePause(enfant);  
+    });
+
+    $(".boutonReprendre").click(function() {
+        var enfant = $(this).closest(".enfant");
+        var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
+        var routineView = new RoutineView(routine);
+        
+        var itemRoutineEnCours = routine.getItemRoutinePause();
+        itemRoutineEnCours.setStatut(statuts.EN_COURS);
+
+        routineView.itemRoutineReprendre(enfant);  
+    });	
 	
     $(".boutonStop").click(function() {
         var enfant = $(this).closest(".enfant");
@@ -258,6 +279,9 @@ $(document).ready(function() {
             //alert(itemRoutine.getTempsMinutes() + " " + tempsItemRoutine);
           
             $(enfant).find(".boutonStop").show();
+            $(enfant).find(".boutonPause").show();
+            $(enfant).find(".chrono").find(".boutonReprendre").hide();
+console.log("hide");
             $(enfant).find(".message").hide();  
             setTimeout(progress, 3000);
 	    }
@@ -279,6 +303,20 @@ $(document).ready(function() {
 
 	      $(enfant).find(".nbrEtoilesRecompenseTotal").text(this.routine.getNbrEtoilesRecompenseTotal());
        }
+
+      this.itemRoutinePause = itemRoutinePause;   
+      function itemRoutinePause(enfant) {
+          $(enfant).find(".boutonStop").hide();
+          $(enfant).find(".boutonPause").hide();
+          $(enfant).find(".boutonReprendre").show();
+      }
+
+      this.itemRoutineReprendre = itemRoutineReprendre;   
+      function itemRoutineReprendre(enfant) {
+          $(enfant).find(".boutonStop").show();
+          $(enfant).find(".boutonPause").show();
+          $(enfant).find(".boutonReprendre").hide();
+      }
    
       this.itemRoutineMarquerCompleter = itemRoutineMarquerCompleter;   
       function itemRoutineMarquerCompleter(enfant) {
@@ -302,6 +340,8 @@ $(document).ready(function() {
           $(objDestination).prepend(star);
           $(enfant).find(".message").show();
           $(enfant).find(".boutonStop").hide();
+          $(enfant).find(".boutonPause").hide();
+          $(enfant).find(".boutonReprendre").hide();
       }
   
       this.rafraichirTempsJeux = rafraichirTempsJeux;
