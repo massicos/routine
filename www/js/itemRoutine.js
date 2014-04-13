@@ -41,9 +41,9 @@ function ItemRoutine(texte, cheminImage, tempsMinutes, nbrEtoiles)
     }
 
     this.setDateFin = setDateFin;
-    function setDateFin(dateDebut)
+    function setDateFin(dateFin)
     {
-        this.dateFin = dateDebut;
+        this.dateFin = dateFin;
     }
 
     this.getDateFin = getDateFin;
@@ -73,12 +73,29 @@ function ItemRoutine(texte, cheminImage, tempsMinutes, nbrEtoiles)
     this.debuter = debuter;
     function debuter(dateDebut)
     {
-        this.statut = statuts.EN_COURS;
         this.dateDebut = dateDebut;
         this.dateFin = new Date(dateDebut.getTime());
         this.dateFin.setMinutes(this.dateFin.getMinutes() + this.tempsMinutes);
+
+        this.statut = statuts.EN_COURS;
+    }
+
+    this.reprendre = reprendre;
+    function reprendre(dateDebut, secondesEcoulees)
+    {
+       console.log("secondesProgressBar " + secondesEcoulees);
+       console.log("dateDebut avant = " +  this.dateDebut);
+       this.dateDebut = dateDebut;
+       this.dateDebut.setSeconds(this.dateDebut.getSeconds() - secondesEcoulees);
+       console.log("dateDebut = " +  this.dateDebut);
+       this.dateFin = new Date(dateDebut.getTime());
+       this.dateFin.setMinutes(this.dateFin.getMinutes() + this.tempsMinutes);
+       console.log("dateFin = " +  this.dateFin);
+
+       this.statut = statuts.EN_COURS;
     }
     
+
     this.getSecondesEcoulees = getSecondesEcoulees;
     function getSecondesEcoulees(dateComparaison)
     {

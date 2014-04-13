@@ -11,7 +11,6 @@
             var itemRoutine = false;
             
             function debuterItemRoutine(dateDebut) {
-                equal(itemRoutine.getStatut(), 0);
                 equal(itemRoutine.getStatut(), statuts.ATTENTE);
                 itemRoutine.debuter(dateDebut);
                 equal(itemRoutine.getDateDebut(), dateDebut);            	
@@ -78,12 +77,21 @@
                 debuterItemRoutine(dateDebut);
                 
                 equal(itemRoutine.getSecondesEcoulees(new Date(1993, 06, 09, 21, 01, 10)), 70);
-            });            
+            });
+
+
+            test("ItemRoutine reprendre 70", function() {
+                var dateDebut = new Date(1993, 06, 09, 21, 00);
+                debuterItemRoutine(dateDebut);
+                itemRoutine.setStatut(statuts.PAUSE);
+                equal(itemRoutine.getStatut(), statuts.PAUSE);
+                itemRoutine.reprendre(new Date(1993, 06, 09, 21, 01), 30);
+                equal(itemRoutine.getSecondesEcoulees(new Date(1993, 06, 09, 21, 01, 40)), 70);
+            });
 
         </script>
     </head>
     <body>
         <div id="qunit"></div>
-        <a href="http://www.fondationdessourds.net/ext/gestionvideos/files/1249746963asse_nat.flv">video</a>
     </body>
 </html>

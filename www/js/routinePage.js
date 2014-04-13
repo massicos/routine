@@ -1,10 +1,11 @@
 $(document).ready(function() {
-	    
+
+    var auMoinsUneRoutineActive = false;	    
 	var routines = new Array();
 	routines[0] = new Routine("0", 0, 1, 2, 1);
 	routines[0].charger("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_charger.php");
 	routines[0].setPhoto("../routinePerso/images/photos/Charles1.jpg");
-	routines[0].addItemRoutine(new ItemRoutine("Déjeuner", "../routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 8));
+	routines[0].addItemRoutine(new ItemRoutine("Déjeuner", "../routinePerso/images/itemsRoutine/dejeuner.jpg", 1, 8));
 	routines[0].addItemRoutine(new ItemRoutine("S'habiller", "../routinePerso/images/itemsRoutine/habiller.jpg", 8, 4));
 	routines[0].addItemRoutine(new ItemRoutine("Brosser les dents", "../routinePerso/images/itemsRoutine/brosserDents.jpg", 5, 3));	
 	routines[1] = new Routine("1", 0, 1, 1, 1);
@@ -107,12 +108,12 @@ $(document).ready(function() {
     
     function progress() {
 
-        var auMoinsUneRoutineActive = false;
+        auMoinsUneRoutineActive = false;
         $(".progressbar").each(function() {
             var enfant = $(this).closest(".enfant");
             var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
             //alert("estEnCoursItemRoutine (" + routine.getPrenom() + ") = " + routine.estEnCoursItemRoutine());
-            
+            console.log(routine.estEnCoursItemRoutine() + " " + routine.getPrenom());
             if (routine.estEnCoursItemRoutine()) {
                 auMoinsUneRoutineActive = true;
 
@@ -147,9 +148,16 @@ $(document).ready(function() {
         var routineView = new RoutineView(routine);
         
         var itemRoutineEnCours = routine.getItemRoutinePause();
-        itemRoutineEnCours.setStatut(statuts.EN_COURS);
+        var progressBar = $(enfant).find(".progressbar");
+        var secondesProgressBar = progressBar.progressbar("value");
+        itemRoutineEnCours.reprendre(new Date(), secondesProgressBar);
 
-        routineView.itemRoutineReprendre(enfant);  
+        routineView.itemRoutineReprendre(enfant);
+
+        if (auMoinsUneRoutineActive == false) {
+            auMoinsUneRoutineActive = true;
+            setTimeout(progress, 3000);
+        }
     });	
 	
     $(".boutonStop").click(function() {
