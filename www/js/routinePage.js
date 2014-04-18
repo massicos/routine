@@ -5,9 +5,10 @@ $(document).ready(function() {
 	routines[0] = new Routine("0", 0, 1, 2, 1);
 	routines[0].charger("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_charger.php");
 	routines[0].setPhoto("../routinePerso/images/photos/Charles1.jpg");
-	routines[0].addItemRoutine(new ItemRoutine("Déjeuner", "../routinePerso/images/itemsRoutine/dejeuner.jpg", 1, 8));
+	routines[0].addItemRoutine(new ItemRoutine("Déjeuner", "../routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 8));
 	routines[0].addItemRoutine(new ItemRoutine("S'habiller", "../routinePerso/images/itemsRoutine/habiller.jpg", 8, 4));
-	routines[0].addItemRoutine(new ItemRoutine("Brosser les dents", "../routinePerso/images/itemsRoutine/brosserDents.jpg", 5, 3));	
+	routines[0].addItemRoutine(new ItemRoutine("Brosser les dents", "../routinePerso/images/itemsRoutine/brosserDents.jpg", 5, 3));
+	routines[0].addItemRoutine(new ItemRoutine("Faire son lit", "../routinePerso/images/itemsRoutine/faireSonLit.jpg", 5, 3));
 	routines[1] = new Routine("1", 0, 1, 1, 1);
 	routines[1].charger("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_charger.php");
 	routines[1].setPhoto("../routinePerso/images/photos/Leanne1.jpg");
@@ -15,6 +16,7 @@ $(document).ready(function() {
 	routines[1].addItemRoutine(new ItemRoutine("S'habiller", "../routinePerso/images/itemsRoutine/habiller.jpg", 8, 4));
 	routines[1].addItemRoutine(new ItemRoutine("Brosser les dents", "../routinePerso/images/itemsRoutine/brosserDents.jpg", 5, 3));
 	routines[1].addItemRoutine(new ItemRoutine("Se peigner", "../routinePerso/images/itemsRoutine/peigner.jpg", 5, 4));
+	routines[1].addItemRoutine(new ItemRoutine("Faire son lit", "../routinePerso/images/itemsRoutine/faireSonLit.jpg", 5, 3));
 
 	//var LABEL_FIN_ROUTINE = "Heure de fin :";
 	//var LABEL_TEMPS_LIBRE = "Temps de jeux :";
