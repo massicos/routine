@@ -1,8 +1,14 @@
+<?php
+
+require_once("config.php");
+
+?>
 <!doctype html>
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Routine</title>
+        <title>Routine<?php echo $configApp->getSuffixeCheminpParNiveau() ?></title>
+        <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/styleRoutine.css">
         <link rel="stylesheet" href="css/base/jquery.ui.all.css">
         <script src="js/lib/jquery.min.js"></script>
@@ -20,7 +26,7 @@
         <script src="js/routinePage.js"></script> 
     </head>
     <body>
-        <h1>Routine</h1>
+        <?php require_once('/app/routine' . $configApp->getSuffixeCheminpParNiveau() . '/gabarits/header.php'); ?>
 
         <div class="conteneurRoutines">
             <div class="enfant" id="enfant_charles">
@@ -153,5 +159,6 @@
                 </ol>
             </div>
         </div>
+        <?php require_once('/app/routine' . $configApp->getSuffixeCheminpParNiveau() . '/gabarits/footer.php'); ?>
     </body>
 </html>

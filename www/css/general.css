@@ -1,0 +1,12 @@
+footer {
+    padding: 3px;
+}
+footer hr {
+    border: 1px solid #000000;
+}
+footer div {
+    text-align: center;
+    color: black;
+    font-size: x-small;
+    font-weight: bold;
+}

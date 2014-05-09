@@ -29,6 +29,9 @@ shell_exec("mv " . CHEMIN_DESTINATION . "/config." . $niveau . ".php " . CHEMIN_
 shell_exec("rm -f " . CHEMIN_DESTINATION . "/config.*.php");
 shell_exec("mv " . CHEMIN_DESTINATION . "/js/config." . $niveau . ".js " . CHEMIN_DESTINATION . "/js/config.js");
 shell_exec("rm -f " . CHEMIN_DESTINATION . "/js/config.*.js");
+$gitLog = shell_exec("git log -1 --format=%cd --date=short");
+$gitLog = trim(preg_replace('/\s\s+/', ' ', $gitLog));
+shell_exec('sed -i "s/GITLOG/' . $gitLog . '/" ' . CHEMIN_DESTINATION . "/config.php");
 
 if ($niveau == "prod" || $niveau == "preprod") {
     echo "Conversion des fichiers\n";
