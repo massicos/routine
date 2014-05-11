@@ -7,6 +7,7 @@ class Routine implements IstockageJson {
     private $prenom;
     private $nbrEtoilesRecompenseTotal;
     private $cheminJson;
+    private $nbrMedailles;
 
     public function __construct() {
 
@@ -14,9 +15,11 @@ class Routine implements IstockageJson {
         if ($nbrparametres == 0) {
             $this->prenom = "Vide";
             $this->nbrEtoilesRecompenseTotal = 0;
-        } else if ($nbrparametres == 2) {
+            $this->nbrMedailles = 0;
+        } else if ($nbrparametres == 3) {
             $this->prenom = func_get_arg(0);
             $this->nbrEtoilesRecompenseTotal = func_get_arg(1);
+            $this->nbrMedailles = func_get_arg(2);
         } else {
             throw new InvalidArgumentException("Constructeur de routine ne contient pas le bon nombre de paramètre");
         }
@@ -34,10 +37,14 @@ class Routine implements IstockageJson {
         $this->nbrEtoilesRecompenseTotal += $nbrEtoiles;
     }
 
+    public function getNbrMedailles() {
+        return $this->nbrMedailles;
+    }
     public function toJson() {
         $routineStdClass = new stdClass();
         $routineStdClass->prenom = $this->prenom;
         $routineStdClass->nbrEtoilesRecompenseTotal = $this->nbrEtoilesRecompenseTotal;
+        $routineStdClass->nbrMedailles = $this->nbrMedailles;
         
         return json_encode($routineStdClass);
     }
@@ -55,6 +62,7 @@ class Routine implements IstockageJson {
         $json = json_decode($str);
         $this->prenom = $json->prenom;
         $this->nbrEtoilesRecompenseTotal = $json->nbrEtoilesRecompenseTotal;
+        $this->nbrMedailles = $json->nbrMedailles;
     }
 
     public function setConfigPersistence($config) {

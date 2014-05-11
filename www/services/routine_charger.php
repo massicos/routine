@@ -12,7 +12,7 @@ try {
     $routine = new Routine();
     $routine->setConfigPersistence(array("/app/data/routine" . $configApp->getSuffixeCheminpParNiveau() . "data"));
     $routine->charger($idFamille, $idEnfant, $idRoutine);
-    //echo $routine->getPrenom() . "<br>\n";
+    echo $routine->getNbrMedailles() . "<br>\n";
     //echo $routine->getNbrEtoilesRecompenseTotal() . "<br>\n";
     
     echo $routine->toJson();
