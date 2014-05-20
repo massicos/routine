@@ -40,6 +40,12 @@ class Routine implements IstockageJson {
     public function getNbrMedailles() {
         return $this->nbrMedailles;
     }
+
+
+    public function addNbrMedailles($nbrMedailles) {
+        $this->nbrMedailles += $nbrMedailles;
+    }
+
     public function toJson() {
         $routineStdClass = new stdClass();
         $routineStdClass->prenom = $this->prenom;
@@ -73,6 +79,7 @@ class Routine implements IstockageJson {
         $routineStdClass = new stdClass();
         $routineStdClass->prenom = $this->prenom;
         $routineStdClass->nbrEtoilesRecompenseTotal = $this->nbrEtoilesRecompenseTotal;
+        $routineStdClass->nbrMedailles = $this->nbrMedailles;
 
         $cheminFamille = $this->cheminJson . DIRECTORY_SEPARATOR . 'famille-' . $idFamille;
         if (!is_dir($cheminFamille)) {

@@ -6,18 +6,18 @@ class routine_test extends PHPUnit_Framework_TestCase {
 
     protected $configApp;
     protected function setUp() {
-        $this->routine = new Routine("Léanne", 0);    
+        $this->routine = new Routine("Léanne", 0, 0);    
     }
 
     /**
      * @expectedException InvalidArgumentException
      */       
     public function test_construct_1() {
-        $this->routine = new Routine("Charles", 0, "bidon");
+        $this->routine = new Routine("Charles", 0, 0, "bidon");
     }
     
     public function test_getNom_1() {
-        $this->routine = new Routine("Charles", 0);        
+        $this->routine = new Routine("Charles", 0, 0);        
         $this->assertEquals("Charles", $this->routine->getPrenom());
     }
 
@@ -30,7 +30,7 @@ class routine_test extends PHPUnit_Framework_TestCase {
     }
 
     public function test_getNbrEtoiles_2() {
-        $this->routine = new Routine("Léanne", 2);
+        $this->routine = new Routine("Léanne", 2, 3);
         $this->assertEquals(2, $this->routine->getNbrEtoilesRecompenseTotal());           
     }
     
@@ -45,6 +45,30 @@ class routine_test extends PHPUnit_Framework_TestCase {
         $this->assertEquals(7, $this->routine->getNbrEtoilesRecompenseTotal());                                    
     }
     
+
+//////
+
+    public function test_getNbrMedailles_0() {
+        $this->assertEquals(0, $this->routine->getNbrEtoilesRecompenseTotal());            
+    }
+
+    public function test_getNbrMedailles_2() {
+        $this->routine = new Routine("Léanne", 2, 3);
+        $this->assertEquals(2, $this->routine->getNbrEtoilesRecompenseTotal());           
+    }
+    
+    public function test_addNbrMedailles() {
+        $this->routine->addNbrEtoiles(1);
+        $this->assertEquals(1, $this->routine->getNbrEtoilesRecompenseTotal());
+        $this->routine->addNbrEtoiles(1);
+        $this->assertEquals(2, $this->routine->getNbrEtoilesRecompenseTotal());
+        $this->routine->addNbrEtoiles(2);
+        $this->assertEquals(4, $this->routine->getNbrEtoilesRecompenseTotal());
+        $this->routine->addNbrEtoiles(3);
+        $this->assertEquals(7, $this->routine->getNbrEtoilesRecompenseTotal());                                    
+    }
+///////
+
     public function test_loadJson_1() {
         $this->routine = new Routine();
         $this->routine->setConfigPersistence(array("./json"));
@@ -98,12 +122,12 @@ class routine_test extends PHPUnit_Framework_TestCase {
     }
     
     public function test_toJson_1() {
-        $this->assertEquals('{"prenom":"L\u00e9anne","nbrEtoilesRecompenseTotal":0}', $this->routine->toJson());
+        $this->assertEquals('{"prenom":"L\u00e9anne","nbrEtoilesRecompenseTotal":0,"nbrMedailles":0}', $this->routine->toJson());
     }
     
     public function test_toJson_2() {
-        $this->routine = new Routine("Charles", 22);        
-        $this->assertEquals('{"prenom":"Charles","nbrEtoilesRecompenseTotal":22}', $this->routine->toJson());
+        $this->routine = new Routine("Charles", 22, 10);        
+        $this->assertEquals('{"prenom":"Charles","nbrEtoilesRecompenseTotal":22,"nbrMedailles":10}', $this->routine->toJson());
     }
 
 }

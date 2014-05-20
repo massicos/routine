@@ -1,9 +1,10 @@
-function Routine(prenom, nbrEtoilesRecompenseTotal, idFamille, idEnfant, idRoutine)
+function Routine(prenom, nbrEtoilesRecompenseTotal, nbrMedailles, idFamille, idEnfant, idRoutine)
 {
     this.prenom = prenom;
     this.photo = false;
     this.dateFin = false;
     this.nbrEtoilesRecompenseTotal = nbrEtoilesRecompenseTotal;
+    this.nbrMedailles = nbrMedailles;
     
     this.idFamille = idFamille;
     this.idEnfant = idEnfant;
@@ -218,6 +219,11 @@ return this.itemsRoutine[0];
     function getNbrEtoilesRecompenseTotal() {
         return this.nbrEtoilesRecompenseTotal;
     }
+
+    this.getNbrMedailles = getNbrMedailles;
+    function getNbrMedailles() {
+        return this.nbrMedailles;
+    }
     
     this.addNbrEtoilesRecompenseTotal = addNbrEtoilesRecompenseTotal;
     function addNbrEtoilesRecompenseTotal(nbrEtoiles) {
@@ -237,6 +243,7 @@ return this.itemsRoutine[0];
             .done(function(msg) {
 		this.prenom = msg.prenom;
 		this.nbrEtoilesRecompenseTotal = msg.nbrEtoilesRecompenseTotal;
+		this.nbrMedailles = msg.nbrMedailles;
 	        console.log( "success " +  this.prenom + " " + this.nbrEtoilesRecompenseTotal);
 	    })
 	    .fail(function(msg) {

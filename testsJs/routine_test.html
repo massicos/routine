@@ -13,7 +13,7 @@
 
             module("module A", {
                 setup: function() {
-                   p = new Routine("Léanne", 0, 1, 2, 3);
+                   p = new Routine("Léanne", 0, 0, 1, 2, 3);
                 },
                 teardown: function() {
 // clean up after each test 
@@ -246,7 +246,7 @@
 	    
             test("Routine getNbrEtoilesRecompenseTotal 1", function() { 
             	equal(p.getNbrEtoilesRecompenseTotal(), 0);
-                p = new Routine("Léanne", 5, 1, 1, 1);
+                p = new Routine("Léanne", 5, 2, 1, 1, 1);
                 equal(p.getNbrEtoilesRecompenseTotal(), 5);
             });
 	    
