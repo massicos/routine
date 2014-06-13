@@ -46,7 +46,7 @@ require_once("config.php");
                             <td class="prenom"></td>
                             <td class="nbrEtoiles">0</td>
                             <td class="sousTotalEtoiles">0</td>
-                            <td class="nbrMedailles">0</td>
+                            <td><span class="nbrMedailles">0</span><em class="nbrMedaillesAValiderParenthese">(<em class="nbrMedaillesAValider">0</em>)</td>
                             <td class="sousTotalMedailles">0</td>
                             <td class="total">0</td>
                         </tr>

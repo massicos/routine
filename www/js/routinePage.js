@@ -2,14 +2,14 @@ $(document).ready(function() {
 
     var auMoinsUneRoutineActive = false;	    
 	var routines = new Array();
-	routines[0] = new Routine("0", 0, 0, 1, 2, 1);
+	routines[0] = new Routine("0", 0, 0, 0, 1, 2, 1);
 	routines[0].charger("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_charger.php");
 	routines[0].setPhoto("../routinePerso/images/photos/Charles1.jpg");
 	routines[0].addItemRoutine(new ItemRoutine("Déjeuner", "../routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 8));
 	routines[0].addItemRoutine(new ItemRoutine("S'habiller", "../routinePerso/images/itemsRoutine/habiller.jpg", 8, 4));
 	routines[0].addItemRoutine(new ItemRoutine("Brosser les dents", "../routinePerso/images/itemsRoutine/brosserDents.jpg", 5, 3));
 	routines[0].addItemRoutine(new ItemRoutine("Faire son lit", "../routinePerso/images/itemsRoutine/faireSonLit.jpg", 5, 3));
-	routines[1] = new Routine("1", 0, 0, 1, 1, 1);
+	routines[1] = new Routine("1", 0, 0, 0, 1, 1, 1);
 	routines[1].charger("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_charger.php");
 	routines[1].setPhoto("../routinePerso/images/photos/Leanne1.jpg");
 	routines[1].addItemRoutine(new ItemRoutine("Déjeuner", "../routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 8));
@@ -114,8 +114,7 @@ $(document).ready(function() {
         $(".progressbar").each(function() {
             var enfant = $(this).closest(".enfant");
             var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
-            //alert("estEnCoursItemRoutine (" + routine.getPrenom() + ") = " + routine.estEnCoursItemRoutine());
-            console.log(routine.estEnCoursItemRoutine() + " " + routine.getPrenom());
+
             if (routine.estEnCoursItemRoutine()) {
                 auMoinsUneRoutineActive = true;
 
@@ -173,7 +172,7 @@ $(document).ready(function() {
         if (secondes <= itemRoutineEnCours.getTempsSecondes()) {
            itemRoutineEnCours.setStatut(statuts.FINI_SUCCES);
            routine.addNbrEtoilesRecompenseTotal(itemRoutineEnCours.getNbrEtoiles());
-           routine.sauvegaderNbrEtoilesRecompenseTotal("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_addNbrEtoiles.php", itemRoutineEnCours.getNbrEtoiles());
+           routine.sauvegarderNbrEtoilesRecompenseTotal("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_addNbrEtoiles.php", itemRoutineEnCours.getNbrEtoiles());
            routineView.afficherEtoiles(enfant, routine.getNbrEtoiles());
            routineView.afficherEmoticon(enfant, "images/emoticons/face-smile.png");
            
@@ -185,7 +184,15 @@ $(document).ready(function() {
         	  routineView.afficherEmoticon(enfant, "images/emoticons/face-sad.png");
         	  //alert("Trop tard");
         }
+
         routineView.itemRoutineMarquerCompleter(enfant);  
+
+        if (routine.estTerminee() && routine.meriteMedailleAValider()) {
+            routine.addNbrMedaillesAValider(1);
+            routine.sauvegarderNbrEtoilesAValider("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_addNbrEtoilesAValider.php", 1);
+
+            routineView.routineParfaite(enfant);
+        }
         //routineItemMarquerCompleter(this);
     });
         	
@@ -199,6 +206,9 @@ $(document).ready(function() {
 			$(enfant).find(".photoEnfant").attr("src", this.routine.getPhoto());
 			$(enfant).find(".nbrEtoilesRecompenseTotal").text(this.routine.getNbrEtoilesRecompenseTotal());
 			$(enfant).find(".nbrMedailles").text(this.routine.getNbrMedailles());
+
+            $(enfant).find(".nbrMedaillesAValider").text(routine.getNbrMedaillesAValider());
+
 			this.affichageTableauBordInitial(enfant);
 			this.affichageItemsRoutineInitial(enfant);
 			$(enfant).find(".chrono").hide();
@@ -292,8 +302,8 @@ $(document).ready(function() {
             $(enfant).find(".boutonStop").show();
             $(enfant).find(".boutonPause").show();
             $(enfant).find(".chrono").find(".boutonReprendre").hide();
-console.log("hide");
-            $(enfant).find(".message").hide();  
+            $(enfant).find(".message").hide();
+
             setTimeout(progress, 3000);
 	    }
 	
@@ -354,7 +364,18 @@ console.log("hide");
           $(enfant).find(".boutonPause").hide();
           $(enfant).find(".boutonReprendre").hide();
       }
-  
+
+      this.afficherMedaille = afficherMedaille;
+      function afficherMedaille(enfant, src) {
+      	 var objDestination = $(enfant).find(".medailleImg")
+          $(objDestination).empty();
+          var medaille = $('<img/>', {
+              src: src,
+              class: "emoticon"
+          });
+          $(objDestination).prepend(medaille);
+      }
+
       this.rafraichirTempsJeux = rafraichirTempsJeux;
       function rafraichirTempsJeux(enfant, tempsJeuxRoutine) {
       	 var obj = $(enfant).find(".tempsJeux");
@@ -375,7 +396,22 @@ console.log("hide");
           $(obj).find(".tempsJeuxIndicateur").attr({style: "height: " + height + "px;"});
           $(obj).closest(".tableauBord").find(".tempsJeuxMinutes").text(tempsJeuxRoutine);
           $(obj).show();
-      }       
+      }
+
+      this.routineParfaite = routineParfaite
+      function routineParfaite(enfant) {
+         var obj = $(enfant).find(".nbrMedaillesAValider");
+         $(obj).text(routine.getNbrMedaillesAValider());
+
+      	 var objDestination = $(enfant).find(".medailleImg")
+          $(objDestination).empty();
+          var medaille = $('<img/>', {
+              src: "images/icons/medal_gold_1.png",
+              class: "emoticon"
+          });
+          $(objDestination).prepend(medaille);
+      }
+
 	}
 
 

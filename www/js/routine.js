@@ -1,10 +1,11 @@
-function Routine(prenom, nbrEtoilesRecompenseTotal, nbrMedailles, idFamille, idEnfant, idRoutine)
+function Routine(prenom, nbrEtoilesRecompenseTotal, nbrMedailles, nbrMedaillesAValider, idFamille, idEnfant, idRoutine)
 {
     this.prenom = prenom;
     this.photo = false;
     this.dateFin = false;
     this.nbrEtoilesRecompenseTotal = nbrEtoilesRecompenseTotal;
     this.nbrMedailles = nbrMedailles;
+    this.nbrMedaillesAValider = nbrMedaillesAValider;
     
     this.idFamille = idFamille;
     this.idEnfant = idEnfant;
@@ -225,11 +226,22 @@ return this.itemsRoutine[0];
         return this.nbrMedailles;
     }
     
+    this.getNbrMedaillesAValider = getNbrMedaillesAValider;
+    function getNbrMedaillesAValider() {
+        return this.nbrMedaillesAValider;
+    }
+
     this.addNbrEtoilesRecompenseTotal = addNbrEtoilesRecompenseTotal;
     function addNbrEtoilesRecompenseTotal(nbrEtoiles) {
         this.nbrEtoilesRecompenseTotal = this.nbrEtoilesRecompenseTotal + nbrEtoiles;
     }
     
+
+    this.addNbrMedaillesAValider = addNbrMedaillesAValider;
+    function addNbrMedaillesAValider(nbrMedailles) {
+        this.nbrMedaillesAValider = this.nbrMedaillesAValider + nbrMedailles;
+    }
+
     this.charger = charger;
     function charger(url) {
 	
@@ -244,6 +256,7 @@ return this.itemsRoutine[0];
 		this.prenom = msg.prenom;
 		this.nbrEtoilesRecompenseTotal = msg.nbrEtoilesRecompenseTotal;
 		this.nbrMedailles = msg.nbrMedailles;
+        this.nbrMedaillesAValider = msg.nbrMedaillesAValider;
 	        console.log( "success " +  this.prenom + " " + this.nbrEtoilesRecompenseTotal);
 	    })
 	    .fail(function(msg) {
@@ -256,8 +269,8 @@ return this.itemsRoutine[0];
 	    });
     }
 
-   this.sauvegaderNbrEtoilesRecompenseTotal = sauvegaderNbrEtoilesRecompenseTotal;
-   function sauvegaderNbrEtoilesRecompenseTotal(url, nbrEtoiles) {
+   this.sauvegarderNbrEtoilesRecompenseTotal = sauvegarderNbrEtoilesRecompenseTotal;
+   function sauvegarderNbrEtoilesRecompenseTotal(url, nbrEtoiles) {
 
         url = url + "?idFamille=" + this.idFamille + "&idEnfant=" + this.idEnfant + "&idRoutine=" + this.idRoutine + "&nbrEtoiles=" + nbrEtoiles;
         var jqxhr = $.ajax( {
@@ -279,5 +292,54 @@ return this.itemsRoutine[0];
 	    .always(function() {
 	        console.log( "complete" );
 	    });
-    }    
+    }
+
+
+   this.sauvegarderNbrEtoilesAValider = sauvegarderNbrEtoilesAValider;
+   function sauvegarderNbrEtoilesAValider(url, nbrEtoilesAValider) {
+
+        url = url + "?idFamille=" + this.idFamille + "&idEnfant=" + this.idEnfant + "&idRoutine=" + this.idRoutine + "&nbrEtoilesAValider=" + nbrEtoilesAValider;
+        var jqxhr = $.ajax( {
+		url: url,
+		dataType: "json",
+		async: false,
+		context: this
+	    })
+            .done(function(msg) {
+		this.prenom = msg.prenom;
+		this.nbrEtoilesAValider = msg.nbrEtoilesAValider;
+	        console.log( "success " +  this.prenom + " " + this.nbrEtoilesAValider);
+	    })
+	    .fail(function(msg) {
+		console.log("bidon");
+		console.debug(msg);
+	        console.log( "error" + msg.erreur);
+	     })
+	    .always(function() {
+	        console.log( "complete" );
+	    });
+    }
+
+    this.estTerminee = estTerminee;
+    function estTerminee() {
+     	var max = this.itemsRoutine.length;
+    	for (var i = 0; i < max; i++){
+    		if (this.itemsRoutine[i].getStatut() != statuts.FINI_SUCCES &&
+                    this.itemsRoutine[i].getStatut() != statuts.FINI_ECHEC) {
+    			return false;
+    		}
+    	}
+        return true;
+    }
+
+    this.meriteMedailleAValider = meriteMedailleAValider;
+    function meriteMedailleAValider() {
+     	var max = this.itemsRoutine.length;
+    	for (var i = 0; i < max; i++){
+    		if (this.itemsRoutine[i].getStatut() != statuts.FINI_SUCCES) {
+    			return false;
+    		}
+    	}
+        return true;
+    }
 }

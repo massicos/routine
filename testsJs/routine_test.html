@@ -13,7 +13,7 @@
 
             module("module A", {
                 setup: function() {
-                   p = new Routine("Léanne", 0, 0, 1, 2, 3);
+                   p = new Routine("Léanne", 0, 0, 0, 1, 2, 3);
                 },
                 teardown: function() {
 // clean up after each test 
@@ -246,7 +246,7 @@
 	    
             test("Routine getNbrEtoilesRecompenseTotal 1", function() { 
             	equal(p.getNbrEtoilesRecompenseTotal(), 0);
-                p = new Routine("Léanne", 5, 2, 1, 1, 1);
+                p = new Routine("Léanne", 5, 2, 5, 1, 1, 1);
                 equal(p.getNbrEtoilesRecompenseTotal(), 5);
             });
 	    
@@ -254,6 +254,19 @@
                 p.addNbrEtoilesRecompenseTotal(10);
                 equal(p.getNbrEtoilesRecompenseTotal(), 10);
             });
+
+
+            test("Routine getNbrMedaillesAValider 1", function() { 
+            	equal(p.getNbrMedaillesAValider(), 0);
+                p = new Routine("Léanne", 5, 2, 5, 1, 1, 1);
+                equal(p.getNbrMedaillesAValider(), 5);
+            });
+	    
+            test("Routine addNbrEtoilesRecompenseTotal 1", function() {
+                p.addNbrMedaillesAValider(10);
+                equal(p.getNbrMedaillesAValider(), 10);
+            });
+
 	    
             test("Routine estPretDebuter 0", function() {
             	equal(p.estPretDebuter(), false);
@@ -275,6 +288,82 @@
                 equal(p.getIdFamille(), 1);
                 equal(p.getIdEnfant(), 2);
                 equal(p.getIdRoutine(), 3);
+            });
+
+            test("Routine estTerminee vrai", function() {
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3));
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
+
+            	var itemRoutine = p.getItemRoutine(0);
+            	itemRoutine.setStatut(statuts.FINI_SUCCES);
+                itemRoutine = p.getItemRoutine(1);
+            	itemRoutine.setStatut(statuts.FINI_SUCCES);
+            	equal(p.estTerminee(), true);
+
+                itemRoutine = p.getItemRoutine(0);
+            	itemRoutine.setStatut(statuts.FINI_ECHEC);
+                itemRoutine = p.getItemRoutine(1);
+            	itemRoutine.setStatut(statuts.FINI_SUCCES);
+            	equal(p.estTerminee(), true);
+
+                itemRoutine = p.getItemRoutine(0);
+            	itemRoutine.setStatut(statuts.FINI_ECHEC);
+                itemRoutine = p.getItemRoutine(1);
+            	itemRoutine.setStatut(statuts.FINI_ECHEC);
+            	equal(p.estTerminee(), true);
+            });
+
+            test("Routine estTerminee faux", function() {
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3));
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
+            	var itemRoutine = p.getItemRoutine(0);
+            	itemRoutine.setStatut(statuts.FINI_SUCCES);
+                itemRoutine = p.getItemRoutine(1);
+            	itemRoutine.setStatut(statuts.ATTENTE);
+            	equal(p.estTerminee(), false);
+            });
+
+            test("Routine estTerminee faux", function() {
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3));
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
+            	var itemRoutine = p.getItemRoutine(0);
+            	itemRoutine.setStatut(statuts.ATTENTE);
+                itemRoutine = p.getItemRoutine(1);
+            	itemRoutine.setStatut(statuts.ATTENTE);
+            	equal(p.estTerminee(), false);
+            });
+
+            test("Routine estTerminee faux", function() {
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3));
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
+            	var itemRoutine = p.getItemRoutine(0);
+            	itemRoutine.setStatut(statuts.EN_COURS);
+                itemRoutine = p.getItemRoutine(1);
+            	itemRoutine.setStatut(statuts.PAUSE);
+            	equal(p.estTerminee(), false);
+            });
+
+            test("Routine meriteMedailleAValider vrai", function() {
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3));
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
+
+            	var itemRoutine = p.getItemRoutine(0);
+            	itemRoutine.setStatut(statuts.FINI_SUCCES);
+                itemRoutine = p.getItemRoutine(1);
+            	itemRoutine.setStatut(statuts.FINI_SUCCES);
+            	equal(p.meriteMedailleAValider(), true);
+
+                itemRoutine = p.getItemRoutine(0);
+            	itemRoutine.setStatut(statuts.FINI_ECHEC);
+                itemRoutine = p.getItemRoutine(1);
+            	itemRoutine.setStatut(statuts.FINI_SUCCES);
+            	equal(p.meriteMedailleAValider(), false);
+
+                itemRoutine = p.getItemRoutine(0);
+            	itemRoutine.setStatut(statuts.FINI_ECHEC);
+                itemRoutine = p.getItemRoutine(1);
+            	itemRoutine.setStatut(statuts.FINI_ECHEC);
+            	equal(p.meriteMedailleAValider(), false);
             });
             
         </script>

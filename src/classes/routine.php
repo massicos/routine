@@ -8,6 +8,7 @@ class Routine implements IstockageJson {
     private $nbrEtoilesRecompenseTotal;
     private $cheminJson;
     private $nbrMedailles;
+    private $nbrMedaillesAValider;
 
     public function __construct() {
 
@@ -16,10 +17,12 @@ class Routine implements IstockageJson {
             $this->prenom = "Vide";
             $this->nbrEtoilesRecompenseTotal = 0;
             $this->nbrMedailles = 0;
-        } else if ($nbrparametres == 3) {
+            $this->nbrMedaillesAValider = 0;
+        } else if ($nbrparametres == 4) {
             $this->prenom = func_get_arg(0);
             $this->nbrEtoilesRecompenseTotal = func_get_arg(1);
             $this->nbrMedailles = func_get_arg(2);
+            $this->nbrMedaillesAValider = func_get_arg(3);
         } else {
             throw new InvalidArgumentException("Constructeur de routine ne contient pas le bon nombre de paramètre");
         }
@@ -31,6 +34,10 @@ class Routine implements IstockageJson {
 
     public function getNbrEtoilesRecompenseTotal() {
         return $this->nbrEtoilesRecompenseTotal;
+    }
+
+    public function getNbrMedaillesAValider() {
+        return $this->nbrMedaillesAValider;
     }
 
     public function addNbrEtoiles($nbrEtoiles) {
@@ -46,11 +53,16 @@ class Routine implements IstockageJson {
         $this->nbrMedailles += $nbrMedailles;
     }
 
+    public function addNbrMedaillesAValider($nbrMedaillesAValider) {
+        $this->nbrMedaillesAValider += $nbrMedaillesAValider;
+    }
+
     public function toJson() {
         $routineStdClass = new stdClass();
         $routineStdClass->prenom = $this->prenom;
         $routineStdClass->nbrEtoilesRecompenseTotal = $this->nbrEtoilesRecompenseTotal;
         $routineStdClass->nbrMedailles = $this->nbrMedailles;
+        $routineStdClass->nbrMedaillesAValider = $this->nbrMedaillesAValider;
         
         return json_encode($routineStdClass);
     }
@@ -69,6 +81,8 @@ class Routine implements IstockageJson {
         $this->prenom = $json->prenom;
         $this->nbrEtoilesRecompenseTotal = $json->nbrEtoilesRecompenseTotal;
         $this->nbrMedailles = $json->nbrMedailles;
+        $this->nbrMedaillesAValider = $json->nbrMedaillesAValider;
+        
     }
 
     public function setConfigPersistence($config) {
@@ -80,6 +94,7 @@ class Routine implements IstockageJson {
         $routineStdClass->prenom = $this->prenom;
         $routineStdClass->nbrEtoilesRecompenseTotal = $this->nbrEtoilesRecompenseTotal;
         $routineStdClass->nbrMedailles = $this->nbrMedailles;
+        $routineStdClass->nbrMedaillesAValider = $this->nbrMedaillesAValider;
 
         $cheminFamille = $this->cheminJson . DIRECTORY_SEPARATOR . 'famille-' . $idFamille;
         if (!is_dir($cheminFamille)) {
