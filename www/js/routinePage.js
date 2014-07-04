@@ -1,6 +1,27 @@
 $(document).ready(function() {
 
     var auMoinsUneRoutineActive = false;	    
+
+	var famille = new Famille("Massicotte", 0.05, 0.25);
+
+	var routine0 = new Routine("0", 0, 0, 0, 1, 2, 1);
+	routine0.charger("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_charger.php");
+	routine0.setPhoto("../routinePerso/images/photos/Charles1.jpg");
+	routine0.addItemRoutine(new ItemRoutine("Déjeuner", "../routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 8));
+	routine0.addItemRoutine(new ItemRoutine("S'habiller", "../routinePerso/images/itemsRoutine/habiller.jpg", 8, 4));
+	routine0.addItemRoutine(new ItemRoutine("Brosser les dents", "../routinePerso/images/itemsRoutine/brosserDents.jpg", 5, 3));
+	routine0.addItemRoutine(new ItemRoutine("Faire son lit", "../routinePerso/images/itemsRoutine/faireSonLit.jpg", 5, 3));
+    famille.addRoutine(routine0);
+	var routine1 = new Routine("1", 0, 0, 0, 1, 1, 1);
+	routine1.charger("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_charger.php");
+	routine1.setPhoto("../routinePerso/images/photos/Leanne1.jpg");
+	routine1.addItemRoutine(new ItemRoutine("Déjeuner", "../routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 8));
+	routine1.addItemRoutine(new ItemRoutine("S'habiller", "../routinePerso/images/itemsRoutine/habiller.jpg", 8, 4));
+	routine1.addItemRoutine(new ItemRoutine("Brosser les dents", "../routinePerso/images/itemsRoutine/brosserDents.jpg", 5, 3));
+	routine1.addItemRoutine(new ItemRoutine("Se peigner", "../routinePerso/images/itemsRoutine/peigner.jpg", 5, 4));
+	routine1.addItemRoutine(new ItemRoutine("Faire son lit", "../routinePerso/images/itemsRoutine/faireSonLit.jpg", 5, 3));
+    famille.addRoutine(routine1);
+/*
 	var routines = new Array();
 	routines[0] = new Routine("0", 0, 0, 0, 1, 2, 1);
 	routines[0].charger("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_charger.php");
@@ -17,34 +38,35 @@ $(document).ready(function() {
 	routines[1].addItemRoutine(new ItemRoutine("Brosser les dents", "../routinePerso/images/itemsRoutine/brosserDents.jpg", 5, 3));
 	routines[1].addItemRoutine(new ItemRoutine("Se peigner", "../routinePerso/images/itemsRoutine/peigner.jpg", 5, 4));
 	routines[1].addItemRoutine(new ItemRoutine("Faire son lit", "../routinePerso/images/itemsRoutine/faireSonLit.jpg", 5, 3));
+*/
+    var headerView = new HeaderView(famille);
+    headerView.affichageInitial();
 
-	//var LABEL_FIN_ROUTINE = "Heure de fin :";
-	//var LABEL_TEMPS_LIBRE = "Temps de jeux :";
-
-	var max = routines.length;
+	var max = famille.getNbrRoutines();
 	for (var i = 0; i < max; i++) {
-		var routineView = new RoutineView(routines[i]);
+		var routineView = new RoutineView(famille.getRoutineParIndex(i));
 		routineView.affichageInitial($(".enfant")[i]);
 	}
 
 	function trouverRoutine(prenom) {
-		var max = routines.length;
+        var max = famille.getNbrRoutines();
 		for ( var i = 0; i < max; i++) {
-			if (routines[i].getPrenom() == prenom) {
-				return routines[i];
+			if (famille.getRoutineParIndex(i).getPrenom() == prenom) {
+				return famille.getRoutineParIndex(i);
 			}
 		}
 		return null;
 	}
 
     function rafraichirInfo() {
-		var max = routines.length;
+        var max = famille.getNbrRoutines();
 		for (var i = 0; i < max; i++) {
+            var routine = famille.getRoutineParIndex(i);
             if (routines[i].estPretDebuter()) {
-		        if (!routines[i].estEnCoursItemRoutine()) {
+		        if (!routine.estEnCoursItemRoutine()) {
 		            var tempsLibre = routines[i].getTempsLibreSecondes(new Date());
-		            var routineView = new RoutineView(routines[i]);
-		            routineView.rafraichirTempsJeux($("#enfant_" + routines[i].getPrenomNormalise()), tempsLibre);
+		            var routineView = new RoutineView(routine);
+		            routineView.rafraichirTempsJeux($("#enfant_" + routine.getPrenomNormalise()), tempsLibre);
 		        }
             }
         }

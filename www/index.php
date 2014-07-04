@@ -25,13 +25,14 @@ require_once("config.php");
         <script src="js/routine.js"></script>  
         <script src="js/famille.js"></script>  
         <script src="js/tableauBordPage.js"></script>
+        <script src="js/headerView.js"></script>
 
     </head>
     <body>
         <?php require_once('/app/routine' . $configApp->getSuffixeCheminpParNiveau() . '/gabarits/header.php'); ?>
 
         <ul>
-            <li><a href="routine.php">Famille Massicotte - Routine du matin</a>
+            <li><a href="routine.php">Routine du matin</a>
                 <div class="CSSTableGenerator" >
                     <table class="tableauBord">
                         <tr>

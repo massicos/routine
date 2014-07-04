@@ -8,6 +8,9 @@ $(document).ready(function() {
 	routine1.charger("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_charger.php");
     famille.addRoutine(routine1);
 
+    var headerView = new HeaderView(famille);
+    headerView.affichageInitial();
+
     var tableauBordView = new TableauBordView(famille);
     tableauBordView.affichageInitial($(".tableauBord"));
 /*
@@ -33,7 +36,6 @@ $(document).ready(function() {
 	    this.affichageInitial = affichageInitial;
 	    function affichageInitial(tableauBord)
 	    {
-
 	    	var max = this.famille.getNbrRoutines();
             console.log("max = " + max);
             console.log("length = " + $(tableauBord).find(".tableauBordRoutine").length);

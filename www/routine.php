@@ -22,8 +22,10 @@ require_once("config.php");
         <script src="js/configApp.js"></script>
         <script src="js/config.js"></script>
         <script src="js/itemRoutine.js"></script>
-        <script src="js/routine.js"></script>  
-        <script src="js/routinePage.js"></script> 
+        <script src="js/routine.js"></script>
+        <script src="js/famille.js"></script>
+        <script src="js/routinePage.js"></script>
+        <script src="js/headerView.js"></script>
     </head>
     <body>
         <?php require_once('/app/routine' . $configApp->getSuffixeCheminpParNiveau() . '/gabarits/header.php'); ?>
