@@ -12,13 +12,14 @@ require_once("config.php");
         <link rel="stylesheet" href="css/tableauBord.css">
         <link rel="stylesheet" href="css/base/jquery.ui.all.css">
         <script src="js/lib/jquery.min.js"></script>
-
+        <script src="js/lib/jquery-ui.custom.min.js"></script>
+<!--
         <script src="js/lib/ui/jquery.ui.core.js"></script>
         <script src="js/lib/ui/jquery.ui.widget.js"></script>
         <script src="js/lib/ui/jquery.ui.mouse.js"></script>
         <script src="js/lib/ui/jquery.ui.selectable.js"></script>
         <script src="js/lib/ui/jquery.ui.progressbar.js"></script>
-
+-->
         <script src="js/configApp.js"></script>
         <script src="js/config.js"></script>
         <script src="js/itemRoutine.js"></script>
@@ -26,11 +27,16 @@ require_once("config.php");
         <script src="js/famille.js"></script>  
         <script src="js/tableauBordPage.js"></script>
         <script src="js/headerView.js"></script>
+        <script src="js/dialogValiderMedailles.js"></script>
 
     </head>
     <body>
         <?php require_once('/app/routine' . $configApp->getSuffixeCheminpParNiveau() . '/gabarits/header.php'); ?>
 
+<button id="ouvrirDialog">Valider les médailles</button>
+<div id="dialog-confirm" title="Validation des médailles">
+<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span></p>
+</div>
         <ul>
             <li><a href="routine.php">Routine du matin</a>
                 <div class="CSSTableGenerator" >
