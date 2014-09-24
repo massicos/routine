@@ -10,27 +10,35 @@ require_once("config.php");
         <title>Tableau de bord - Routine<?php echo $configApp->getSuffixeCheminpParNiveau() ?></title>
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/tableauBord.css">
+        <link rel="stylesheet" href="css/modeParent.css">
         <link rel="stylesheet" href="css/base/jquery.ui.all.css">
         <script src="js/lib/jquery.min.js"></script>
-
+        <script src="js/lib/jquery-ui.custom.min.js"></script>
+<!--
         <script src="js/lib/ui/jquery.ui.core.js"></script>
         <script src="js/lib/ui/jquery.ui.widget.js"></script>
         <script src="js/lib/ui/jquery.ui.mouse.js"></script>
         <script src="js/lib/ui/jquery.ui.selectable.js"></script>
         <script src="js/lib/ui/jquery.ui.progressbar.js"></script>
-
+-->
         <script src="js/configApp.js"></script>
         <script src="js/config.js"></script>
         <script src="js/itemRoutine.js"></script>
-        <script src="js/routine.js"></script>  
-        <script src="js/famille.js"></script>  
+        <script src="js/routine.js"></script>
+        <script src="js/famille.js"></script>
         <script src="js/tableauBordPage.js"></script>
         <script src="js/headerView.js"></script>
+        <script src="js/dialogModeParent.js"></script>
 
     </head>
     <body>
         <?php require_once('/app/routine' . $configApp->getSuffixeCheminpParNiveau() . '/gabarits/header.php'); ?>
-
+<div id="modeParentActif">mode parent actif <a id="modeParentQuitter" href="javascript:void(0)"><i class="ui-icon ui-icon-circle-close" style="display: inline-block;vertical-align: text-bottom;"></i></a></div>
+<button id="btnOuvrirDialogModeParent">Passer en mode parent</button>
+<div id="dialog-confirm" title="Mode parent">
+Mot de passe : <input type="password" name="mdpParent" id="mdpParent">
+<div id="modeParentMessage"></div>
+</div>
         <ul>
             <li><a href="routine.php">Routine du matin</a>
                 <div class="CSSTableGenerator" >

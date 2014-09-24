@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	    
+
 	var famille = new Famille("Massicotte", 0.05, 0.25);
 	var routine0 = new Routine("0", 0, 0, 0, 1, 2, 1);
 	routine0.charger("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_charger.php");
@@ -29,13 +29,15 @@ $(document).ready(function() {
 		}
 		return null;
 	}
-	
+
 	function TableauBordView(famille) {
 		this.famille = famille;
-		
+
 	    this.affichageInitial = affichageInitial;
 	    function affichageInitial(tableauBord)
 	    {
+			$("#modeParentActif").hide();
+
 	    	var max = this.famille.getNbrRoutines();
             console.log("max = " + max);
             console.log("length = " + $(tableauBord).find(".tableauBordRoutine").length);
@@ -63,6 +65,6 @@ $(document).ready(function() {
 	    	}
 	    }
     }
-	    
+
 
 });

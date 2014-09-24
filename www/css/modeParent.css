@@ -1,0 +1,28 @@
+#modeParentActif {
+    background: gray;
+    color: white;
+    font-weight: bold;
+    font-size: large;
+    position: absolute;
+    top: 15px;
+    left: 350px;
+    padding: 3px;
+    border-radius: 3px;
+    background-color: #ff7f00;
+    border: solid 1px black;
+    font-variant: small-caps;
+}
+
+#modeParentQuitter {
+    font-size: x-small;
+}
+
+#modeParentMessage {
+    color: red;
+}
+
+#btnOuvrirDialogModeParent {
+    position: absolute;
+    top: 15px;
+    left: 350px;
+}
