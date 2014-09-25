@@ -189,14 +189,25 @@ function Routine(prenom, nbrEtoilesRecompenseTotal, nbrMedailles, nbrMedaillesAV
     this.getItemRoutinePause = getItemRoutinePause;
     function getItemRoutinePause()
     {
-return this.itemsRoutine[0];
     	var max = this.itemsRoutine.length;
     	for (var i = 0; i < max; i++){
-    		if (this.itemsRoutine[i].getStatut() == statuts.EN_COURS) {
+    		if (this.itemsRoutine[i].getStatut() == statuts.PAUSE) {
     			return this.itemsRoutine[i];
     		}
     	}
     	return false;
+    }
+
+    this.toStringDebug = toStringDebug;
+    function toStringDebug()
+    {
+        console.log("--------");
+        console.log(this.prenom);
+    	var max = this.itemsRoutine.length;
+        console.log("Nombre de itemsRoutine = " + max);
+    	for (var i = 0; i < max; i++){
+            console.log(this.itemsRoutine[i].getTexte() + ", Statut = " + this.itemsRoutine[i].getStatut());
+    	}
     }
 
     this.getNbrEtoiles = getNbrEtoiles;
