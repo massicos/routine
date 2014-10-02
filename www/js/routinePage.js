@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    var auMoinsUneRoutineActive = false;	    
+    var auMoinsUneRoutineActive = false;
 
 	var famille = new Famille("Massicotte", 0.05, 0.25);
 
@@ -74,14 +74,14 @@ $(document).ready(function() {
     }
     setTimeout(rafraichirInfo, 10000);
 
-	
+
     $(".tableauBordTempsHeureFinBoutonGo").click(function() {
         var enfant = $(this).closest(".enfant");
         var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
         var routineView = new RoutineView(routine);
 		  routineView.affichageBoutonGo(enfant);
     });
-    
+
     $(".tableauBordTempsHeureFinBoutonStop").click(function() {
         var enfant = $(this).closest(".enfant");
         var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
@@ -99,37 +99,37 @@ $(document).ready(function() {
                 var enfant = $(this).closest(".enfant");
                 var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
                 var routineView = new RoutineView(routine);
-                            	
+
                 $(this).find(".progress-label").text("Complété !");
                 var itemRoutineEnCours = routine.getItemRoutineEnCours();
         	       itemRoutineEnCours.setStatut(statuts.FINI_ECHEC);
         	       routineView.afficherEmoticon(enfant, "images/emoticons/face-sad.png");
         	       routineView.itemRoutineMarquerCompleter(enfant);
-        	       
+
         	       var tempsLibre = routine.getTempsLibreSecondes(new Date());
     		       routineView.rafraichirTempsJeux(enfant, tempsLibre);
             }
         });
-    });    
-    
+    });
+
     $(".routine").selectable({
         selected: function(event, ui) {
             var enfant = $(event.target).closest(".enfant");
             var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
-            
+
             var index = $(enfant).find(".ui-selected").find(".routineItemIndex").text();
             //alert("index = " + index);
             var itemRoutine = routine.getItemRoutine(index);
             itemRoutine.debuter(new Date());
-            
+
             var routineView = new RoutineView(routine);
     		   routineView.selectionItemRoutine(enfant, $(event.target));
-    		   
+
     		   var tempsLibre = routine.getTempsLibreSecondes(new Date());
     		   routineView.rafraichirTempsJeux(enfant, tempsLibre);
         }
     });
-    
+
     function progress() {
 
         auMoinsUneRoutineActive = false;
@@ -152,24 +152,24 @@ $(document).ready(function() {
         if (auMoinsUneRoutineActive) {
             setTimeout(progress, 3000);
         }
-    }    
+    }
 
     $(".boutonPause").click(function() {
         var enfant = $(this).closest(".enfant");
         var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
         var routineView = new RoutineView(routine);
-        
+
         var itemRoutineEnCours = routine.getItemRoutineEnCours();
         itemRoutineEnCours.setStatut(statuts.PAUSE);
 
-        routineView.itemRoutinePause(enfant);  
+        routineView.itemRoutinePause(enfant);
     });
 
     $(".boutonReprendre").click(function() {
         var enfant = $(this).closest(".enfant");
         var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
         var routineView = new RoutineView(routine);
-        
+
         var itemRoutineEnCours = routine.getItemRoutinePause();
         var progressBar = $(enfant).find(".progressbar");
         var secondesProgressBar = progressBar.progressbar("value");
@@ -181,15 +181,15 @@ $(document).ready(function() {
             auMoinsUneRoutineActive = true;
             setTimeout(progress, 3000);
         }
-    });	
-	
+    });
+
     $(".boutonStop").click(function() {
         var enfant = $(this).closest(".enfant");
         var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
         var routineView = new RoutineView(routine);
-        
+
         var itemRoutineEnCours = routine.getItemRoutineEnCours();
-        
+
         var secondes = Math.round(itemRoutineEnCours.getSecondesEcoulees(new Date()));
         if (secondes <= itemRoutineEnCours.getTempsSecondes()) {
            itemRoutineEnCours.setStatut(statuts.FINI_SUCCES);
@@ -197,7 +197,7 @@ $(document).ready(function() {
            routine.sauvegarderNbrEtoilesRecompenseTotal("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_addNbrEtoiles.php", itemRoutineEnCours.getNbrEtoiles());
            routineView.afficherEtoiles(enfant, routine.getNbrEtoiles());
            routineView.afficherEmoticon(enfant, "images/emoticons/face-smile.png");
-           
+
            var tempsLibre = routine.getTempsLibreSecondes(new Date());
            routineView.rafraichirTempsJeux(enfant, tempsLibre);
         }
@@ -207,7 +207,7 @@ $(document).ready(function() {
         	  //alert("Trop tard");
         }
 
-        routineView.itemRoutineMarquerCompleter(enfant);  
+        routineView.itemRoutineMarquerCompleter(enfant);
 
         if (routine.estTerminee() && routine.meriteMedailleAValider()) {
             routine.addNbrMedaillesAValider(1);
@@ -217,10 +217,10 @@ $(document).ready(function() {
         }
         //routineItemMarquerCompleter(this);
     });
-        	
+
 	function RoutineView(routine) {
 		this.routine = routine;
-		
+
 	    this.affichageInitial = affichageInitial;
 	    function affichageInitial(enfant)
 	    {
@@ -236,7 +236,7 @@ $(document).ready(function() {
 			$(enfant).find(".chrono").hide();
 			$(enfant).find(".message").hide();
 	    }
-	    
+
 	    this.affichageTableauBordInitial = affichageTableauBordInitial;
 	    function affichageTableauBordInitial(enfant)
 	    {
@@ -248,7 +248,7 @@ $(document).ready(function() {
 	    	$(enfant).find(".tempsJeux").hide();
 	    	$(enfant).find(".tableauBordTempsLibre").hide();
 	    }
-	    
+
 	    this.affichageItemsRoutineInitial = affichageItemsRoutineInitial;
 	    function affichageItemsRoutineInitial(enfant)
 	    {
@@ -266,7 +266,7 @@ $(document).ready(function() {
 	    	    $(itemRoutine).find(".routineItemImg").attr("src", this.routine.getItemRoutine(i).getCheminImage());
 	    	}
 	    }
-	    
+
 	    this.affichageBoutonGo = affichageBoutonGo;
 	    function affichageBoutonGo(enfant) {
 	        var heure = $(enfant).find(".tableauBordTempsHeuresFinInput").val();
@@ -290,7 +290,7 @@ $(document).ready(function() {
 	            alert("Le temps total doit être plus grand que le temps total de la routine");
 	        }
 	    }
-	    
+
 	    this.affichageBoutonStop = affichageBoutonStop;
 	    function affichageBoutonStop(enfant) {
 	    	  $(enfant).find(".tableauBordTempsTotalRoutineMinutes").text(this.routine.getTotalTempsItemsRoutine());
@@ -303,24 +303,24 @@ $(document).ready(function() {
 	        $(tableauBord).find(".tableauBordTempsHeureFinBoutonStop").hide();
 	        $(tableauBord).find(".tableauBordTempsHeureFin").hide();
 	    }
-	    
+
 	    this.selectionItemRoutine = selectionItemRoutine;
 	    function selectionItemRoutine(enfant, itemRoutine) {
 	    	//alert("view selectionItemRoutine");
-	    	
+
 	    	$(enfant).find(".chrono").show();
-            
+
             var progressbarLocal = $(enfant).find(".progressbar");
             progressbarLocal.progressbar("value", 0);
-            
+
             var index = $(itemRoutine).find(".ui-selected").find(".routineItemIndex").text();
             //alert("index = " + index);
             var itemRoutine = this.routine.getItemRoutine(index);
-            
+
             var tempsItemRoutine = parseInt(itemRoutine.getTempsMinutes()) * 60;
             progressbarLocal.progressbar("option", "max", tempsItemRoutine);
             //alert(itemRoutine.getTempsMinutes() + " " + tempsItemRoutine);
-          
+
             $(enfant).find(".boutonStop").show();
             $(enfant).find(".boutonPause").show();
             $(enfant).find(".chrono").find(".boutonReprendre").hide();
@@ -328,7 +328,7 @@ $(document).ready(function() {
 
             setTimeout(progress, 3000);
 	    }
-	
+
        this.afficherEtoiles = afficherEtoiles;
        function afficherEtoiles(enfant, nbrEtoile) {
    	    var objDestination = $(enfant).find(".nbrEtoilesImg");
@@ -347,31 +347,31 @@ $(document).ready(function() {
 	      $(enfant).find(".nbrEtoilesRecompenseTotal").text(this.routine.getNbrEtoilesRecompenseTotal());
        }
 
-      this.itemRoutinePause = itemRoutinePause;   
+      this.itemRoutinePause = itemRoutinePause;
       function itemRoutinePause(enfant) {
           $(enfant).find(".boutonStop").hide();
           $(enfant).find(".boutonPause").hide();
           $(enfant).find(".boutonReprendre").show();
       }
 
-      this.itemRoutineReprendre = itemRoutineReprendre;   
+      this.itemRoutineReprendre = itemRoutineReprendre;
       function itemRoutineReprendre(enfant) {
           $(enfant).find(".boutonStop").show();
           $(enfant).find(".boutonPause").show();
           $(enfant).find(".boutonReprendre").hide();
       }
-   
-      this.itemRoutineMarquerCompleter = itemRoutineMarquerCompleter;   
+
+      this.itemRoutineMarquerCompleter = itemRoutineMarquerCompleter;
       function itemRoutineMarquerCompleter(enfant) {
           $(enfant).find(".ui-selected").addClass("routineItemTermine");
           $(enfant).find(".ui-selected").selectable({disabled: true});
           $(enfant).find(".routineItem").removeClass("ui-selected");
-          
+
           var tempTotalRoutineMinutes = this.routine.getTotalTempsItemsRoutineNonCompletes();
           $(enfant).find(".tableauBordTempsTotalRoutineMinutes").text(tempTotalRoutineMinutes);
-          
+
       }
-  
+
       this.afficherEmoticon = afficherEmoticon;
       function afficherEmoticon(enfant, src) {
       	 var objDestination = $(enfant).find(".messageImg")
@@ -405,7 +405,7 @@ $(document).ready(function() {
       	 $(enfant).find(".tableauBordTempsLibreMinutes").text(tempsJeuxRoutine);
           $(enfant).find(".tableauBordTempsLibre").show();
       	 if (tempsJeuxRoutine >  60) {
-              tempsJeuxRoutine = 60;      	 
+              tempsJeuxRoutine = 60;
       	 }
       	 //alert("tempsJeuxRoutine = " + tempsJeuxRoutine);
       	 $(obj).show();
@@ -414,7 +414,7 @@ $(document).ready(function() {
           }
           var height = Math.abs((parseInt(tempsJeuxRoutine) * 150 / 60) - 150);
           //alert("height = " + height);
-          
+
           $(obj).find(".tempsJeuxIndicateur").attr({style: "height: " + height + "px;"});
           $(obj).closest(".tableauBord").find(".tempsJeuxMinutes").text(tempsJeuxRoutine);
           $(obj).show();
