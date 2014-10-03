@@ -113,9 +113,15 @@ $(document).ready(function() {
     });
 
     $(".routine").selectable({
-        selected: function(event, ui) {
+        stop: function (event, ui) {
+            console.log("stop");
+            //$(event.target).children('.ui-selected').not(':first').removeClass('ui-selected');
+            $(event.target).children('.ui-selected').not(':first').find(".ui-selected").removeClass('ui-selected');
+            $(event.target).children('.ui-selected').not(':first').removeClass('ui-selected');
+
             var enfant = $(event.target).closest(".enfant");
             var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
+            routine.toStringDebug();
 
             var index = $(enfant).find(".ui-selected").find(".routineItemIndex").text();
             //alert("index = " + index);
@@ -123,10 +129,10 @@ $(document).ready(function() {
             itemRoutine.debuter(new Date());
 
             var routineView = new RoutineView(routine);
-    		   routineView.selectionItemRoutine(enfant, $(event.target));
+            routineView.selectionItemRoutine(enfant, $(event.target));
 
-    		   var tempsLibre = routine.getTempsLibreSecondes(new Date());
-    		   routineView.rafraichirTempsJeux(enfant, tempsLibre);
+            var tempsLibre = routine.getTempsLibreSecondes(new Date());
+            routineView.rafraichirTempsJeux(enfant, tempsLibre);
         }
     });
 
