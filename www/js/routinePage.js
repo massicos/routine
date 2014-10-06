@@ -220,7 +220,6 @@ $(document).ready(function() {
 
             routineView.routineParfaite(enfant);
         }
-        //routineItemMarquerCompleter(this);
     });
 
 	function RoutineView(routine) {
@@ -374,8 +373,9 @@ $(document).ready(function() {
       this.itemRoutineMarquerCompleter = itemRoutineMarquerCompleter;
       function itemRoutineMarquerCompleter(enfant) {
           $(enfant).find(".ui-selected").addClass("routineItemTermine");
-          $(enfant).find(".ui-selected").selectable({disabled: true});
+          $(enfant).find(".routineItem").find(".ui-selected").removeClass("ui-selected");
           $(enfant).find(".routineItem").removeClass("ui-selected");
+          $(enfant).find(".ui-selected").selectable({disabled: true});
 
           var tempTotalRoutineMinutes = this.routine.getTotalTempsItemsRoutineNonCompletes();
           $(enfant).find(".tableauBordTempsTotalRoutineMinutes").text(tempTotalRoutineMinutes);
@@ -423,7 +423,6 @@ $(document).ready(function() {
               tempsJeuxRoutine = parseInt(tempsJeuxRoutine) * -1;
           }
           var height = Math.abs((parseInt(tempsJeuxRoutine) * 150 / 60) - 150);
-          //alert("height = " + height);
 
           $(obj).find(".tempsJeuxIndicateur").attr({style: "height: " + height + "px;"});
           $(obj).closest(".tableauBord").find(".tempsJeuxMinutes").text(tempsJeuxRoutine);
