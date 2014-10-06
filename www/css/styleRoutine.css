@@ -36,6 +36,9 @@
     border-radius: 5px;
     vertical-align: middle;
 }
+.routineItemIndex {
+    display: none;
+}
 .routineItemInfoTemps {
     margin-left: 15px;
 }
@@ -92,7 +95,7 @@ h1 {
     margin-top: 3px
 }
 .totaux {
-    text-align: center;    
+    text-align: center;
 }
 .nbrEtoilesImg {
     display:inline-block;
