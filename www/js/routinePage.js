@@ -62,9 +62,9 @@ $(document).ready(function() {
         var max = famille.getNbrRoutines();
 		for (var i = 0; i < max; i++) {
             var routine = famille.getRoutineParIndex(i);
-            if (routines[i].estPretDebuter()) {
+            if (routine.estPretDebuter()) {
 		        if (!routine.estEnCoursItemRoutine()) {
-		            var tempsLibre = routines[i].getTempsLibreSecondes(new Date());
+		            var tempsLibre = routine.getTempsLibreSecondes(new Date());
 		            var routineView = new RoutineView(routine);
 		            routineView.rafraichirTempsJeux($("#enfant_" + routine.getPrenomNormalise()), tempsLibre);
 		        }
