@@ -114,8 +114,6 @@ $(document).ready(function() {
 
     $(".routine").selectable({
         stop: function (event, ui) {
-            console.log("stop");
-            //$(event.target).children('.ui-selected').not(':first').removeClass('ui-selected');
             $(event.target).children('.ui-selected').not(':first').find(".ui-selected").removeClass('ui-selected');
             $(event.target).children('.ui-selected').not(':first').removeClass('ui-selected');
 
@@ -124,12 +122,12 @@ $(document).ready(function() {
             routine.toStringDebug();
 
             var index = $(enfant).find(".ui-selected").find(".routineItemIndex").text();
-            //alert("index = " + index);
             var itemRoutine = routine.getItemRoutine(index);
             itemRoutine.debuter(new Date());
 
             var routineView = new RoutineView(routine);
             routineView.selectionItemRoutine(enfant, $(event.target));
+            routineView.desactiverSelectionItemRoutineNonComplete(event.target);
 
             var tempsLibre = routine.getTempsLibreSecondes(new Date());
             routineView.rafraichirTempsJeux(enfant, tempsLibre);
@@ -214,6 +212,7 @@ $(document).ready(function() {
         }
 
         routineView.itemRoutineMarquerCompleter(enfant);
+        routineView.activerSelectionItemRoutineNonComplete($(enfant).find(".routine"));
 
         if (routine.estTerminee() && routine.meriteMedailleAValider()) {
             routine.addNbrMedaillesAValider(1);
@@ -277,7 +276,6 @@ $(document).ready(function() {
 	    function affichageBoutonGo(enfant) {
 	        var heure = $(enfant).find(".tableauBordTempsHeuresFinInput").val();
 	        var minutes = $(enfant).find(".tableauBordTempsMinutesFinInput").val();
-	        //alert(heure + ":" + minutes);
 	        var dateFin = new Date();
 	        dateFin.setHours(heure, minutes, 0);
 	        routine.setDateFin(dateFin);
@@ -312,20 +310,16 @@ $(document).ready(function() {
 
 	    this.selectionItemRoutine = selectionItemRoutine;
 	    function selectionItemRoutine(enfant, itemRoutine) {
-	    	//alert("view selectionItemRoutine");
-
 	    	$(enfant).find(".chrono").show();
 
             var progressbarLocal = $(enfant).find(".progressbar");
             progressbarLocal.progressbar("value", 0);
 
             var index = $(itemRoutine).find(".ui-selected").find(".routineItemIndex").text();
-            //alert("index = " + index);
             var itemRoutine = this.routine.getItemRoutine(index);
 
             var tempsItemRoutine = parseInt(itemRoutine.getTempsMinutes()) * 60;
             progressbarLocal.progressbar("option", "max", tempsItemRoutine);
-            //alert(itemRoutine.getTempsMinutes() + " " + tempsItemRoutine);
 
             $(enfant).find(".boutonStop").show();
             $(enfant).find(".boutonPause").show();
@@ -334,6 +328,16 @@ $(document).ready(function() {
 
             setTimeout(progress, 3000);
 	    }
+
+        this.desactiverSelectionItemRoutineNonComplete = desactiverSelectionItemRoutineNonComplete;
+        function desactiverSelectionItemRoutineNonComplete(listeItemRoutine) {
+            $(listeItemRoutine).selectable("disable");
+        }
+
+        this.activerSelectionItemRoutineNonComplete = activerSelectionItemRoutineNonComplete;
+        function activerSelectionItemRoutineNonComplete(listeItemRoutine) {
+            $(listeItemRoutine).selectable("enable");
+        }
 
        this.afficherEtoiles = afficherEtoiles;
        function afficherEtoiles(enfant, nbrEtoile) {
