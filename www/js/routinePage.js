@@ -21,32 +21,9 @@ $(document).ready(function() {
 	routine1.addItemRoutine(new ItemRoutine("Se peigner", "../routinePerso/images/itemsRoutine/peigner.jpg", 5, 4));
 	routine1.addItemRoutine(new ItemRoutine("Faire son lit", "../routinePerso/images/itemsRoutine/faireSonLit.jpg", 5, 3));
     famille.addRoutine(routine1);
-/*
-	var routines = new Array();
-	routines[0] = new Routine("0", 0, 0, 0, 1, 2, 1);
-	routines[0].charger("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_charger.php");
-	routines[0].setPhoto("../routinePerso/images/photos/Charles1.jpg");
-	routines[0].addItemRoutine(new ItemRoutine("Déjeuner", "../routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 8));
-	routines[0].addItemRoutine(new ItemRoutine("S'habiller", "../routinePerso/images/itemsRoutine/habiller.jpg", 8, 4));
-	routines[0].addItemRoutine(new ItemRoutine("Brosser les dents", "../routinePerso/images/itemsRoutine/brosserDents.jpg", 5, 3));
-	routines[0].addItemRoutine(new ItemRoutine("Faire son lit", "../routinePerso/images/itemsRoutine/faireSonLit.jpg", 5, 3));
-	routines[1] = new Routine("1", 0, 0, 0, 1, 1, 1);
-	routines[1].charger("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_charger.php");
-	routines[1].setPhoto("../routinePerso/images/photos/Leanne1.jpg");
-	routines[1].addItemRoutine(new ItemRoutine("Déjeuner", "../routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 8));
-	routines[1].addItemRoutine(new ItemRoutine("S'habiller", "../routinePerso/images/itemsRoutine/habiller.jpg", 8, 4));
-	routines[1].addItemRoutine(new ItemRoutine("Brosser les dents", "../routinePerso/images/itemsRoutine/brosserDents.jpg", 5, 3));
-	routines[1].addItemRoutine(new ItemRoutine("Se peigner", "../routinePerso/images/itemsRoutine/peigner.jpg", 5, 4));
-	routines[1].addItemRoutine(new ItemRoutine("Faire son lit", "../routinePerso/images/itemsRoutine/faireSonLit.jpg", 5, 3));
-*/
+
     var headerView = new HeaderView(famille);
     headerView.affichageInitial();
-
-	var max = famille.getNbrRoutines();
-	for (var i = 0; i < max; i++) {
-		var routineView = new RoutineView(famille.getRoutineParIndex(i));
-		routineView.affichageInitial($(".enfant")[i]);
-	}
 
 	function trouverRoutine(prenom) {
         var max = famille.getNbrRoutines();
@@ -222,6 +199,13 @@ $(document).ready(function() {
         }
     });
 
+
+    var max = famille.getNbrRoutines();
+    for (var i = 0; i < max; i++) {
+        var routineView = new RoutineView(famille.getRoutineParIndex(i));
+        routineView.affichageInitial($(".enfant")[i]);
+    }
+
 	function RoutineView(routine) {
 		this.routine = routine;
 
@@ -239,6 +223,8 @@ $(document).ready(function() {
 			this.affichageItemsRoutineInitial(enfant);
 			$(enfant).find(".chrono").hide();
 			$(enfant).find(".message").hide();
+
+            this.desactiverSelectionItemRoutineNonComplete($(enfant).find(".routine"));
 	    }
 
 	    this.affichageTableauBordInitial = affichageTableauBordInitial;
@@ -286,6 +272,7 @@ $(document).ready(function() {
 	            $(tableauBord).find(".tableauBordTempsHeureFin").text(heure + ":" + minutes);
 	            $(tableauBord).find(".tableauBordTempsHeureFin").show();
 	            this.rafraichirTempsJeux(enfant, tempsLibre);
+                this.activerSelectionItemRoutineNonComplete($(enfant).find(".routine"));
 	        }
 	        else {
 	            alert("Le temps total doit être plus grand que le temps total de la routine");
