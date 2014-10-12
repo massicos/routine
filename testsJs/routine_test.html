@@ -10,13 +10,25 @@
         <script src="../www/js/routine.js"></script>
         <script>
             var p = false;
+            var dateFin = false;
+            var dateFinAnnee;
+            var dateFinMois;
+            var dateFinJour;
+            var dateFinHeure;
+            var dateFinMinutes;
 
             module("module A", {
                 setup: function() {
                    p = new Routine("Léanne", 0, 0, 0, 1, 2, 3);
+                   dateFinAnnee = 1993;
+                   dateFinMois = 5;
+                   dateFinJour = 09;
+                   dateFinHeure = 21;
+                   dateFinMinutes = 0;
+                   dateFin = new Date(dateFinAnnee, dateFinMois, dateFinJour, dateFinHeure, dateFinMinutes);
                 },
                 teardown: function() {
-// clean up after each test 
+// clean up after each test
                 }
             });
 
@@ -37,14 +49,6 @@
 
                 p.setPhoto("images/photo1.jpg");
                 equal(p.getPhoto(), "images/photo1.jpg");
-            });
-
-            test("Routine dateFinRoutine", function() {
-            	equal(p.getDateFin(), false);
-                var dateFin = new Date(1993, 06, 09, 21, 00);
-
-                p.setDateFin(dateFin);
-                equal(p.getDateFin(), dateFin);
             });
 
             test("Routine getNbrItemRoutine 0", function() {
@@ -101,41 +105,67 @@
             });
 
             function setUpGetTempsLibre() {
-            	var dateFin = new Date(1993, 06, 09, 21, 00);
-            	p.setDateFin(dateFin);
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3));
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
             }
 
-            test("Routine getTempsLibre 1", function() {
+
+            test("Routine setDateFin 1", function() {
                 setUpGetTempsLibre();
-            	equal(p.getTempsLibreSecondes(new Date(1993, 06, 09, 20, 00)), 1680);
+                equal(p.setDateFin(dateFin,
+                    new Date(dateFinAnnee, dateFinMois, dateFinJour, dateFinHeure , dateFinMinutes - 60, 0, 0)),
+                    1680);
+                equal(p.getDateFin(), dateFin);
+                equal(p.estPretDebuter(), true);
+                equal(p.getTempsLibreSecondes(new Date(dateFinAnnee, dateFinMois, dateFinJour, dateFinHeure , dateFinMinutes - 60, 0, 0)),
+                    1680);
             });
 
-            test("Routine getTempsLibre 2", function() {
+            test("Routine setDateFin 2", function() {
                 setUpGetTempsLibre();
-            	equal(p.getTempsLibreSecondes(new Date(1993, 06, 09, 20, 08)), 1200);
+                equal(p.setDateFin(dateFin,
+                    new Date(dateFinAnnee, dateFinMois, dateFinJour, dateFinHeure , dateFinMinutes - 52, 0, 0)),
+                    1200);
+                equal(p.getDateFin(), dateFin);
+                equal(p.estPretDebuter(), true);
+                equal(p.getTempsLibreSecondes(new Date(dateFinAnnee, dateFinMois, dateFinJour, dateFinHeure , dateFinMinutes - 52, 0, 0)),
+                    1200);
             });
 
-            test("Routine getTempsLibre 3", function() {
+            test("Routine setDateFin 3", function() {
                 setUpGetTempsLibre();
-            	equal(p.getTempsLibreSecondes(new Date(1993, 06, 09, 21, 00)), 0);
+                equal(p.setDateFin(dateFin, new Date(dateFin)), 0);
+                equal(p.getDateFin(), false);
+                equal(p.estPretDebuter(), false);
+                equal(p.getTempsLibreSecondes(new Date(dateFin)), 0);
             });
 
-            test("Routine getTempsLibre 4", function() {
+            test("Routine setDateFin 4", function() {
                 setUpGetTempsLibre();
-            	equal(p.getTempsLibreSecondes(new Date(1993, 06, 09, 20, 28)), 0);
+                equal(p.setDateFin(dateFin,
+                    new Date(dateFinAnnee, dateFinMois, dateFinJour, dateFinHeure , dateFinMinutes - 32, 0, 0)),
+                    0);
+                equal(p.getDateFin(), dateFin);
+                equal(p.estPretDebuter(), true);
+                equal(p.getTempsLibreSecondes(new Date(dateFinAnnee, dateFinMois, dateFinJour, dateFinHeure , dateFinMinutes - 32, 0, 0)),
+                    0);
             });
 
-            test("Routine getTempsLibre 5", function() {
+            test("Routine setDateFin 5", function() {
                 setUpGetTempsLibre();
-            	equal(p.getTempsLibreSecondes(new Date(1993, 06, 09, 20, 27)), 60);
+                equal(p.setDateFin(dateFin,
+                    new Date(dateFinAnnee, dateFinMois, dateFinJour, dateFinHeure , dateFinMinutes - 33, 0, 0)),
+                    60);
+                equal(p.getDateFin(), dateFin);
+                equal(p.estPretDebuter(), true);
+                equal(p.getTempsLibreSecondes(new Date(dateFinAnnee, dateFinMois, dateFinJour, dateFinHeure , dateFinMinutes - 33, 0, 0)),
+                    60);
             });
 
             test("Routine estEnCoursItemRoutine faux vide", function() {
             	equal(p.estEnCoursItemRoutine(), false);
             });
-            
+
             test("Routine estEnCoursItemRoutine faux 1", function() {
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3));
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
@@ -149,7 +179,7 @@
             	itemRoutine.setStatut(statuts.PAUSE);
             	equal(p.estEnCoursItemRoutine(), false);
             });
-            
+
             test("Routine estEnCoursItemRoutine vrai", function() {
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3));
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
@@ -163,23 +193,23 @@
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
             	var itemRoutine = p.getItemRoutine(0);
             	itemRoutine.setStatut(statuts.EN_COURS);
-            	var itemRoutineEnCours = p.getItemRoutineEnCours();  
+            	var itemRoutineEnCours = p.getItemRoutineEnCours();
             	equal(itemRoutineEnCours.getTexte(), "Texte de l'item 0");
             });
-            
+
             test("Routine getItemRoutineEnCours 1", function() {
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3));
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
             	var itemRoutine = p.getItemRoutine(1);
             	itemRoutine.setStatut(statuts.EN_COURS);
-            	var itemRoutineEnCours = p.getItemRoutineEnCours();  
+            	var itemRoutineEnCours = p.getItemRoutineEnCours();
             	equal(itemRoutineEnCours.getTexte(), "Texte de l'item 1");
             });
-            
+
             test("Routine getItemRoutineEnCours false", function() {
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3));
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
-            	var itemRoutineEnCours = p.getItemRoutineEnCours();  
+            	var itemRoutineEnCours = p.getItemRoutineEnCours();
             	equal(itemRoutineEnCours, false);
             });
 
@@ -220,40 +250,40 @@
             	equal(itemRoutine, false);
             });
 
-            test("Routine getNbrEtoiles 0-1", function() {  
+            test("Routine getNbrEtoiles 0-1", function() {
             	equal(p.getNbrEtoiles(), 0);
             });
-                        
+
             test("Routine getNbrEtoiles 0-2", function() {
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3));
-            	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));  
+            	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
             	equal(p.getNbrEtoiles(), 0);
             });
-            
+
             test("Routine getNbrEtoiles 0-2", function() {
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 3));
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
             	var itemRoutine = p.getItemRoutine(0);
             	itemRoutine.setStatut(statuts.EN_COURS);
-            	var itemRoutineEnCours = p.getItemRoutineEnCours();  
+            	var itemRoutineEnCours = p.getItemRoutineEnCours();
             	equal(p.getNbrEtoiles(), 0);
             });
-            
+
             test("Routine getNbrEtoiles 2", function() {
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 2));
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
             	var itemRoutine = p.getItemRoutine(0);
             	itemRoutine.setStatut(statuts.FINI_SUCCES);
-            	var itemRoutineEnCours = p.getItemRoutineEnCours();  
+            	var itemRoutineEnCours = p.getItemRoutineEnCours();
             	equal(p.getNbrEtoiles(), 2);
             });
-            
+
             test("Routine getNbrEtoiles 3-1", function() {
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 2));
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
             	var itemRoutine = p.getItemRoutine(1);
             	itemRoutine.setStatut(statuts.FINI_SUCCES);
-            	var itemRoutineEnCours = p.getItemRoutineEnCours();  
+            	var itemRoutineEnCours = p.getItemRoutineEnCours();
             	equal(p.getNbrEtoiles(), 3);
             });
 
@@ -265,10 +295,10 @@
             	var itemRoutineEnCours = p.getItemRoutineEnCours();
             	var itemRoutine = p.getItemRoutine(1);
             	itemRoutine.setStatut(statuts.FINI_SUCCES);
-            	var itemRoutineEnCours = p.getItemRoutineEnCours();            	  
+            	var itemRoutineEnCours = p.getItemRoutineEnCours();
             	equal(p.getNbrEtoiles(), 3);
             });
-            
+
             test("Routine getNbrEtoiles 5", function() {
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 2));
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
@@ -277,34 +307,34 @@
             	var itemRoutineEnCours = p.getItemRoutineEnCours();
             	var itemRoutine = p.getItemRoutine(1);
             	itemRoutine.setStatut(statuts.FINI_SUCCES);
-            	var itemRoutineEnCours = p.getItemRoutineEnCours();            	  
+            	var itemRoutineEnCours = p.getItemRoutineEnCours();
             	equal(p.getNbrEtoiles(), 5);
             });
-	    
-            test("Routine getNbrEtoilesRecompenseTotal 1", function() { 
+
+            test("Routine getNbrEtoilesRecompenseTotal 1", function() {
             	equal(p.getNbrEtoilesRecompenseTotal(), 0);
                 p = new Routine("Léanne", 5, 2, 5, 1, 1, 1);
                 equal(p.getNbrEtoilesRecompenseTotal(), 5);
             });
-	    
+
             test("Routine addNbrEtoilesRecompenseTotal 1", function() {
                 p.addNbrEtoilesRecompenseTotal(10);
                 equal(p.getNbrEtoilesRecompenseTotal(), 10);
             });
 
 
-            test("Routine getNbrMedaillesAValider 1", function() { 
+            test("Routine getNbrMedaillesAValider 1", function() {
             	equal(p.getNbrMedaillesAValider(), 0);
                 p = new Routine("Léanne", 5, 2, 5, 1, 1, 1);
                 equal(p.getNbrMedaillesAValider(), 5);
             });
-	    
+
             test("Routine addNbrEtoilesRecompenseTotal 1", function() {
                 p.addNbrMedaillesAValider(10);
                 equal(p.getNbrMedaillesAValider(), 10);
             });
 
-	    
+
             test("Routine estPretDebuter 0", function() {
             	equal(p.estPretDebuter(), false);
             });
@@ -314,13 +344,6 @@
             	equal(p.estPretDebuter(), false);
             });
 
-            test("Routine estPretDebuter 2", function() {
-            	p.addItemRoutine(new ItemRoutine("Texte de l'item 0", "routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 2));
-                var dateFin = new Date(1993, 06, 09, 21, 00);
-                p.setDateFin(dateFin);
-            	equal(p.estPretDebuter(), true);
-            });
-	    
             test("Routine getIds 1", function() {
                 equal(p.getIdFamille(), 1);
                 equal(p.getIdEnfant(), 2);
@@ -402,7 +425,7 @@
             	itemRoutine.setStatut(statuts.FINI_ECHEC);
             	equal(p.meriteMedailleAValider(), false);
             });
-            
+
         </script>
     </head>
     <body>

@@ -6,11 +6,11 @@ function Routine(prenom, nbrEtoilesRecompenseTotal, nbrMedailles, nbrMedaillesAV
     this.nbrEtoilesRecompenseTotal = nbrEtoilesRecompenseTotal;
     this.nbrMedailles = nbrMedailles;
     this.nbrMedaillesAValider = nbrMedaillesAValider;
-    
+
     this.idFamille = idFamille;
     this.idEnfant = idEnfant;
     this.idRoutine = idRoutine;
-    
+
     this.itemsRoutine = new Array();
 
     this.getPrenom = getPrenom;
@@ -52,9 +52,15 @@ function Routine(prenom, nbrEtoilesRecompenseTotal, nbrMedailles, nbrMedaillesAV
     }
 
     this.setDateFin = setDateFin;
-    function setDateFin(dateFinRoutine)
-    {
-        this.dateFin = dateFinRoutine;
+    function setDateFin(dateFin, dateComparaison)
+        {
+            var tempsLibre = this.calculTempsLibre(dateFin, dateComparaison);
+            if (tempsLibre < 0) {
+                this.dateFin = false;
+                return 0;
+            }
+            this.dateFin = dateFin;
+            return tempsLibre;
     }
 
     this.getTempsJeuxMinutes = getTempsJeuxMinutes;
@@ -74,19 +80,19 @@ function Routine(prenom, nbrEtoilesRecompenseTotal, nbrMedailles, nbrMedaillesAV
     {
         return this.idEnfant;
     }
-    
+
     this.getIdRoutine = getIdRoutine;
     function getIdRoutine()
     {
         return this.idRoutine;
     }
-    
+
     this.getNbrItemRoutine = getNbrItemRoutine;
     function getNbrItemRoutine()
     {
         return this.itemsRoutine.length;
     }
-    
+
     this.addItemRoutine = addItemRoutine;
     function addItemRoutine(itemRoutine)
     {
@@ -135,16 +141,13 @@ function Routine(prenom, nbrEtoilesRecompenseTotal, nbrMedailles, nbrMedaillesAV
     this.getTempsLibreSecondes = getTempsLibreSecondes;
     function getTempsLibreSecondes(dateComparaison)
     {
-    	var totalTempsItemsRoutineNonCompletes = this.getTotalTempsItemsRoutineNonCompletes();
-    	dateComparaison.setMinutes(dateComparaison.getMinutes() + totalTempsItemsRoutineNonCompletes);
-
-    	var tempsLibre = (this.dateFin - dateComparaison) / 1000;
+        var tempsLibre = this.calculTempsLibre(this.dateFin, dateComparaison);
         if (tempsLibre < 0) {
             return 0;
         }
         return tempsLibre;
     }
-    
+
     this.estEnCoursItemRoutine = estEnCoursItemRoutine;
     function estEnCoursItemRoutine()
     {
@@ -173,7 +176,7 @@ function Routine(prenom, nbrEtoilesRecompenseTotal, nbrMedailles, nbrMedaillesAV
 
     	return false;
     }
-    
+
     this.getItemRoutineEnCours = getItemRoutineEnCours;
     function getItemRoutineEnCours()
     {
@@ -226,7 +229,7 @@ function Routine(prenom, nbrEtoilesRecompenseTotal, nbrMedailles, nbrMedaillesAV
     	}
     	return nbrEtoiles;
     }
-    
+
     this.getNbrEtoilesRecompenseTotal = getNbrEtoilesRecompenseTotal;
     function getNbrEtoilesRecompenseTotal() {
         return this.nbrEtoilesRecompenseTotal;
@@ -236,7 +239,7 @@ function Routine(prenom, nbrEtoilesRecompenseTotal, nbrMedailles, nbrMedaillesAV
     function getNbrMedailles() {
         return this.nbrMedailles;
     }
-    
+
     this.getNbrMedaillesAValider = getNbrMedaillesAValider;
     function getNbrMedaillesAValider() {
         return this.nbrMedaillesAValider;
@@ -246,7 +249,7 @@ function Routine(prenom, nbrEtoilesRecompenseTotal, nbrMedailles, nbrMedaillesAV
     function addNbrEtoilesRecompenseTotal(nbrEtoiles) {
         this.nbrEtoilesRecompenseTotal = this.nbrEtoilesRecompenseTotal + nbrEtoiles;
     }
-    
+
 
     this.addNbrMedaillesAValider = addNbrMedaillesAValider;
     function addNbrMedaillesAValider(nbrMedailles) {
@@ -255,7 +258,7 @@ function Routine(prenom, nbrEtoilesRecompenseTotal, nbrMedailles, nbrMedaillesAV
 
     this.charger = charger;
     function charger(url) {
-	
+
         url = url + "?idFamille=" + this.idFamille + "&idEnfant=" + this.idEnfant + "&idRoutine=" + this.idRoutine;
         var jqxhr = $.ajax( {
 		url: url,
@@ -352,5 +355,14 @@ function Routine(prenom, nbrEtoilesRecompenseTotal, nbrMedailles, nbrMedaillesAV
     		}
     	}
         return true;
+    }
+
+    this.calculTempsLibre = calculTempsLibre;
+    function calculTempsLibre(dateFin, dateComparaison) {
+        var totalTempsItemsRoutineNonCompletes = this.getTotalTempsItemsRoutineNonCompletes();
+        dateComparaison.setMinutes(dateComparaison.getMinutes() + totalTempsItemsRoutineNonCompletes);
+        var tempsLibre = (dateFin - dateComparaison) / 1000;
+
+        return tempsLibre;
     }
 }

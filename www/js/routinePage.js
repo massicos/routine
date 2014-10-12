@@ -79,7 +79,7 @@ $(document).ready(function() {
         var enfant = $(this).closest(".enfant");
         var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
         var routineView = new RoutineView(routine);
-		  routineView.affichageBoutonGo(enfant);
+        routineView.affichageBoutonGo(enfant);
     });
 
     $(".tableauBordTempsHeureFinBoutonStop").click(function() {
@@ -277,14 +277,12 @@ $(document).ready(function() {
 	        var minutes = $(enfant).find(".tableauBordTempsMinutesFinInput").val();
 	        var dateFin = new Date();
 	        dateFin.setHours(heure, minutes, 0);
-	        routine.setDateFin(dateFin);
-	        var tempsLibre = routine.getTempsLibreSecondes(new Date());
+	        var tempsLibre = routine.setDateFin(dateFin, new Date());
 	        if (tempsLibre > 0) {
 	        	var tableauBord = $(enfant).find(".tableauBord");
 	            $(tableauBord).find(".tableauBordTempsFinEdit").hide();
 	            $(tableauBord).find(".tableauBordTempsHeureFinBoutonGo").hide();
 	            $(tableauBord).find(".tableauBordTempsHeureFinBoutonStop").show();
-	            //alert(heure + ":" + minutes);
 	            $(tableauBord).find(".tableauBordTempsHeureFin").text(heure + ":" + minutes);
 	            $(tableauBord).find(".tableauBordTempsHeureFin").show();
 	            this.rafraichirTempsJeux(enfant, tempsLibre);
