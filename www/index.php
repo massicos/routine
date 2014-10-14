@@ -23,8 +23,8 @@ require_once("config.php");
         <script src="js/configApp.js"></script>
         <script src="js/config.js"></script>
         <script src="js/itemRoutine.js"></script>
-        <script src="js/routine.js"></script>  
-        <script src="js/famille.js"></script>  
+        <script src="js/routine.js"></script>
+        <script src="js/famille.js"></script>
         <script src="js/tableauBordPage.js"></script>
         <script src="js/headerView.js"></script>
         <script src="js/dialogValiderMedailles.js"></script>
@@ -36,6 +36,7 @@ require_once("config.php");
 <button id="ouvrirDialog">Valider les médailles</button>
 <div id="dialog-confirm" title="Validation des médailles">
 <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span></p>
+Mot de passe - Mode parent : <input type="text" name="mdpParent" id="mdpParent">
 </div>
         <ul>
             <li><a href="routine.php">Routine du matin</a>
