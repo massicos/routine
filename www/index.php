@@ -32,11 +32,11 @@ require_once("config.php");
     </head>
     <body>
         <?php require_once('/app/routine' . $configApp->getSuffixeCheminpParNiveau() . '/gabarits/header.php'); ?>
-
+<div id="modeParentActif">Mode parent actif <a id="modeParentQuitter" href="#">Quitter</a></div>
 <button id="ouvrirDialog">Valider les médailles</button>
-<div id="dialog-confirm" title="Validation des médailles">
-<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span></p>
-Mot de passe - Mode parent : <input type="text" name="mdpParent" id="mdpParent">
+<div id="dialog-confirm" title="Mode parent">
+Mot de passe : <input type="password" name="mdpParent" id="mdpParent">
+<div id="mdpInvalide">Erreur, mot de passe invalide.</div>
 </div>
         <ul>
             <li><a href="routine.php">Routine du matin</a>
