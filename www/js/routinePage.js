@@ -82,6 +82,7 @@ $(document).ready(function() {
         	       itemRoutineEnCours.setStatut(statuts.FINI_ECHEC);
         	       routineView.afficherEmoticon(enfant, "images/emoticons/face-sad.png");
         	       routineView.itemRoutineMarquerCompleter(enfant);
+                   routineView.activerSelectionItemRoutineNonComplete($(enfant).find(".routine"));
 
         	       var tempsLibre = routine.getTempsLibreSecondes(new Date());
     		       routineView.rafraichirTempsJeux(enfant, tempsLibre);
