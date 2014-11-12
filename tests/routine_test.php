@@ -141,4 +141,37 @@ class routine_test extends PHPUnit_Framework_TestCase {
         $this->assertEquals('{"prenom":"Charles","nbrEtoilesRecompenseTotal":22,"nbrMedailles":10,"nbrMedaillesAValider":5}', $this->routine->toJson());
     }
 
+    public function test_validerMedailles() {
+        $this->routine = new Routine("Charles", 22, 10, 5);
+
+        $this->routine->validerMedailles(5);
+        $this->assertEquals(15, $this->routine->getNbrMedailles());
+        $this->assertEquals(0, $this->routine->getNbrMedaillesAValider());
+    }
+
+    public function test_validerMedailles_2() {
+        $this->routine = new Routine("Charles", 22, 10, 5);
+
+        $this->routine->validerMedailles(2);
+        $this->assertEquals(12, $this->routine->getNbrMedailles());
+        $this->assertEquals(0, $this->routine->getNbrMedaillesAValider());
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function test_validerMedailles_3() {
+        $this->routine = new Routine("Charles", 22, 10, 5);
+
+        $this->routine->validerMedailles(6);
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function test_validerMedailles_4() {
+        $this->routine = new Routine("Charles", 22, 10, 5);
+
+        $this->routine->validerMedailles("a");
+    }
 }

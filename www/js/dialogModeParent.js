@@ -1,5 +1,5 @@
 $(function () {
-    monDialog = $("#dialog-confirm").dialog({
+    monDialog = $("#dialogModeParent").dialog({
         autoOpen: false,
         resizable: false,
         height: 120,
@@ -20,7 +20,8 @@ $(function () {
                     console.log( "success " +  msg.nom + " " + msg.modeParent);
                     if (msg.modeParent) {
                         $("#btnOuvrirDialogModeParent").hide();
-                        $("#modeParentActif").show();
+                        famille.setModeParent(true);
+                        tableauBordView.affichageModeParent($(".tableauBord"));
                         $(this).dialog("close");
                     } else {
                         $("#modeParentMessage").text("Erreur, mot de passe invalide.");
@@ -61,8 +62,8 @@ $(function () {
         })
         .done(function(msg) {
             console.log( "success " +  msg.nom + " " + msg.modeParent);
-            $("#modeParentActif").hide();
-            $("#btnOuvrirDialogModeParent").show();
+            famille.setModeParent(false);
+            tableauBordView.affichageModeParent($(".tableauBord"));
         })
         .fail(function(msg) {
             console.log( "error" + msg.erreur);

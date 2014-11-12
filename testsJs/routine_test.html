@@ -334,6 +334,62 @@
                 equal(p.getNbrMedaillesAValider(), 10);
             });
 
+            test("Routine addNbrMedaille 1", function() {
+                p.addNbrMedaille(10);
+                equal(p.getNbrMedailles(), 10);
+            });
+
+            test("Routine addNbrMedaille 2", function() {
+                p.addNbrMedaille(1);
+                equal(p.getNbrMedailles(), 1);
+            });
+
+            test("Routine validerMedaille 1", function() {
+                p.addNbrMedaillesAValider(10);
+                p.validerMedaille(10);
+                equal(p.getNbrMedailles(), 10);
+                equal(p.getNbrMedaillesAValider(), 0);
+            });
+
+            test("Routine validerMedaille 2", function() {
+                p.addNbrMedaillesAValider(10);
+                p.addNbrMedaille(10);
+                p.validerMedaille(10);
+                equal(p.getNbrMedailles(), 20);
+                equal(p.getNbrMedaillesAValider(), 0);
+            });
+
+            test("Routine validerMedaille 3", function() {
+                p.addNbrMedaillesAValider(10);
+                p.addNbrMedaille(10);
+                p.validerMedaille(0);
+                equal(p.getNbrMedailles(), 10);
+                equal(p.getNbrMedaillesAValider(), 0);
+            });
+
+            test("Routine validerMedaille 3", function() {
+                p.addNbrMedaillesAValider(12);
+                p.addNbrMedaille(10);
+                equal(p.validerMedaille(22), false);
+                equal(p.getNbrMedailles(), 10);
+                equal(p.getNbrMedaillesAValider(), 12);
+            });
+
+            test("Routine validerMedaille 3", function() {
+                p.addNbrMedaillesAValider(12);
+                p.addNbrMedaille(10);
+                equal(p.validerMedaille("a"), false);
+                equal(p.getNbrMedailles(), 10);
+                equal(p.getNbrMedaillesAValider(), 12);
+            });
+
+            test("Routine validerMedaille 4", function() {
+                p.addNbrMedaillesAValider(12);
+                p.addNbrMedaille(10);
+                equal(p.validerMedaille("-1"), false);
+                equal(p.getNbrMedailles(), 10);
+                equal(p.getNbrMedaillesAValider(), 12);
+            });
 
             test("Routine estPretDebuter 0", function() {
             	equal(p.estPretDebuter(), false);

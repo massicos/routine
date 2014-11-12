@@ -63,7 +63,7 @@ class Routine implements IstockageJson {
         $routineStdClass->nbrEtoilesRecompenseTotal = $this->nbrEtoilesRecompenseTotal;
         $routineStdClass->nbrMedailles = $this->nbrMedailles;
         $routineStdClass->nbrMedaillesAValider = $this->nbrMedaillesAValider;
-        
+
         return json_encode($routineStdClass);
     }
     public function charger($idFamille, $idEnfant, $idRoutine) {
@@ -76,13 +76,13 @@ class Routine implements IstockageJson {
         $fp = fopen($cheminFichier, "r");
         $str = fread($fp, filesize($cheminFichier));
         fclose($fp);
-        
+
         $json = json_decode($str);
         $this->prenom = $json->prenom;
         $this->nbrEtoilesRecompenseTotal = $json->nbrEtoilesRecompenseTotal;
         $this->nbrMedailles = $json->nbrMedailles;
         $this->nbrMedaillesAValider = $json->nbrMedaillesAValider;
-        
+
     }
 
     public function setConfigPersistence($config) {
@@ -99,12 +99,25 @@ class Routine implements IstockageJson {
         $cheminFamille = $this->cheminJson . DIRECTORY_SEPARATOR . 'famille-' . $idFamille;
         if (!is_dir($cheminFamille)) {
             throw new InvalidArgumentException("Aucun répertoire : " . $cheminFamille);
-        }        
+        }
         $cheminFichier = $cheminFamille
                 . DIRECTORY_SEPARATOR . 'enfant-' . $idEnfant . '_routine-' . $idRoutine . '.json';
         $fp = fopen($cheminFichier, "w+");
         fwrite($fp, json_encode($routineStdClass));
         fclose($fp);
+    }
+
+    public function validerMedailles($nbrMedaillesAValider) {
+        if (!is_int($nbrMedaillesAValider)) {
+            throw new InvalidArgumentException("Nombre de médailles à valider invalide. int");
+        }
+        if ($nbrMedaillesAValider > $this->nbrMedaillesAValider) {
+            throw new InvalidArgumentException("Nombre de médailles à valider invalide.");
+        }
+        $this->nbrMedailles = $this->nbrMedailles + $nbrMedaillesAValider;
+        $this->nbrMedaillesAValider = 0;
+
+        return true;
     }
 
 }

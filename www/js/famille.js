@@ -3,7 +3,8 @@ function Famille(nom, montantParEtoile, montantParSuccesComplet)
     this.nom = nom;
     this.montantParEtoile = montantParEtoile;
     this.montantParSuccesComplet = montantParSuccesComplet;
-    
+    this.modeParent = false;
+
     this.routines = new Array();
 
     this.getNom = getNom;
@@ -28,6 +29,18 @@ function Famille(nom, montantParEtoile, montantParSuccesComplet)
     function getNbrRoutines()
     {
         return this.routines.length;
+    }
+
+    this.setModeParent = setModeParent;
+    function setModeParent(modeParent)
+    {
+        this.modeParent = modeParent;
+    }
+
+    this.getModeParent = getModeParent;
+    function getModeParent()
+    {
+        return this.modeParent;
     }
 
     this.addRoutine = addRoutine;

@@ -365,4 +365,54 @@ function Routine(prenom, nbrEtoilesRecompenseTotal, nbrMedailles, nbrMedaillesAV
 
         return tempsLibre;
     }
+
+    this.addNbrMedaille = addNbrMedaille;
+    function addNbrMedaille(nbrMedailles) {
+        this.nbrMedailles = parseInt(this.nbrMedailles) + parseInt(nbrMedailles);
+    }
+
+    this.validerMedaille = validerMedaille;
+    function validerMedaille(nbrMedaillesAValider) {
+        if (nbrMedaillesAValider < 0 || nbrMedaillesAValider > this.nbrMedaillesAValider) {
+            return false;
+        }
+        else if (!Number.isInteger(parseInt(nbrMedaillesAValider))) {
+            return false;
+        }
+        this.nbrMedailles = parseInt(this.nbrMedailles) + parseInt(nbrMedaillesAValider);
+        this.nbrMedaillesAValider = 0;
+        return true;
+    }
+
+    this.majMedailles = majMedailles;
+    function majMedailles(url, nbrMedaillesAValider) {
+        // Ajax
+        var succesAjax = false;
+        url = url + "?idEnfant=" + this.idEnfant + "&idRoutine=" + this.idRoutine + "&nbrMedaillesAValider=" + nbrMedaillesAValider;
+        var jqxhr = $.ajax( {
+        url: url,
+        dataType: "json",
+        async: false,
+        context: this
+        })
+        .done(function(msg) {
+            this.prenom = msg.prenom;
+            this.nbrEtoilesAValider = msg.nbrEtoilesAValider;
+            succesAjax = true;
+        })
+        .fail(function(msg) {
+            console.log(msg);
+            console.log( "error " + msg.responseJSON.messageErreur);
+            alert(msg.responseJSON.messageErreur);
+            succesAjax = false;
+         })
+         return succesAjax;
+    }
+
+    this.resetMedailles = resetMedailles;
+    function resetMedailles(nbrMedailles, nbrMedaillesAValider) {
+        this.nbrMedailles = nbrMedailles;
+        this.nbrMedaillesAValider = nbrMedaillesAValider;
+    }
+
 }

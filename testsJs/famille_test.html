@@ -17,7 +17,7 @@
                    famille = new Famille("Massicotte", 0.05, 0.25);
                 },
                 teardown: function() {
-// clean up after each test 
+// clean up after each test
                 }
             });
 
@@ -33,9 +33,22 @@
                 equal(famille.getMontantParSuccesComplet(), 0.25);
             });
 
+            test("Famille getModeParent 1", function() {
+                famille.addRoutine(new Routine("Léanne", 0, 1, 2, 3));
+                equal(famille.getModeParent(), false);
+            });
+
+            test("Famille getModeParent 1", function() {
+                famille.addRoutine(new Routine("Léanne", 0, 1, 2, 3));
+                famille.setModeParent(true);
+                equal(famille.getModeParent(), true);
+                famille.setModeParent(false);
+                equal(famille.getModeParent(), false);                
+            });
+
             test("Famille getNbrRoutines 0", function() {
                 equal(famille.getNbrRoutines(), 0);
-            });         
+            });
 
             test("Famille getNbrRoutines 1", function() {
                 famille.addRoutine(new Routine("Léanne", 0, 1, 2, 3));
