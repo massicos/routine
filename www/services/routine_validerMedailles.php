@@ -10,7 +10,7 @@ try {
 
     session_start();
     $famille = null;
-    if (isset($_SESSION['famille'])) {
+    if (array_key_exists('famille', $_SESSION)) {
         $famille = $_SESSION['famille'];
     }
     else {
