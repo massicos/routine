@@ -200,6 +200,24 @@ $(document).ready(function() {
         }
     });
 
+    $(".boutonAnnuler").click(function() {
+        var enfant = $(this).closest(".enfant");
+        var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
+        var routineView = new RoutineView(routine);
+
+        var itemRoutineEnCours = routine.getItemRoutineEnCours();
+        if (!itemRoutineEnCours) {
+            itemRoutineEnCours = routine.getItemRoutinePause();
+        }
+        itemRoutineEnCours.setStatut(statuts.ATTENTE);
+
+        var tempsLibre = routine.getTempsLibreSecondes(new Date());
+        routineView.rafraichirTempsJeux(enfant, tempsLibre);
+
+        routineView.itemRoutineMarquerAnnuler($(enfant).find(".routine"));
+        routineView.itemRoutineAnnuler(enfant);
+        routineView.activerSelectionItemRoutineNonComplete($(enfant).find(".routine"));
+    });
 
     var max = famille.getNbrRoutines();
     for (var i = 0; i < max; i++) {
@@ -308,6 +326,7 @@ $(document).ready(function() {
 
             $(enfant).find(".boutonStop").show();
             $(enfant).find(".boutonPause").show();
+            $(enfant).find(".boutonAnnuler").show();
             $(enfant).find(".chrono").find(".boutonReprendre").hide();
             $(enfant).find(".message").hide();
 
@@ -349,11 +368,20 @@ $(document).ready(function() {
           $(enfant).find(".boutonReprendre").show();
       }
 
+      this.itemRoutineAnnuler = itemRoutineAnnuler;
+      function itemRoutineAnnuler(enfant) {
+          $(enfant).find(".boutonStop").hide();
+          $(enfant).find(".boutonPause").hide();
+          $(enfant).find(".boutonReprendre").hide();
+          $(enfant).find(".boutonAnnuler").hide();
+      }
+
       this.itemRoutineReprendre = itemRoutineReprendre;
       function itemRoutineReprendre(enfant) {
           $(enfant).find(".boutonStop").show();
           $(enfant).find(".boutonPause").show();
           $(enfant).find(".boutonReprendre").hide();
+          $(enfant).find(".boutonAnnuler").show();
       }
 
       this.itemRoutineMarquerCompleter = itemRoutineMarquerCompleter;
@@ -366,6 +394,15 @@ $(document).ready(function() {
           var tempTotalRoutineMinutes = this.routine.getTotalTempsItemsRoutineNonCompletes();
           $(enfant).find(".tableauBordTempsTotalRoutineMinutes").text(tempTotalRoutineMinutes);
 
+      }
+
+      this.itemRoutineMarquerAnnuler = itemRoutineMarquerAnnuler;
+      function itemRoutineMarquerAnnuler(enfant) {
+          $(enfant).find(".routineItem").find(".ui-selected").removeClass("ui-selected");
+          $(enfant).find(".routineItem").removeClass("ui-selected");
+
+          var tempTotalRoutineMinutes = this.routine.getTotalTempsItemsRoutineNonCompletes();
+          $(enfant).find(".tableauBordTempsTotalRoutineMinutes").text(tempTotalRoutineMinutes);
       }
 
       this.afficherEmoticon = afficherEmoticon;
@@ -381,6 +418,7 @@ $(document).ready(function() {
           $(enfant).find(".boutonStop").hide();
           $(enfant).find(".boutonPause").hide();
           $(enfant).find(".boutonReprendre").hide();
+          $(enfant).find(".boutonAnnuler").hide();
       }
 
       this.afficherMedaille = afficherMedaille;

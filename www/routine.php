@@ -84,6 +84,7 @@ require_once("config.php");
                     <input type="button" class="boutonStop" value="Stop">
                     <input type="button" class="boutonPause" value="Pause">
                     <input type="button" class="boutonReprendre" value="Reprendre">
+                    <input type="button" class="boutonAnnuler" value="Annuler">
                 </div>
 
                 <ol class="routine" id="charlesRoutine">
@@ -150,6 +151,7 @@ require_once("config.php");
                     <input type="button" class="boutonStop" value="Stop">
                     <input type="button" class="boutonPause" value="Pause">
                     <input type="button" class="boutonReprendre" value="Reprendre">
+                    <input type="button" class="boutonAnnuler" value="Annuler">
                 </div>
 
                 <ol class="routine" id="charlesRoutine">
