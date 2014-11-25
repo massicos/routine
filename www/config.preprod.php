@@ -1,7 +1,8 @@
 <?php
 
 define('NIVEAU', "preprod");
-require_once('/app/routine-' . NIVEAU .  '/classes/configApp.php');
+define('RACINE', '/app');
+require_once(RACINE . '/routine-' . NIVEAU .  '/classes/configApp.php');
 
 global $configApp;
-$configApp = new configApp(NIVEAU, "0.4 (GITLOG)");
+$configApp = new configApp(NIVEAU, "0.4 (GITLOG)", RACINE);

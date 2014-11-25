@@ -34,7 +34,7 @@ require_once("config.php");
 
     </head>
     <body>
-        <?php require_once('/app/routine' . $configApp->getSuffixeCheminpParNiveau() . '/gabarits/header.php'); ?>
+        <?php require_once($configApp->getRacineGabarits() . '/header.php'); ?>
 <div id="modeParentActif">mode parent actif <a id="modeParentQuitter" href="javascript:void(0)"><i class="ui-icon ui-icon-circle-close" style="display: inline-block;vertical-align: text-bottom;"></i></a></div>
 <button id="btnOuvrirDialogModeParent">Passer en mode parent</button>
 <div id="dialogModeParent" title="Mode parent">
@@ -80,6 +80,6 @@ Mot de passe : <input type="password" name="mdpParent" id="mdpParent">
                 </div>
             </li>
         </ul>
-        <?php require_once('/app/routine' . $configApp->getSuffixeCheminpParNiveau() . '/gabarits/footer.php'); ?>
+        <?php require_once($configApp->getRacineGabarits() . '/footer.php'); ?>
     </body>
 </html>

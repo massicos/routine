@@ -1,7 +1,7 @@
 <?php
 
 define('NIVEAU', "prod");
-define('RACINE', '/app');
+define('RACINE', '/home/poudlar/app');
 require_once(RACINE . '/routine/classes/configApp.php');
 
 global $configApp;

@@ -1,6 +1,6 @@
 <?php
 require_once('../config.php');
-require_once('/app/routine' . $configApp->getSuffixeCheminpParNiveau() .  '/classes/famille.php');
+require_once($configApp->getRacineClasses() . '/famille.php');
 
 try {
     $idFamille = 1;
@@ -13,7 +13,7 @@ try {
     }
     else {
         //echo "Nouvelle famille";
-        $famille = new Famille($idFamille, "/app/data/routine" . $configApp->getSuffixeCheminpParNiveau() . "data");
+        $famille = new Famille($idFamille, $configApp->getRacineData());
     }
     //echo $famille->toJson();
     $famille->quitterModeParent();

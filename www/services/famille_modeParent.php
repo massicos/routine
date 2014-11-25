@@ -1,6 +1,6 @@
 <?php
 require_once('../config.php');
-require_once('/app/routine' . $configApp->getSuffixeCheminpParNiveau() .  '/classes/famille.php');
+require_once($configApp->getRacineClasses() . '/famille.php');
 
 try {
     $idFamille = 1;
@@ -12,7 +12,7 @@ try {
         $famille = $_SESSION['famille'];
     }
     else {
-        $famille = new Famille($idFamille, "/app/data/routine" . $configApp->getSuffixeCheminpParNiveau() . "data");
+        $famille = new Famille($idFamille, $configApp->getRacineData());
     }
     $famille->validerMdp($mdp);
 

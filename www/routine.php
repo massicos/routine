@@ -28,7 +28,7 @@ require_once("config.php");
         <script src="js/headerView.js"></script>
     </head>
     <body>
-        <?php require_once('/app/routine' . $configApp->getSuffixeCheminpParNiveau() . '/gabarits/header.php'); ?>
+        <?php require_once($configApp->getRacineGabarits() . '/header.php'); ?>
 
         <div class="conteneurRoutines">
             <div class="enfant" id="enfant_charles">
@@ -53,8 +53,8 @@ require_once("config.php");
                                        class="tableauBordTempsHeureFinBouton tableauBordTempsHeureFinBoutonStop"
                                        value="X"> | <em>Temps total - routine :</em>
                                 <div class="tableauBordTempsTotalRoutineMinutes">X</div>
-                                minutes 
-                                <span class="tableauBordTempsLibre"> | 
+                                minutes
+                                <span class="tableauBordTempsLibre"> |
                                     <em class="tableauBordTempsLibreLabel">Temps libre :</em>
                                     <span class="tableauBordTempsLibreMinutes">0</span>
                                     minutes</span>
@@ -119,8 +119,8 @@ require_once("config.php");
                                        class="tableauBordTempsHeureFinBouton tableauBordTempsHeureFinBoutonStop"
                                        value="X"> | <em>Temps total - routine :</em>
                                 <div class="tableauBordTempsTotalRoutineMinutes">X</div>
-                                minutes 
-                                <span class="tableauBordTempsLibre"> | 
+                                minutes
+                                <span class="tableauBordTempsLibre"> |
                                     <em class="tableauBordTempsLibreLabel">Temps libre :</em>
                                     <span class="tableauBordTempsLibreMinutes">0</span>
                                     minutes</span>
@@ -163,6 +163,6 @@ require_once("config.php");
                 </ol>
             </div>
         </div>
-        <?php require_once('/app/routine' . $configApp->getSuffixeCheminpParNiveau() . '/gabarits/footer.php'); ?>
+        <?php require_once($configApp->getRacineGabarits() . '/footer.php'); ?>
     </body>
 </html>

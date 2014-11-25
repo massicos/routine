@@ -1,8 +1,8 @@
 <?php
 require_once('../config.php');
 
-require_once('/app/routine' . $configApp->getSuffixeCheminpParNiveau() .  '/classes/famille.php');
-require_once('/app/routine' . $configApp->getSuffixeCheminpParNiveau() .  '/classes/routine.php');
+require_once($configApp->getRacineClasses() . '/famille.php');
+require_once($configApp->getRacineClasses() . '/routine.php');
 
 try {
 
@@ -14,7 +14,7 @@ try {
         $famille = $_SESSION['famille'];
     }
     else {
-        $famille = new Famille($idFamille, "/app/data/routine" . $configApp->getSuffixeCheminpParNiveau() . "data");
+        $famille = new Famille($idFamille, $configApp->getRacineData());
     }
 
     if ($famille->isModeParent()) {
@@ -22,7 +22,7 @@ try {
         $idRoutine = $_REQUEST['idRoutine'];
 
         $routine = new Routine();
-        $routine->setConfigPersistence(array("/app/data/routine" . $configApp->getSuffixeCheminpParNiveau() . "data"));
+        $routine->setConfigPersistence(array($configApp->getRacineData()));
         $routine->charger($idFamille, $idEnfant, $idRoutine);
         if (is_numeric($_REQUEST['nbrMedaillesAValider'])) {
             $routine->validerMedailles(intval($_REQUEST['nbrMedaillesAValider']));
