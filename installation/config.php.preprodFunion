@@ -1,0 +1,4 @@
+<?php
+
+define('CHEMIN_DESTINATION', '/home/poudlar/www/routine-preprod');
+define('CHEMIN_DESTINATION_PHP', '/home/poudlar/app/routine-preprod');
