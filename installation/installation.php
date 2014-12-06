@@ -4,7 +4,7 @@ echo "Parametre : " . $argv[1] . "\n";
 $niveau = $argv[1];
 require_once('config.php.' . $niveau);
 
-$USAGER_APACHE = "www-data"
+$USAGER_APACHE = "www-data";
 
 echo "-----------------------\n";
 if (file_exists(CHEMIN_DESTINATION)) {
