@@ -4,6 +4,8 @@ echo "Parametre : " . $argv[1] . "\n";
 $niveau = $argv[1];
 require_once('config.php.' . $niveau);
 
+$USAGER_APACHE = "www-data"
+
 echo "-----------------------\n";
 if (file_exists(CHEMIN_DESTINATION)) {
     echo "Destruction du contenu de " . CHEMIN_DESTINATION . "\n";
@@ -35,18 +37,16 @@ shell_exec('sed -i "s/GITLOG/' . $gitLog . '/" ' . CHEMIN_DESTINATION . "/config
 
 if ($niveau == "prod" || $niveau == "preprod") {
     echo "Conversion des fichiers\n";
-    convertir_fichiers_utf8_a_iso('../www', CHEMIN_DESTINATION);
-    convertir_fichiers_utf8_a_iso('../www/js', CHEMIN_DESTINATION . '/js');
-    shell_exec("chown -R apache:apache " . CHEMIN_DESTINATION);
+    shell_exec("chown -R " . $USAGER_APACHE . ":" . $USAGER_APACHE . " " . CHEMIN_DESTINATION);
     shell_exec("chmod -R 755 " . CHEMIN_DESTINATION);
-    shell_exec("chown -R apache:apache " . CHEMIN_DESTINATION_PHP);
+    shell_exec("chown -R " . $USAGER_APACHE . ":" . $USAGER_APACHE . " " . CHEMIN_DESTINATION_PHP);
     shell_exec("chmod -R 755 " . CHEMIN_DESTINATION_PHP);
-    
+
     echo "################################################################################################\n";
     echo "Sur une installation sur lhg il faut rouler ceci car il les rm ne fonctionne pas (Routine-20) : \n";
     echo("rm -f " . CHEMIN_DESTINATION . "/config.*.php\n");
     echo("rm -f " . CHEMIN_DESTINATION . "/js/config.*.js\n");
-    echo "################################################################################################\n";    
+    echo "################################################################################################\n";
 }
 
 
