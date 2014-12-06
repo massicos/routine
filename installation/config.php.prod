@@ -1,5 +1,5 @@
 <?php
 
-define('CHEMIN_DESTINATION', '/var/www/html/routine');
+define('CHEMIN_DESTINATION', '/var/www/routine');
 define('CHEMIN_DESTINATION_PHP', '/app/routine');
-
+define('USAGER_APACHE', 'www-data');
