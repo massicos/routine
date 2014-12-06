@@ -31,6 +31,7 @@ require_once("config.php");
         <script src="js/headerView.js"></script>
         <script src="js/dialogModeParent.js"></script>
         <script src="js/dialogValiderMedaille.js"></script>
+        <script src="js/dialogSetEtoilesMedailles.js"></script>
 
     </head>
     <body>
@@ -55,7 +56,22 @@ Mot de passe : <input type="password" name="mdpParent" id="mdpParent">
 <div id="medailleValiderMessage" class="erreurValidation">Veuillez entrer nombre valide de médaille à valider.</div>
 </div>
 
-<div id="dialogValiderMedaille" title="Valider les médailles">
+<div id="dialogSetEtoilesMedaille" title="Mettre à jour les étoiles et les médailles">
+    <div id="setEtoilesMedaillesFormulaire">
+        <p>Nombre d'étoiles : <input type="text" name="nouveauNbrEtoiles" id="nouveauNbrEtoiles"></p>
+        <p>Nombre de médailles : <input type="text" name="nouveauNbrMedailles" id="nouveauNbrMedailles"></p></p>
+        <p>Nouveau total en argent : <span id="nouveauTotalArgent">0</span>$</p>
+    </div>
+    <div id="setEtoilesMedaillesConfirmation">
+        <p>Êtes-vous certain des nouveaux chiffres ?
+            <p>Nombre d'étoiles : <span id="nouveauNbrEtoilesConfirmation">0</span></p>
+            <p>Nombre de médailles : <span id="nouveauNbrMedaillesConfirmation">0</span></p></p>
+            <p>Nouveau total en argent : <span id="nouveauTotalArgentConfirmation">0</span>$</p>
+            </div>
+            <div id="setEtoilesMedailleMessage" class="erreurValidation">Veuillez entrer nombre valide.</div>
+        </div>
+
+
         <ul>
             <li><a href="routine.php">Routine du matin</a>
                 <div class="CSSTableGenerator" >
@@ -74,7 +90,7 @@ Mot de passe : <input type="password" name="mdpParent" id="mdpParent">
                             <td class="sousTotalEtoiles">0</td>
                             <td><span class="nbrMedailles">0</span><em class="nbrMedaillesAValiderParenthese">(<em class="nbrMedaillesAValider">0</em>) <button class="btnOuvrirDialogValiderMedaille">Valider des médailles</button></td>
                             <td class="sousTotalMedailles">0</td>
-                            <td class="total">0</td>
+                            <td><span class="total">0</span> <button class="btnOuvrirDialogSetEtoilesMedailles">Édition</button></td>
                         </tr>
                     </table>
                 </div>

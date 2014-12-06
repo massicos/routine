@@ -18,7 +18,7 @@ $(function () {
 
                     if (succesMajMedailles) {
                         var tableauBordView = new TableauBordView(famille);
-                        tableauBordView.majAffichageMedaille($(".tableauBord"), routine.getPrenom());
+                        tableauBordView.majAffichageEtoilesMedailles($(".tableauBord"), routine.getPrenom());
                     }
                     else {
                         validationMedaille.annuler();

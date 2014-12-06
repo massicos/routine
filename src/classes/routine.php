@@ -5,7 +5,7 @@ require_once('IstockageJson.php');
 class Routine implements IstockageJson {
 
     private $prenom;
-    private $nbrEtoilesRecompenseTotal;
+    private $nbrEtoiles;
     private $cheminJson;
     private $nbrMedailles;
     private $nbrMedaillesAValider;
@@ -15,12 +15,12 @@ class Routine implements IstockageJson {
         $nbrparametres = func_num_args();
         if ($nbrparametres == 0) {
             $this->prenom = "Vide";
-            $this->nbrEtoilesRecompenseTotal = 0;
+            $this->nbrEtoiles = 0;
             $this->nbrMedailles = 0;
             $this->nbrMedaillesAValider = 0;
         } else if ($nbrparametres == 4) {
             $this->prenom = func_get_arg(0);
-            $this->nbrEtoilesRecompenseTotal = func_get_arg(1);
+            $this->nbrEtoiles = func_get_arg(1);
             $this->nbrMedailles = func_get_arg(2);
             $this->nbrMedaillesAValider = func_get_arg(3);
         } else {
@@ -32,8 +32,18 @@ class Routine implements IstockageJson {
         return $this->prenom;
     }
 
-    public function getNbrEtoilesRecompenseTotal() {
-        return $this->nbrEtoilesRecompenseTotal;
+    public function getNbrEtoiles() {
+        return $this->nbrEtoiles;
+    }
+
+    public function setNbrEtoiles($nbrEtoiles) {
+        if (!is_int($nbrEtoiles)) {
+            throw new InvalidArgumentException("Nombre d'étoiles est invalide.");
+        }        
+        if ($nbrEtoiles < 0) {
+            throw new InvalidArgumentException("Nombre d'étoiles est invalide (plus petit que 0).");
+        }         
+        $this->nbrEtoiles = $nbrEtoiles;
     }
 
     public function getNbrMedaillesAValider() {
@@ -41,13 +51,22 @@ class Routine implements IstockageJson {
     }
 
     public function addNbrEtoiles($nbrEtoiles) {
-        $this->nbrEtoilesRecompenseTotal += $nbrEtoiles;
+        $this->nbrEtoiles += $nbrEtoiles;
     }
 
     public function getNbrMedailles() {
         return $this->nbrMedailles;
     }
 
+    public function setNbrMedailles($nbrMedailles) {
+        if (!is_int($nbrMedailles)) {
+            throw new InvalidArgumentException("Nombre de médailles invalide.");
+        }
+        if ($nbrMedailles < 0) {
+            throw new InvalidArgumentException("Nombre de médailles invalide (plus petit que 0).");
+        }
+        $this->nbrMedailles = $nbrMedailles;
+    }
 
     public function addNbrMedailles($nbrMedailles) {
         $this->nbrMedailles += $nbrMedailles;
@@ -60,7 +79,7 @@ class Routine implements IstockageJson {
     public function toJson() {
         $routineStdClass = new stdClass();
         $routineStdClass->prenom = $this->prenom;
-        $routineStdClass->nbrEtoilesRecompenseTotal = $this->nbrEtoilesRecompenseTotal;
+        $routineStdClass->nbrEtoiles = $this->nbrEtoiles;
         $routineStdClass->nbrMedailles = $this->nbrMedailles;
         $routineStdClass->nbrMedaillesAValider = $this->nbrMedaillesAValider;
 
@@ -79,7 +98,7 @@ class Routine implements IstockageJson {
 
         $json = json_decode($str);
         $this->prenom = $json->prenom;
-        $this->nbrEtoilesRecompenseTotal = $json->nbrEtoilesRecompenseTotal;
+        $this->nbrEtoiles = $json->nbrEtoiles;
         $this->nbrMedailles = $json->nbrMedailles;
         $this->nbrMedaillesAValider = $json->nbrMedaillesAValider;
 
@@ -92,7 +111,7 @@ class Routine implements IstockageJson {
     public function sauvegarder($idFamille, $idEnfant, $idRoutine) {
         $routineStdClass = new stdClass();
         $routineStdClass->prenom = $this->prenom;
-        $routineStdClass->nbrEtoilesRecompenseTotal = $this->nbrEtoilesRecompenseTotal;
+        $routineStdClass->nbrEtoiles = $this->nbrEtoiles;
         $routineStdClass->nbrMedailles = $this->nbrMedailles;
         $routineStdClass->nbrMedaillesAValider = $this->nbrMedaillesAValider;
 

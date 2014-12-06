@@ -274,8 +274,7 @@
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
             	var itemRoutine = p.getItemRoutine(0);
             	itemRoutine.setStatut(statuts.FINI_SUCCES);
-            	var itemRoutineEnCours = p.getItemRoutineEnCours();
-            	equal(p.getNbrEtoiles(), 2);
+            	equal(p.getNbrEtoilesRoutineEnCours(), 2);
             });
 
             test("Routine getNbrEtoiles 3-1", function() {
@@ -283,8 +282,7 @@
             	p.addItemRoutine(new ItemRoutine("Texte de l'item 1", "routinePerso/images/itemsRoutine/dejeuner.jpg", 17, 3));
             	var itemRoutine = p.getItemRoutine(1);
             	itemRoutine.setStatut(statuts.FINI_SUCCES);
-            	var itemRoutineEnCours = p.getItemRoutineEnCours();
-            	equal(p.getNbrEtoiles(), 3);
+            	equal(p.getNbrEtoilesRoutineEnCours(), 3);
             });
 
             test("Routine getNbrEtoiles 3-2", function() {
@@ -296,7 +294,7 @@
             	var itemRoutine = p.getItemRoutine(1);
             	itemRoutine.setStatut(statuts.FINI_SUCCES);
             	var itemRoutineEnCours = p.getItemRoutineEnCours();
-            	equal(p.getNbrEtoiles(), 3);
+            	equal(p.getNbrEtoilesRoutineEnCours(), 3);
             });
 
             test("Routine getNbrEtoiles 5", function() {
@@ -308,18 +306,18 @@
             	var itemRoutine = p.getItemRoutine(1);
             	itemRoutine.setStatut(statuts.FINI_SUCCES);
             	var itemRoutineEnCours = p.getItemRoutineEnCours();
-            	equal(p.getNbrEtoiles(), 5);
+            	equal(p.getNbrEtoilesRoutineEnCours(), 5);
             });
 
             test("Routine getNbrEtoilesRecompenseTotal 1", function() {
-            	equal(p.getNbrEtoilesRecompenseTotal(), 0);
+            	equal(p.getNbrEtoiles(), 0);
                 p = new Routine("Léanne", 5, 2, 5, 1, 1, 1);
-                equal(p.getNbrEtoilesRecompenseTotal(), 5);
+                equal(p.getNbrEtoiles(), 5);
             });
 
             test("Routine addNbrEtoilesRecompenseTotal 1", function() {
-                p.addNbrEtoilesRecompenseTotal(10);
-                equal(p.getNbrEtoilesRecompenseTotal(), 10);
+                p.addNbrEtoiles(10);
+                equal(p.getNbrEtoiles(), 10);
             });
 
 

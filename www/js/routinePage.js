@@ -175,9 +175,9 @@ $(document).ready(function() {
         var secondes = Math.round(itemRoutineEnCours.getSecondesEcoulees(new Date()));
         if (secondes <= itemRoutineEnCours.getTempsSecondes()) {
            itemRoutineEnCours.setStatut(statuts.FINI_SUCCES);
-           routine.addNbrEtoilesRecompenseTotal(itemRoutineEnCours.getNbrEtoiles());
-           routine.sauvegarderNbrEtoilesRecompenseTotal("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_addNbrEtoiles.php", itemRoutineEnCours.getNbrEtoiles());
-           routineView.afficherEtoiles(enfant, routine.getNbrEtoiles());
+           routine.addNbrEtoiles(itemRoutineEnCours.getNbrEtoiles());
+           routine.sauvegarderNbrEtoiles("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_addNbrEtoiles.php", itemRoutineEnCours.getNbrEtoiles());
+           routineView.afficherEtoiles(enfant, routine.getNbrEtoilesRoutineEnCours());
            routineView.afficherEmoticon(enfant, "images/emoticons/face-smile.png");
 
            var tempsLibre = routine.getTempsLibreSecondes(new Date());
@@ -233,7 +233,7 @@ $(document).ready(function() {
 	    {
 			$(enfant).find(".nomEnfant").text(this.routine.getPrenom());
 			$(enfant).find(".photoEnfant").attr("src", this.routine.getPhoto());
-			$(enfant).find(".nbrEtoilesRecompenseTotal").text(this.routine.getNbrEtoilesRecompenseTotal());
+			$(enfant).find(".nbrEtoiles").text(this.routine.getNbrEtoiles());
 			$(enfant).find(".nbrMedailles").text(this.routine.getNbrMedailles());
 
             $(enfant).find(".nbrMedaillesAValider").text(routine.getNbrMedaillesAValider());
@@ -358,7 +358,7 @@ $(document).ready(function() {
           $(enfant).find(".nbrEtoilesTexte").text(nbrEtoile);
           $(enfant).find(".enfantInfoResultat").show();
 
-	      $(enfant).find(".nbrEtoilesRecompenseTotal").text(this.routine.getNbrEtoilesRecompenseTotal());
+	      $(enfant).find(".nbrEtoiles").text(this.routine.getNbrEtoiles());
        }
 
       this.itemRoutinePause = itemRoutinePause;

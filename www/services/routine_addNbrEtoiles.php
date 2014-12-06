@@ -12,10 +12,10 @@ try {
     $routine->setConfigPersistence(array($configApp->getRacineData()));
     $routine->charger($idFamille, $idEnfant, $idRoutine);
     echo $routine->getPrenom() . "<br>\n";
-    echo $routine->getNbrEtoilesRecompenseTotal() . "<br>\n";
+    echo $routine->getNbrEtoiles() . "<br>\n";
     $routine->addNbrEtoiles($_REQUEST['nbrEtoiles']);
     $routine->sauvegarder($idFamille, $idEnfant, $idRoutine);
-    echo $routine->getNbrEtoilesRecompenseTotal() . "<br>\n";
+    echo $routine->getNbrEtoiles() . "<br>\n";
 } catch (Exception $ex) {
     $stdObj = new stdClass();
     $stdObj->erreur = 1;

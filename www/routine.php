@@ -37,7 +37,7 @@ require_once("config.php");
                         <img class="photoEnfant"
                              src="../routinePerso/images/photos/nom1.jpg">
                         <div class="nomEnfant">Nom1</div>
-                        <div class="totaux"><img src="images/icons/star.png"> <em class="nbrEtoilesRecompenseTotal">0</em> <img src="images/icons/medal_gold_1.png"> <em class="nbrMedailles">0</em><em class="nbrMedaillesAValiderParenthese">(<em class="nbrMedaillesAValider">0</em>)</em></div>
+                        <div class="totaux"><img src="images/icons/star.png"> <em class="nbrEtoiles">0</em> <img src="images/icons/medal_gold_1.png"> <em class="nbrMedailles">0</em><em class="nbrMedaillesAValiderParenthese">(<em class="nbrMedaillesAValider">0</em>)</em></div>
                     </div>
                     <div class="tableauBord">
                         <div class="tableauBordInfoTemps">
@@ -104,7 +104,7 @@ require_once("config.php");
                         <img class="photoEnfant"
                              src="../routinePerso/images/photos/nom1.jpg">
                         <div class="nomEnfant">Nom1</div>
-                        <div class="totaux"><img src="images/icons/star.png"> <em class="nbrEtoilesRecompenseTotal">0</em> <img src="images/icons/medal_gold_1.png"> <em class="nbrMedailles">0</em><em class="nbrMedaillesAValiderParenthese">(<em class="nbrMedaillesAValider">0</em>)</em></div>
+                        <div class="totaux"><img src="images/icons/star.png"> <em class="nbrEtoiles">0</em> <img src="images/icons/medal_gold_1.png"> <em class="nbrMedailles">0</em><em class="nbrMedaillesAValiderParenthese">(<em class="nbrMedaillesAValider">0</em>)</em></div>
                     </div>
                     <div class="tableauBord">
                         <div class="tableauBordInfoTemps">
