@@ -4,7 +4,7 @@ $(function () {
     dialogSetEtoilesMedaille = $("#dialogSetEtoilesMedaille").dialog({
         autoOpen: false,
         resizable: false,
-        height: 230,
+        height: 260,
         width: 300,
         modal: true,
         buttons: {
@@ -39,11 +39,16 @@ $(function () {
         $("#nouveauNbrMedailles").val(nbrMedailles);
         var total = nbrEtoiles * famille.getMontantParEtoile()
             + nbrMedailles * famille.getMontantParSuccesComplet();
-        $("#nouveauTotalArgent").text(total.toFixed(2));
+        $("#nouveauTotalArgent").val(total.toFixed(2));
 
         $("#setEtoilesMedaillesFormulaire").show();
         $("#setEtoilesMedaillesConfirmation").hide();
         $("#setEtoilesMedailleMessage").hide();
+
+        $("#nouveauNbrEtoiles").attr("disabled", false);
+        $("#nouveauNbrMedailles").attr("disabled", false);
+        $("#nouveauTotalArgent").attr("disabled", true);
+        $("#chkBoxMontant").attr("checked", false);
 
         dialogSetEtoilesMedaille.dialog("open");
     });
@@ -56,6 +61,55 @@ $(function () {
         validationChangementEtoilesMedailles();
     });
 
+    $("#chkBoxMontant").click(function() {
+        if ($(this).is(':checked')) {
+            $("#nouveauNbrEtoiles").attr("disabled", true);
+            $("#nouveauNbrMedailles").attr("disabled", true);
+            $("#nouveauTotalArgent").attr("disabled", false);
+        }
+        else {
+            $("#nouveauNbrEtoiles").attr("disabled", false);
+            $("#nouveauNbrMedailles").attr("disabled", false);
+            $("#nouveauTotalArgent").attr("disabled", true);
+        }
+    });
+
+    $("#nouveauTotalArgent").change(function() {
+
+        var estUnNombreValide = Number.isInteger(parseInt($(this).val()))
+                                && ($(this).val() - parseFloat( $(this).val() ) + 1) >= 0;
+        if (!estUnNombreValide) {
+            $("#nouveauTotalArgent").val("--");
+            $("#setEtoilesMedailleMessage").show();
+            return;
+        }
+
+        var sousTotalMedailles = parseInt($("#nouveauNbrMedailles").val()) * famille.getMontantParSuccesComplet();
+        var totalEnArgent = $(this).val();
+
+        if (totalEnArgent < sousTotalMedailles) {
+            if (parseFloat(totalEnArgent) % famille.getMontantParSuccesComplet() == 0) {
+                $("#nouveauNbrEtoiles").val(0);
+                $("#nouveauNbrMedailles").val(parseFloat(totalEnArgent) / famille.getMontantParSuccesComplet());
+            }
+            else {
+                var nbrMedailles = parseFloat(totalEnArgent) / famille.getMontantParSuccesComplet();
+                $("#nouveauNbrMedailles").val(parseInt(nbrMedailles));
+                var nbrEtoiles = ((parseInt(nbrMedailles) * famille.getMontantParSuccesComplet()) - parseFloat(totalEnArgent)) / famille.getMontantParEtoile();
+                nbrEtoiles = nbrEtoiles * -1;
+                nbrEtoiles = Math.ceil(parseFloat(nbrEtoiles.toFixed(2)));
+                $("#nouveauNbrEtoiles").val(parseInt(nbrEtoiles));
+            }
+
+        }
+        else {
+            var sousTotalEtoiles = parseFloat(totalEnArgent) - parseFloat(sousTotalMedailles);
+            var nbrEtoiles = parseFloat(sousTotalEtoiles) / famille.getMontantParEtoile();
+            nbrEtoiles = Math.ceil(parseFloat(nbrEtoiles.toFixed(2)));
+            $("#nouveauNbrEtoiles").val(parseInt(nbrEtoiles));
+        }
+    });
+
     function validationChangementEtoilesMedailles() {
         $("#setEtoilesMedailleMessage").hide();
 
@@ -65,10 +119,10 @@ $(function () {
                 && Number.isInteger(parseInt(nbrMedailles))) {
             var total = nbrEtoiles * famille.getMontantParEtoile()
             + nbrMedailles * famille.getMontantParSuccesComplet();
-            $("#nouveauTotalArgent").text(total.toFixed(2));
+            $("#nouveauTotalArgent").val(total.toFixed(2));
         }
         else {
-            $("#nouveauTotalArgent").text("--");
+            $("#nouveauTotalArgent").val("--");
             $("#setEtoilesMedailleMessage").show();
         }
     }

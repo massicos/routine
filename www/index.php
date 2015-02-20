@@ -58,9 +58,10 @@ Mot de passe : <input type="password" name="mdpParent" id="mdpParent">
 
 <div id="dialogSetEtoilesMedaille" title="Mettre à jour les étoiles et les médailles">
     <div id="setEtoilesMedaillesFormulaire">
+        <p>Éditer le montant directement <input type="checkbox" name="chkBoxMontant" id="chkBoxMontant"></p>
         <p>Nombre d'étoiles : <input type="text" name="nouveauNbrEtoiles" id="nouveauNbrEtoiles"></p>
         <p>Nombre de médailles : <input type="text" name="nouveauNbrMedailles" id="nouveauNbrMedailles"></p></p>
-        <p>Nouveau total en argent : <span id="nouveauTotalArgent">0</span>$</p>
+        <p>Nouveau total en argent : <input type="text" name="nouveauTotalArgent" id="nouveauTotalArgent" valie="0">$</p>
     </div>
     <div id="setEtoilesMedaillesConfirmation">
         <p>Êtes-vous certain des nouveaux chiffres ?
