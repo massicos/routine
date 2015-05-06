@@ -1,0 +1,21 @@
+{
+    "itemsRoutine": [
+        {
+            "cheminImage": "../routinePerso/images/itemsRoutine/dejeuner.jpg",
+            "nbrEtoiles": 8,
+            "tempsMinutes": 15,
+            "texte": "D\u00e9jeuner"
+        },
+        {
+            "cheminImage": "../routinePerso/images/itemsRoutine/habiller.jpg",
+            "nbrEtoiles": 4,
+            "tempsMinutes": 8,
+            "texte": "Shabiller"
+        }
+    ],
+    "nbrEtoiles": 400,
+    "nbrMedailles": 5,
+    "nbrMedaillesAValider": 15,
+    "nomRoutine": "Routine 3",
+    "prenom": "L\u00e9anne"
+}

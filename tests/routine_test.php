@@ -1,24 +1,60 @@
 <?php
 
 require_once('../src/classes/routine.php');
+require_once('../src/classes/itemRoutine.php');
 
 class routine_test extends PHPUnit_Framework_TestCase {
 
     protected $configApp;
     protected function setUp() {
-        $this->routine = new Routine("Léanne", 0, 0, 0);
+        $this->routine = new Routine("Routine 1", "Léanne", 0, 0, 0, "image.jpg");
     }
 
     /**
      * @expectedException InvalidArgumentException
      */
     public function test_construct_1() {
-        $this->routine = new Routine("Charles", 0, 0, 0, "bidon");
+        $this->routine = new Routine("Routine 2", "Charles", 0, 0, 0, "images.jpg", "bidon");
     }
 
     public function test_getNom_1() {
-        $this->routine = new Routine("Charles", 0, 0, 0);
+        $this->routine = new Routine("Routine 2", "Charles", 0, 0, 0, "image.jpg");
         $this->assertEquals("Charles", $this->routine->getPrenom());
+    }
+
+    public function test_getNbrItemsRoutine() {
+        $this->assertEquals(0, $this->routine->getNbrItemsRoutine());
+    }
+
+    public function test_getNbrItemsRoutine_1_2() {
+        $this->routine->addItemRoutine(new ItemRoutine("Texte de l'item 1", "images/image.png", 2, 5));
+        $this->assertEquals(1, $this->routine->getNbrItemsRoutine());
+        $this->routine->addItemRoutine(new ItemRoutine("Texte de l'item 2", "images/image.png", 2, 5));
+        $this->assertEquals(2, $this->routine->getNbrItemsRoutine());
+
+        $itemRoutine = $this->routine->getIndexOfItemsRoutine(0);
+        $this->assertEquals("Texte de l'item 1", $itemRoutine->getTexte());
+        $itemRoutine = $this->routine->getIndexOfItemsRoutine(1);
+        $this->assertEquals("Texte de l'item 2", $itemRoutine->getTexte());
+    }
+
+    /**
+    * @expectedException OutOfBoundsException
+    */
+    public function test_getNbrItemsRoutine_1_3() {
+        $this->routine->addItemRoutine(new ItemRoutine("Texte de l'item 1", "images/image.png", 2, 5));
+        $this->assertEquals(1, $this->routine->getNbrItemsRoutine());
+        $this->routine->addItemRoutine(new ItemRoutine("Texte de l'item 2", "images/image.png", 2, 5));
+        $this->assertEquals(2, $this->routine->getNbrItemsRoutine());
+
+        $itemRoutine = $this->routine->getIndexOfItemsRoutine(3);
+    }
+
+    /**
+    * @expectedException OutOfBoundsException
+    */
+    public function test_getNbrItemsRoutine_0() {
+        $itemRoutine = $this->routine->getIndexOfItemsRoutine(0);
     }
 
     public function test_getNom_2() {
@@ -30,7 +66,7 @@ class routine_test extends PHPUnit_Framework_TestCase {
     }
 
     public function test_getNbrEtoiles_2() {
-        $this->routine = new Routine("Léanne", 2, 3, 0);
+        $this->routine = new Routine("Routine 1", "Léanne", 2, 3, 0, "image.jpg");
         $this->assertEquals(2, $this->routine->getNbrEtoiles());
     }
 
@@ -50,7 +86,7 @@ class routine_test extends PHPUnit_Framework_TestCase {
     }
 
     public function test_getNbrMedailles_2() {
-        $this->routine = new Routine("Léanne", 2, 3, 0);
+        $this->routine = new Routine("Routine 1", "Léanne", 2, 3, 0, "image.jpg");
         $this->assertEquals(2, $this->routine->getNbrEtoiles());
     }
 
@@ -70,79 +106,58 @@ class routine_test extends PHPUnit_Framework_TestCase {
     }
 
     public function test_getNbrMedaillesAValider_2() {
-        $this->routine = new Routine("Léanne", 2, 3, 2);
+        $this->routine = new Routine("Routine 1", "Léanne", 2, 3, 2, "image.jpg");
         $this->assertEquals(2, $this->routine->getNbrMedaillesAValider());
     }
 
 
     public function test_loadJson_1() {
-        $this->routine = new Routine();
-        $this->routine->setConfigPersistence(array("./json"));
-        $this->routine->charger(1, 1, 1);
+        $str = file_get_contents("json/routine-1.json");
+        //$this->routine = new Routine();
+        //$this->routine->setConfigPersistence(array("./json"));
+        $this->routine->charger(json_decode($str));
         $this->assertEquals("Léanne", $this->routine->getPrenom());
-        $this->assertEquals(2, $this->routine->getNbrEtoiles());
-        $this->assertEquals(4, $this->routine->getNbrMedaillesAValider());
+        $this->assertEquals(425, $this->routine->getNbrEtoiles());
+        $this->assertEquals(22, $this->routine->getNbrMedaillesAValider());
+        $this->assertEquals("Routine 1", $this->routine->getNomRoutine());
     }
 
     public function test_loadJson_2() {
-        $this->routine = new Routine();
-        $this->routine->setConfigPersistence(array("./json"));
-        $this->routine->charger(1, 2, 1);
+        $str = file_get_contents("json/routine-2.json");
+        //$this->routine = new Routine();
+        //$this->routine->setConfigPersistence(array("./json"));
+        $this->routine->charger(json_decode($str));
         $this->assertEquals("Charles", $this->routine->getPrenom());
-        $this->assertEquals(3, $this->routine->getNbrEtoiles());
-        $this->assertEquals(5, $this->routine->getNbrMedaillesAValider());
+        $this->assertEquals(420, $this->routine->getNbrEtoiles());
+        $this->assertEquals(23, $this->routine->getNbrMedaillesAValider());
+        $this->assertEquals("Routine 2", $this->routine->getNomRoutine());
+        $this->assertEquals(0, $this->routine->getNbrItemsRoutine());
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function test_loadJson_absent() {
-        $this->routine = new Routine();
-        $this->routine->setConfigPersistence(array("./json"));
-        $this->routine->charger(1, 3, 1);
-    }
-
-    public function test_sauvegarder() {
-        shell_exec("rm -fr ./jsonSauvegarde/famille-1/*");
-
-        $this->routine->setConfigPersistence(array("./jsonSauvegarder"));
-        $this->routine->sauvegarder(1, 1, 1);
-        $this->routine->charger(1, 1, 1);
-        $this->assertEquals(0, $this->routine->getNbrEtoiles());
-        $this->assertEquals(0, $this->routine->getNbrEtoiles());
+    public function test_loadJson_3() {
+        $str = file_get_contents("json/routine-3.json");
+        //$this->routine = new Routine();
+        //$this->routine->setConfigPersistence(array("./json"));
+        $this->routine->charger(json_decode($str));
         $this->assertEquals("Léanne", $this->routine->getPrenom());
-
-        $this->routine->addNbrEtoiles(4);
-        $this->routine->addNbrMedaillesAValider(5);
-
-        $this->routine->sauvegarder(1, 1, 1);
-        $this->routine->charger(1, 1, 1);
-        $this->assertEquals(4, $this->routine->getNbrEtoiles());
-        $this->assertEquals(5, $this->routine->getNbrMedaillesAValider());
-        $this->assertEquals("Léanne", $this->routine->getPrenom());
-
-        shell_exec("rm -fr ./jsonSauvegarde/famille-1/*");
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function test_sauvegarder_fammileAbsente() {
-        $this->routine->setConfigPersistence(array("./jsonSauvegarder"));
-        $this->routine->sauvegarder(2, 1, 1);
+        $this->assertEquals(400, $this->routine->getNbrEtoiles());
+        $this->assertEquals(15, $this->routine->getNbrMedaillesAValider());
+        $this->assertEquals(15, $this->routine->getNbrMedaillesAValider());
+        $this->assertEquals("Routine 3", $this->routine->getNomRoutine());
+        $this->assertEquals(2, $this->routine->getNbrItemsRoutine());
     }
 
     public function test_toJson_1() {
-        $this->assertEquals('{"prenom":"L\u00e9anne","nbrEtoiles":0,"nbrMedailles":0,"nbrMedaillesAValider":0}', $this->routine->toJson());
+        $this->assertEquals('{"nomRoutine":"Routine 1","prenom":"L\u00e9anne","nbrEtoiles":0,"nbrMedailles":0,"nbrMedaillesAValider":0}', $this->routine->toJson());
     }
 
     public function test_toJson_2() {
-        $this->routine = new Routine("Charles", 22, 10, 5);
-        $this->assertEquals('{"prenom":"Charles","nbrEtoiles":22,"nbrMedailles":10,"nbrMedaillesAValider":5}', $this->routine->toJson());
+        $this->routine = new Routine("Routine 2", "Charles", 22, 10, 5, "image.jpg");
+        $this->assertEquals('{"nomRoutine":"Routine 2","prenom":"Charles","nbrEtoiles":22,"nbrMedailles":10,"nbrMedaillesAValider":5}', $this->routine->toJson());
     }
 
     public function test_validerMedailles() {
-        $this->routine = new Routine("Charles", 22, 10, 5);
+        $this->routine = new Routine("Routine 2", "Charles", 22, 10, 5, "image.jpg");
 
         $this->routine->validerMedailles(5);
         $this->assertEquals(15, $this->routine->getNbrMedailles());
@@ -150,7 +165,7 @@ class routine_test extends PHPUnit_Framework_TestCase {
     }
 
     public function test_validerMedailles_2() {
-        $this->routine = new Routine("Charles", 22, 10, 5);
+        $this->routine = new Routine("Routine 2", "Charles", 22, 10, 5, "image.jpg");
 
         $this->routine->validerMedailles(2);
         $this->assertEquals(12, $this->routine->getNbrMedailles());
@@ -161,7 +176,7 @@ class routine_test extends PHPUnit_Framework_TestCase {
      * @expectedException InvalidArgumentException
      */
     public function test_validerMedailles_3() {
-        $this->routine = new Routine("Charles", 22, 10, 5);
+        $this->routine = new Routine("Charles", 22, 10, 5, "image.jpg");
 
         $this->routine->validerMedailles(6);
     }
@@ -170,7 +185,7 @@ class routine_test extends PHPUnit_Framework_TestCase {
      * @expectedException InvalidArgumentException
      */
     public function test_validerMedailles_4() {
-        $this->routine = new Routine("Charles", 22, 10, 5);
+        $this->routine = new Routine("Charles", 22, 10, 5, "image.jpg");
 
         $this->routine->validerMedailles("a");
     }
@@ -203,7 +218,7 @@ class routine_test extends PHPUnit_Framework_TestCase {
         $this->routine->setNbrEtoiles(2);
         $this->assertEquals(2, $this->routine->getNbrEtoiles());
     }
-    
+
     public function test_setNbrEtoiles_2() {
         $this->routine->setNbrEtoiles(0);
         $this->assertEquals(0, $this->routine->getNbrEtoiles());
@@ -211,15 +226,15 @@ class routine_test extends PHPUnit_Framework_TestCase {
 
     /**
     * @expectedException InvalidArgumentException
-    */    
+    */
     public function test_setNbrEtoiles_3() {
         $this->routine->setNbrEtoiles("a");
     }
-    
+
     /**
     * @expectedException InvalidArgumentException
-    */    
+    */
     public function test_setNbrEtoiles_4() {
         $this->routine->setNbrEtoiles(-1);
-    }    
+    }
 }

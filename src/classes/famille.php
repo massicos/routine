@@ -1,9 +1,15 @@
 <?php
+
+require_once("routine.php");
+
 class Famille {
     private $nom;
     private $cheminJson;
     private $mdp;
     private $modeParent;
+    private $montantParEtoile;
+    private $montantParMedaille;
+    private $routines;
 
     public function __construct($idFamille, $cheminJson) {
         $this->cheminJson = $cheminJson;
@@ -13,6 +19,18 @@ class Famille {
 
     public function getNom() {
         return $this->nom;
+    }
+
+    public function getMontantParEtoile() {
+        return $this->montantParEtoile;
+    }
+
+    public function getMontantParMedaille() {
+        return $this->montantParMedaille;
+    }
+
+    public function getNbrRoutines() {
+        return count($this->routines);
     }
 
     public function isModeParent() {
@@ -32,17 +50,53 @@ class Famille {
         $this->modeParent = false;
     }
 
+    public function getRoutineParNomRoutinePrenom($nomRoutine, $prenom) {
+        $max = count($this->routines);
+        for ($i = 0; $i < $max; $i++) {
+            $routine = $this->routines[$i];
+            if ($routine->getNomRoutine() == $nomRoutine
+                    && $routine->getPrenom() == $prenom) {
+                return $routine;
+            }
+        }
+        return false;
+    }
+
+    public function toStdClass() {
+        $familleStdObj = new StdClass();
+        $familleStdObj->nom = $this->nom;
+        $familleStdObj->modeParent = $this->modeParent;
+        $familleStdObj->montantParEtoile = $this->montantParEtoile;
+        $familleStdObj->montantParMedaille = $this->montantParMedaille;
+        $familleStdObj->mdp = $this->mdp;
+
+        $familleStdObj->routines =  array();
+        $max = count($this->routines);
+        for ($i = 0; $i < $max; $i++) {
+            $familleStdObj->routines[] = $this->routines[$i]->toStdClass();
+        }
+
+        return $familleStdObj;
+    }
     public function toJson() {
         $familleStdObj = new StdClass();
         $familleStdObj->nom = $this->nom;
         $familleStdObj->modeParent = $this->modeParent;
+        $familleStdObj->montantParEtoile = $this->montantParEtoile;
+        $familleStdObj->montantParMedaille = $this->montantParMedaille;
+        $familleStdObj->mdp = $this->mdp;
+
+        $familleStdObj->routines =  array();
+        $max = count($this->routines);
+        for ($i = 0; $i < $max; $i++) {
+            $familleStdObj->routines[] = $this->routines[$i]->toStdClass();
+        }
 
         return json_encode($familleStdObj);
     }
 
     public function charger($idFamille) {
-        $cheminFichier = $this->cheminJson . DIRECTORY_SEPARATOR . 'famille-' . $idFamille
-                . DIRECTORY_SEPARATOR . 'famille.json';
+        $cheminFichier = $this->cheminJson . DIRECTORY_SEPARATOR . 'famille-' . $idFamille . '.json';
 
         if (!is_readable($cheminFichier)) {
             throw new InvalidArgumentException("Aucun fichier : " . $cheminFichier);
@@ -54,5 +108,30 @@ class Famille {
         $json = json_decode($str);
         $this->nom = $json->nom;
         $this->mdp = $json->mdp;
+        $this->montantParEtoile = $json->montantParEtoile;
+        $this->montantParMedaille = $json->montantParMedaille;
+
+        $this->routines = array();
+
+        if (isset($json->routines)) {
+            $max = count($json->routines);
+            for ($i = 0; $i < $max; $i++) {
+                $routine = new Routine();
+                $routine->charger($json->routines[$i]);
+                $this->routines[] = $routine;
+            }
+        }
+    }
+
+    public function sauvegarder($idFamille) {
+        $cheminFichier = $this->cheminJson . DIRECTORY_SEPARATOR . 'famille-' . $idFamille . '.json';
+        //echo $cheminFichier . "\n";
+
+        if (!is_writable($cheminFichier)) {
+            throw new InvalidArgumentException("Aucun fichier : " . $cheminFichier);
+        }
+        $fp = fopen($cheminFichier, "w+");
+        fwrite($fp, $this->toJson());
+        fclose($fp);
     }
 }

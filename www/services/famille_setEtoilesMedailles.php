@@ -11,22 +11,34 @@ try {
     session_start();
     $famille = null;
     if (array_key_exists('famille', $_SESSION)) {
+        //echo "dans la session\n";
         $famille = $_SESSION['famille'];
     }
     else {
-        $famille = new Famille($idFamille, $configApp->getRacineData());
+        $stdObj = new stdClass();
+        $stdObj->erreur = 1;
+        $stdObj->messageErreur = "On ne peut vérifier si l'usager a passé par l'authentification.";
+
+        header('500: Error', true, 500);
+        echo json_encode($stdObj);
     }
 
     if ($famille->isModeParent()) {
-        $idEnfant = $_REQUEST['idEnfant'];
-        $idRoutine = $_REQUEST['idRoutine'];
+        $famille = new Famille($idFamille, $configApp->getRacineData());
+        $routine = $famille->getRoutineParNomRoutinePrenom($_REQUEST['nomRoutine'], $_REQUEST['prenom']);
+        if ($routine == false) {
+            $stdObj = new stdClass();
+            $stdObj->erreur = 1;
+            $stdObj->messageErreur = "Routine vide";
 
-        $routine = new Routine();
-        $routine->setConfigPersistence(array($configApp->getRacineData()));
-        $routine->charger($idFamille, $idEnfant, $idRoutine);
-        if (is_numeric($_REQUEST['nbrMedaillesAValider'])) {
-            $routine->validerMedailles(intval($_REQUEST['nbrMedaillesAValider']));
-            $routine->sauvegarder($idFamille, $idEnfant, $idRoutine);
+            header('500: Error', true, 500);
+            echo json_encode($stdObj);
+        }
+
+        if (is_numeric($_REQUEST['nbrEtoiles']) && is_numeric($_REQUEST['nbrMedailles'])) {
+            $routine->setNbrEtoiles(intval($_REQUEST['nbrEtoiles']));
+            $routine->setNbrMedailles(intval($_REQUEST['nbrMedailles']));
+            $famille->sauvegarder($idFamille);
             echo $routine->toJson();
         }
         else {

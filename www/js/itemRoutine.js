@@ -63,12 +63,12 @@ function ItemRoutine(texte, cheminImage, tempsMinutes, nbrEtoiles)
     {
         return this.statut;
     }
-    
+
     this.setStatut = setStatut;
     function setStatut(statut)
     {
         this.statut = statut;
-    }    
+    }
 
     this.debuter = debuter;
     function debuter(dateDebut)
@@ -94,7 +94,7 @@ function ItemRoutine(texte, cheminImage, tempsMinutes, nbrEtoiles)
 
        this.statut = statuts.EN_COURS;
     }
-    
+
 
     this.getSecondesEcoulees = getSecondesEcoulees;
     function getSecondesEcoulees(dateComparaison)
@@ -104,6 +104,16 @@ function ItemRoutine(texte, cheminImage, tempsMinutes, nbrEtoiles)
             return 0;
         }
        return secondes;
-    }    
+    }
+
+    this.chargerJson = chargerJson;
+    function chargerJson(obj) {
+        this.texte = obj.texte;
+        this.cheminImage = obj.cheminImage;
+        this.tempsMinutes = obj.tempsMinutes;
+        this.nbrEtoiles = obj.nbrEtoiles;
+        this.dateFin = null;
+        this.statut = statuts.ATTENTE;
+    }
 
 }

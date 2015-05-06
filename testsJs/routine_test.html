@@ -8,6 +8,7 @@
         <script src="../www/js/lib/jquery.min.js"></script>
         <script src="../www/js/itemRoutine.js"></script>
         <script src="../www/js/routine.js"></script>
+        <script src="json/routineJson.js"></script>
         <script>
             var p = false;
             var dateFin = false;
@@ -478,6 +479,39 @@
                 itemRoutine = p.getItemRoutine(1);
             	itemRoutine.setStatut(statuts.FINI_ECHEC);
             	equal(p.meriteMedailleAValider(), false);
+            });
+
+            test("Routine chargerJson 1", function() {
+                var json = JSON.parse(json1);
+                p.chargerJson(json);
+                equal(p.getNomRoutine(), "Routine A");
+                equal(p.getPrenom(), "Léanne Json");
+                equal(p.getNbrEtoiles(), 425);
+                equal(p.getNbrMedailles(), 3);
+                equal(p.getNbrMedaillesAValider(), 22);
+                equal(p.getNbrItemRoutine(), 2);
+            });
+
+            test("Routine chargerJson 2", function() {
+                var json = JSON.parse(json2);
+                p.chargerJson(json);
+                equal(p.getNomRoutine(), "Routine A");
+                equal(p.getPrenom(), "Léanne Json");
+                equal(p.getNbrEtoiles(), 425);
+                equal(p.getNbrMedailles(), 3);
+                equal(p.getNbrMedaillesAValider(), 22);
+                equal(p.getNbrItemRoutine(), 0);
+            });
+
+            test("Routine chargerJson 3", function() {
+                var json = JSON.parse(json3);
+                p.chargerJson(json);
+                equal(p.getNomRoutine(), "Routine A");
+                equal(p.getPrenom(), "Léanne Json");
+                equal(p.getNbrEtoiles(), 425);
+                equal(p.getNbrMedailles(), 3);
+                equal(p.getNbrMedaillesAValider(), 22);
+                equal(p.getNbrItemRoutine(), 1);
             });
 
         </script>

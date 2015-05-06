@@ -2,25 +2,8 @@ $(document).ready(function() {
 
     var auMoinsUneRoutineActive = false;
 
-	var famille = new Famille("Massicotte", 0.05, 0.25);
-
-	var routine0 = new Routine("0", 0, 0, 0, 1, 2, 1);
-	routine0.charger("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_charger.php");
-	routine0.setPhoto("../routinePerso/images/photos/Charles1.jpg");
-	routine0.addItemRoutine(new ItemRoutine("Déjeuner", "../routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 8));
-	routine0.addItemRoutine(new ItemRoutine("S'habiller", "../routinePerso/images/itemsRoutine/habiller.jpg", 8, 4));
-	routine0.addItemRoutine(new ItemRoutine("Brosser les dents", "../routinePerso/images/itemsRoutine/brosserDents.jpg", 5, 3));
-	routine0.addItemRoutine(new ItemRoutine("Faire son lit", "../routinePerso/images/itemsRoutine/faireSonLit.jpg", 5, 3));
-    famille.addRoutine(routine0);
-	var routine1 = new Routine("1", 0, 0, 0, 1, 1, 1);
-	routine1.charger("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_charger.php");
-	routine1.setPhoto("../routinePerso/images/photos/Leanne1.jpg");
-	routine1.addItemRoutine(new ItemRoutine("Déjeuner", "../routinePerso/images/itemsRoutine/dejeuner.jpg", 15, 8));
-	routine1.addItemRoutine(new ItemRoutine("S'habiller", "../routinePerso/images/itemsRoutine/habiller.jpg", 8, 4));
-	routine1.addItemRoutine(new ItemRoutine("Brosser les dents", "../routinePerso/images/itemsRoutine/brosserDents.jpg", 5, 3));
-	routine1.addItemRoutine(new ItemRoutine("Se peigner", "../routinePerso/images/itemsRoutine/peigner.jpg", 5, 4));
-	routine1.addItemRoutine(new ItemRoutine("Faire son lit", "../routinePerso/images/itemsRoutine/faireSonLit.jpg", 5, 3));
-    famille.addRoutine(routine1);
+    famille = new Famille("Massicotte", 0.05, 0.25);
+    famille.charger("/routine" + config.getSuffixeCheminpParNiveau() + "/services/famille_getJson.php");
 
     var headerView = new HeaderView(famille);
     headerView.affichageInitial();
@@ -37,14 +20,14 @@ $(document).ready(function() {
 
     function rafraichirInfo() {
         var max = famille.getNbrRoutines();
-		for (var i = 0; i < max; i++) {
+        for (var i = 0; i < max; i++) {
             var routine = famille.getRoutineParIndex(i);
             if (routine.estPretDebuter()) {
-		        if (!routine.estEnCoursItemRoutine()) {
-		            var tempsLibre = routine.getTempsLibreSecondes(new Date());
-		            var routineView = new RoutineView(routine);
-		            routineView.rafraichirTempsJeux($("#enfant_" + routine.getPrenomNormalise()), tempsLibre);
-		        }
+                if (!routine.estEnCoursItemRoutine()) {
+                    var tempsLibre = routine.getTempsLibreSecondes(new Date());
+                    var routineView = new RoutineView(routine);
+                    routineView.rafraichirTempsJeux($("#enfant_" + routine.getPrenomNormalise()), tempsLibre);
+                }
             }
         }
         setTimeout(rafraichirInfo, 10000);
@@ -176,7 +159,7 @@ $(document).ready(function() {
         if (secondes <= itemRoutineEnCours.getTempsSecondes()) {
            itemRoutineEnCours.setStatut(statuts.FINI_SUCCES);
            routine.addNbrEtoiles(itemRoutineEnCours.getNbrEtoiles());
-           routine.sauvegarderNbrEtoiles("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_addNbrEtoiles.php", itemRoutineEnCours.getNbrEtoiles());
+           routine.sauvegarderAddNbrEtoiles("/routine" + config.getSuffixeCheminpParNiveau() + "/services/famille_addNbrEtoiles.php", itemRoutineEnCours.getNbrEtoiles());
            routineView.afficherEtoiles(enfant, routine.getNbrEtoilesRoutineEnCours());
            routineView.afficherEmoticon(enfant, "images/emoticons/face-smile.png");
 
@@ -194,7 +177,7 @@ $(document).ready(function() {
 
         if (routine.estTerminee() && routine.meriteMedailleAValider()) {
             routine.addNbrMedaillesAValider(1);
-            routine.sauvegarderNbrEtoilesAValider("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_addNbrEtoilesAValider.php", 1);
+            routine.sauvegarderNbrEtoilesAValider("/routine" + config.getSuffixeCheminpParNiveau() + "/services/famille_addNbrEtoilesAValider.php", 1);
 
             routineView.routineParfaite(enfant);
         }

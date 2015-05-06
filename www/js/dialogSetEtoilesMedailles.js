@@ -11,7 +11,7 @@ $(function () {
             "OK": function () {
                 // Ajax
                 var succesMajMedailles = routineSetEtoilesMedailles.majEtoilesMedailles("/routine" +
-                    config.getSuffixeCheminpParNiveau() + "/services/routine_setEtoilesMedailles.php",
+                    config.getSuffixeCheminpParNiveau() + "/services/famille_setEtoilesMedailles.php",
                     $("#nouveauNbrEtoiles").val(),
                     $("#nouveauNbrMedailles").val());
 
@@ -38,7 +38,7 @@ $(function () {
         var nbrMedailles = routineSetEtoilesMedailles.getNbrMedailles();
         $("#nouveauNbrMedailles").val(nbrMedailles);
         var total = nbrEtoiles * famille.getMontantParEtoile()
-            + nbrMedailles * famille.getMontantParSuccesComplet();
+            + nbrMedailles * famille.getMontantParMedaille();
         $("#nouveauTotalArgent").val(total.toFixed(2));
 
         $("#setEtoilesMedaillesFormulaire").show();
@@ -84,18 +84,18 @@ $(function () {
             return;
         }
 
-        var sousTotalMedailles = parseInt($("#nouveauNbrMedailles").val()) * famille.getMontantParSuccesComplet();
+        var sousTotalMedailles = parseInt($("#nouveauNbrMedailles").val()) * famille.getMontantParMedaille();
         var totalEnArgent = $(this).val();
 
         if (totalEnArgent < sousTotalMedailles) {
-            if (parseFloat(totalEnArgent) % famille.getMontantParSuccesComplet() == 0) {
+            if (parseFloat(totalEnArgent) % famille.getMontantParMedaille() == 0) {
                 $("#nouveauNbrEtoiles").val(0);
-                $("#nouveauNbrMedailles").val(parseFloat(totalEnArgent) / famille.getMontantParSuccesComplet());
+                $("#nouveauNbrMedailles").val(parseFloat(totalEnArgent) / famille.getMontantParMedaille());
             }
             else {
-                var nbrMedailles = parseFloat(totalEnArgent) / famille.getMontantParSuccesComplet();
+                var nbrMedailles = parseFloat(totalEnArgent) / famille.getMontantParMedaille();
                 $("#nouveauNbrMedailles").val(parseInt(nbrMedailles));
-                var nbrEtoiles = ((parseInt(nbrMedailles) * famille.getMontantParSuccesComplet()) - parseFloat(totalEnArgent)) / famille.getMontantParEtoile();
+                var nbrEtoiles = ((parseInt(nbrMedailles) * famille.getMontantParMedaille()) - parseFloat(totalEnArgent)) / famille.getMontantParEtoile();
                 nbrEtoiles = nbrEtoiles * -1;
                 nbrEtoiles = Math.ceil(parseFloat(nbrEtoiles.toFixed(2)));
                 $("#nouveauNbrEtoiles").val(parseInt(nbrEtoiles));
@@ -118,7 +118,7 @@ $(function () {
         if (Number.isInteger(parseInt(nbrEtoiles))
                 && Number.isInteger(parseInt(nbrMedailles))) {
             var total = nbrEtoiles * famille.getMontantParEtoile()
-            + nbrMedailles * famille.getMontantParSuccesComplet();
+            + nbrMedailles * famille.getMontantParMedaille();
             $("#nouveauTotalArgent").val(total.toFixed(2));
         }
         else {

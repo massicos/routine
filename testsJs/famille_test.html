@@ -9,8 +9,9 @@
         <script src="../www/js/itemRoutine.js"></script>
         <script src="../www/js/routine.js"></script>
         <script src="../www/js/famille.js"></script>
+        <script src="json/familleJson.js"></script>
         <script>
-            var p = false;
+            var famille = false;
 
             module("module A", {
                 setup: function() {
@@ -29,8 +30,8 @@
                 equal(famille.getMontantParEtoile(), 0.05);
             });
 
-            test("Famille getMontantParSuccesComplet", function() {
-                equal(famille.getMontantParSuccesComplet(), 0.25);
+            test("Famille getMontantParMedaille", function() {
+                equal(famille.getMontantParMedaille(), 0.25);
             });
 
             test("Famille getModeParent 1", function() {
@@ -43,7 +44,7 @@
                 famille.setModeParent(true);
                 equal(famille.getModeParent(), true);
                 famille.setModeParent(false);
-                equal(famille.getModeParent(), false);                
+                equal(famille.getModeParent(), false);
             });
 
             test("Famille getNbrRoutines 0", function() {
@@ -79,6 +80,39 @@
                 routine = famille.getRoutineParIndex(1);
                 equal(routine.getPrenom(), "Charles");
             });
+
+            test("Famille chargerJson", function() {
+                famille = new Famille("Vide", 0, 0);
+                var json = JSON.parse(jsonFamille1);
+                famille.chargerJson(json);
+                equal(famille.getNom(), "Massicotte");
+                equal(famille.getMontantParEtoile(), 0.05);
+                equal(famille.getMontantParMedaille(), 0.25);
+                equal(famille.getModeParent(), false);
+            });
+
+            test("Famille chargerJson", function() {
+                famille = new Famille("Vide", 0, 0);
+                var json = JSON.parse(jsonFamille2);
+                famille.chargerJson(json);
+                equal(famille.getNom(), "Massicotte");
+                equal(famille.getMontantParEtoile(), 0.05);
+                equal(famille.getMontantParMedaille(), 0.25);
+                equal(famille.getModeParent(), false);
+                equal(famille.getNbrRoutines(), 1);
+            });
+
+            test("Famille chargerJson", function() {
+                famille = new Famille("Vide", 0, 0);
+                var json = JSON.parse(jsonFamille3);
+                famille.chargerJson(json);
+                equal(famille.getNom(), "Massicotte");
+                equal(famille.getMontantParEtoile(), 0.05);
+                equal(famille.getMontantParMedaille(), 0.25);
+                equal(famille.getModeParent(), false);
+                equal(famille.getNbrRoutines(), 2);
+            });
+
         </script>
     </head>
     <body>

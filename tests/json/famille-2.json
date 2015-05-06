@@ -1,0 +1,52 @@
+{
+    "montantParEtoile": 0.05,
+    "montantParMedaille": 0.25,
+    "nom": "Bellemare",
+    "mdp": "bonmdp",
+    "routines": [
+        {
+            "itemsRoutine": [
+                {
+                    "cheminImage": "../routinePerso/images/itemsRoutine/dejeuner.jpg",
+                    "nbrEtoiles": 8,
+                    "tempsMinutes": 15,
+                    "texte": "D\u00e9jeuner"
+                },
+                {
+                    "cheminImage": "../routinePerso/images/itemsRoutine/habiller.jpg",
+                    "nbrEtoiles": 4,
+                    "tempsMinutes": 8,
+                    "texte": "Shabiller"
+                }
+            ],
+            "photo":"../routinePerso/images/photos/Leanne1.jpg",
+            "nbrEtoiles": 425,
+            "nbrMedailles": 3,
+            "nbrMedaillesAValider": 22,
+            "nomRoutine": "Routine A",
+            "prenom": "L\u00e9anne Json"
+        },
+        {
+            "itemsRoutine": [
+                {
+                    "cheminImage": "../routinePerso/images/itemsRoutine/dejeuner.jpg",
+                    "nbrEtoiles": 8,
+                    "tempsMinutes": 15,
+                    "texte": "D\u00e9jeuner"
+                },
+                {
+                    "cheminImage": "../routinePerso/images/itemsRoutine/habiller.jpg",
+                    "nbrEtoiles": 4,
+                    "tempsMinutes": 8,
+                    "texte": "Shabiller"
+                }
+            ],
+            "photo":"../routinePerso/images/photos/Charles1.jpg",
+            "nbrEtoiles": 25,
+            "nbrMedailles": 44,
+            "nbrMedaillesAValider": 2,
+            "nomRoutine": "Routine A",
+            "prenom": "Charles Json"
+        }
+    ]
+}

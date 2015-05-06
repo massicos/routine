@@ -13,7 +13,7 @@ $(function () {
                     var routine = validationMedaille.getRoutine();
 
                     // Ajax
-                    var succesMajMedailles = routine.majMedailles("/routine" + config.getSuffixeCheminpParNiveau() + "/services/routine_validerMedailles.php",
+                    var succesMajMedailles = routine.majMedailles("/routine" + config.getSuffixeCheminpParNiveau() + "/services/famille_validerMedailles.php",
                         $("#nbrMedailleValider").val());
 
                     if (succesMajMedailles) {

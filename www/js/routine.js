@@ -1,5 +1,6 @@
 function Routine(prenom, nbrEtoiles, nbrMedailles, nbrMedaillesAValider, idFamille, idEnfant, idRoutine)
 {
+    this.nomRoutine = false;
     this.prenom = prenom;
     this.photo = false;
     this.dateFin = false;
@@ -12,6 +13,11 @@ function Routine(prenom, nbrEtoiles, nbrMedailles, nbrMedaillesAValider, idFamil
     this.idRoutine = idRoutine;
 
     this.itemsRoutine = new Array();
+
+    this.getNomRoutine = getNomRoutine;
+    function getNomRoutine() {
+        return this.nomRoutine;
+    }
 
     this.getPrenom = getPrenom;
     function getPrenom()
@@ -256,6 +262,24 @@ function Routine(prenom, nbrEtoiles, nbrMedailles, nbrMedaillesAValider, idFamil
         this.nbrMedaillesAValider = this.nbrMedaillesAValider + nbrMedailles;
     }
 
+    this.chargerJson = chargerJson;
+    function chargerJson(obj) {
+        this.nomRoutine = obj.nomRoutine;
+        this.prenom = obj.prenom;
+        this.photo = obj.photo;
+        this.nbrEtoiles = obj.nbrEtoiles;
+        this.nbrMedailles = obj.nbrMedailles;
+        this.nbrMedaillesAValider = obj.nbrMedaillesAValider;
+        if (obj.itemsRoutine != null) {
+            for (var i = 0; i < obj.itemsRoutine.length; i++) {
+                var itemRoutine = new ItemRoutine("Vide", "", 0, 0);
+                itemRoutine.chargerJson(obj.itemsRoutine[i]);
+                this.itemsRoutine[i] = itemRoutine;
+            }
+        }
+        console.log("routine.js " + this.nomRoutine + " " + this.prenom);
+    }
+
     this.charger = charger;
     function charger(url) {
 
@@ -283,10 +307,10 @@ function Routine(prenom, nbrEtoiles, nbrMedailles, nbrMedaillesAValider, idFamil
 	    });
     }
 
-   this.sauvegarderNbrEtoiles = sauvegarderNbrEtoiles;
-   function sauvegarderNbrEtoiles(url, nbrEtoiles) {
+   this.sauvegarderAddNbrEtoiles = sauvegarderAddNbrEtoiles;
+   function sauvegarderAddNbrEtoiles(url, nbrEtoiles) {
 
-        url = url + "?idFamille=" + this.idFamille + "&idEnfant=" + this.idEnfant + "&idRoutine=" + this.idRoutine + "&nbrEtoiles=" + nbrEtoiles;
+        url = url + "?nomRoutine=" + this.nomRoutine + "&prenom=" + this.prenom + "&nbrEtoiles=" + nbrEtoiles;
         var jqxhr = $.ajax( {
 		url: url,
 		dataType: "json",
@@ -312,7 +336,8 @@ function Routine(prenom, nbrEtoiles, nbrMedailles, nbrMedaillesAValider, idFamil
    this.sauvegarderNbrEtoilesAValider = sauvegarderNbrEtoilesAValider;
    function sauvegarderNbrEtoilesAValider(url, nbrEtoilesAValider) {
 
-        url = url + "?idFamille=" + this.idFamille + "&idEnfant=" + this.idEnfant + "&idRoutine=" + this.idRoutine + "&nbrEtoilesAValider=" + nbrEtoilesAValider;
+
+        url = url + "?nomRoutine=" + this.nomRoutine + "&prenom=" + this.prenom + "&nbrEtoilesAValider=" + nbrEtoilesAValider;
         var jqxhr = $.ajax( {
 		url: url,
 		dataType: "json",
@@ -388,7 +413,7 @@ function Routine(prenom, nbrEtoiles, nbrMedailles, nbrMedaillesAValider, idFamil
     function majMedailles(url, nbrMedaillesAValider) {
         // Ajax
         var succesAjax = false;
-        url = url + "?idEnfant=" + this.idEnfant + "&idRoutine=" + this.idRoutine + "&nbrMedaillesAValider=" + nbrMedaillesAValider;
+        url = url + "?nomRoutine=" + this.nomRoutine + "&prenom=" + this.prenom + "&nbrMedaillesAValider=" + nbrMedaillesAValider;
         var jqxhr = $.ajax( {
         url: url,
         dataType: "json",
@@ -419,7 +444,7 @@ function Routine(prenom, nbrEtoiles, nbrMedailles, nbrMedaillesAValider, idFamil
     function majEtoilesMedailles(url, nbrEtoiles, nbrMedailles) {
         // Ajax
         var succesAjax = false;
-        url = url + "?idEnfant=" + this.idEnfant + "&idRoutine=" + this.idRoutine +
+        url = url + "?nomRoutine=" + this.nomRoutine + "&prenom=" + this.prenom +
             "&nbrMedailles=" + nbrMedailles +
             "&nbrEtoiles=" + nbrEtoiles;
         var jqxhr = $.ajax( {
