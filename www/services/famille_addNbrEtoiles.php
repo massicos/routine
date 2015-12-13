@@ -5,7 +5,8 @@ require_once($configApp->getRacineClasses() . '/famille.php');
 require_once($configApp->getRacineClasses() . '/routine.php');
 
 try {
-    $idFamille = 1;
+    session_start();
+    $idFamille = $_SESSION['idFamille'];
     $famille = new Famille($idFamille, $configApp->getRacineData());
 
     $routine = $famille->getRoutineParNomRoutinePrenom($_REQUEST['nomRoutine'], $_REQUEST['prenom']);

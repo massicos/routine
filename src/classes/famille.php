@@ -6,15 +6,21 @@ class Famille {
     private $nom;
     private $cheminJson;
     private $mdp;
+    private $mdpAcces;
     private $modeParent;
     private $montantParEtoile;
     private $montantParMedaille;
     private $routines;
-
+    
     public function __construct($idFamille, $cheminJson) {
         $this->cheminJson = $cheminJson;
         $this->charger($idFamille);
         $this->modeParent =  false;
+    }
+    
+    public static function getNbrFamilles($cheminJson) {
+        $files = scandir($cheminJson);
+        return count($files);
     }
 
     public function getNom() {
@@ -45,6 +51,13 @@ class Famille {
         $this->modeParent = false;
         return false;
     }
+    
+    public function validerMdpAcces($mdpAcces) {
+        if ($this->mdpAcces == $mdpAcces) {
+            return true;
+        }
+        return false;
+    }    
 
     public function quitterModeParent() {
         $this->modeParent = false;
@@ -69,6 +82,7 @@ class Famille {
         $familleStdObj->montantParEtoile = $this->montantParEtoile;
         $familleStdObj->montantParMedaille = $this->montantParMedaille;
         $familleStdObj->mdp = $this->mdp;
+        $familleStdObj->mdpAcces = $this->mdpAcces;        
 
         $familleStdObj->routines =  array();
         $max = count($this->routines);
@@ -85,6 +99,7 @@ class Famille {
         $familleStdObj->montantParEtoile = $this->montantParEtoile;
         $familleStdObj->montantParMedaille = $this->montantParMedaille;
         $familleStdObj->mdp = $this->mdp;
+        $familleStdObj->mdpAcces = $this->mdpAcces;
 
         $familleStdObj->routines =  array();
         $max = count($this->routines);
@@ -110,6 +125,7 @@ class Famille {
         $this->mdp = $json->mdp;
         $this->montantParEtoile = $json->montantParEtoile;
         $this->montantParMedaille = $json->montantParMedaille;
+        $this->mdpAcces = $json->mdpAcces;
 
         $this->routines = array();
 

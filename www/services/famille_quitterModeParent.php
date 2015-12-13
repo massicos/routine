@@ -3,9 +3,9 @@ require_once('../config.php');
 require_once($configApp->getRacineClasses() . '/famille.php');
 
 try {
-    $idFamille = 1;
-
     session_start();
+    $idFamille = $_SESSION['idFamille'];
+    
     $famille = null;
     if (array_key_exists('famille', $_SESSION)) {
         //echo "famille session";
