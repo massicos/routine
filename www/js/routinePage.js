@@ -369,10 +369,7 @@ $(document).ready(function() {
 
       this.itemRoutineMarquerCompleter = itemRoutineMarquerCompleter;
       function itemRoutineMarquerCompleter(enfant) {
-          $(enfant).find(".ui-selected").addClass("routineItemTermine");
-          $(enfant).find(".routineItem").find(".ui-selected").removeClass("ui-selected");
-          $(enfant).find(".routineItem").removeClass("ui-selected");
-          $(enfant).find(".ui-selected").selectable({disabled: true});
+          $(enfant).find(".ui-selected").hide();
 
           var tempTotalRoutineMinutes = this.routine.getTotalTempsItemsRoutineNonCompletes();
           $(enfant).find(".tableauBordTempsTotalRoutineMinutes").text(tempTotalRoutineMinutes);
