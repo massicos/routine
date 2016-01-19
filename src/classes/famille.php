@@ -4,6 +4,7 @@ require_once("routine.php");
 
 class Famille {
     private $nom;
+    private $email;
     private $cheminJson;
     private $mdp;
     private $mdpAcces;
@@ -20,12 +21,17 @@ class Famille {
     
     public static function getNbrFamilles($cheminJson) {
         $files = scandir($cheminJson);
-        return count($files);
+        // -2 = . et../
+        return count($files) - 2;
     }
 
     public function getNom() {
         return $this->nom;
     }
+    
+    public function getEmail() {
+        return $this->email;
+    }    
 
     public function getMontantParEtoile() {
         return $this->montantParEtoile;
@@ -78,6 +84,7 @@ class Famille {
     public function toStdClass() {
         $familleStdObj = new StdClass();
         $familleStdObj->nom = $this->nom;
+        $familleStdObj->email = $this->email;
         $familleStdObj->modeParent = $this->modeParent;
         $familleStdObj->montantParEtoile = $this->montantParEtoile;
         $familleStdObj->montantParMedaille = $this->montantParMedaille;
@@ -95,6 +102,7 @@ class Famille {
     public function toJson() {
         $familleStdObj = new StdClass();
         $familleStdObj->nom = $this->nom;
+        $familleStdObj->email = $this->email;
         $familleStdObj->modeParent = $this->modeParent;
         $familleStdObj->montantParEtoile = $this->montantParEtoile;
         $familleStdObj->montantParMedaille = $this->montantParMedaille;
@@ -122,6 +130,7 @@ class Famille {
 
         $json = json_decode($str);
         $this->nom = $json->nom;
+        $this->email = $json->email;
         $this->mdp = $json->mdp;
         $this->montantParEtoile = $json->montantParEtoile;
         $this->montantParMedaille = $json->montantParMedaille;
@@ -149,5 +158,22 @@ class Famille {
         $fp = fopen($cheminFichier, "w+");
         fwrite($fp, $this->toJson());
         fclose($fp);
+    }
+    
+    public function gotMedailleAValider() {
+        if (count($this->routines) == 0) {
+            return false;
+        }
+        
+        foreach ($this->routines as $routine) {
+            if ($routine->getNbrMedaillesAValider() > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public function getRoutineParIndex($index) {
+        return $this->routines[$index];
     }
 }

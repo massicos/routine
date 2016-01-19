@@ -23,6 +23,7 @@ if (file_exists(CHEMIN_DESTINATION_PHP)) {
 echo "Copie des fichiers\n";
 shell_exec("cp -R ../www/* " . CHEMIN_DESTINATION);
 shell_exec("cp -R ../src/* " . CHEMIN_DESTINATION_PHP);
+shell_exec("cp -R ../../mustache.php-master/src/Mustache " . CHEMIN_DESTINATION_PHP);
 
 echo "Installation des fichiers de config\n";
 shell_exec("mv " . CHEMIN_DESTINATION . "/config." . $niveau . ".php " . CHEMIN_DESTINATION . "/config.php");

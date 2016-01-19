@@ -3,6 +3,7 @@
     "montantParMedaille": 0.25,
     "nom": "Bellemare",
     "mdp": "bonmdp",
+    "mdpAcces": "bonmdp2",
     "routines": [
         {
             "itemsRoutine": [
@@ -22,7 +23,7 @@
             "photo":"../routinePerso/images/photos/Leanne1.jpg",
             "nbrEtoiles": 425,
             "nbrMedailles": 3,
-            "nbrMedaillesAValider": 22,
+            "nbrMedaillesAValider": 0,
             "nomRoutine": "Routine A",
             "prenom": "L\u00e9anne Json"
         },
@@ -44,7 +45,7 @@
             "photo":"../routinePerso/images/photos/Charles1.jpg",
             "nbrEtoiles": 25,
             "nbrMedailles": 44,
-            "nbrMedaillesAValider": 2,
+            "nbrMedaillesAValider": 0,
             "nomRoutine": "Routine A",
             "prenom": "Charles Json"
         }

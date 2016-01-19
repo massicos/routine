@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <title>Vous avez des médailles à valider</title>
+        <meta charset="UTF-8">
+        <style>
+            .resultat {
+                display: table;
+                border: 1px solid black;
+            }
+
+            .titre {
+                background-color: orange;
+                display: table-row;
+                font-weight: bold;
+                text-align: center;
+            }
+            .titreInfo {
+                display: table-cell;
+                border: 1px solid black;
+                padding: 3px;
+            }
+            .enfant {
+                display: table-row;
+            }
+            .enfantInfo {
+                display: table-cell;
+                text-align: center;
+                border: 1px solid black;
+                padding: 3px;
+            }
+            .message {
+                padding-top: 20px;
+                font-size: medium;
+            }
+            .signature {
+                padding-top: 20px;
+                font-size: medium;
+                font-weight: bold;
+            }
+            h1 {
+                font-size: large;
+                font-weight: bold;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="message">Vous avez des médailles à valider pour votre famille.</div>
+        <h1>Famille {{nom}}</h1>
+        <div class="resultat">
+            <div class="titre">
+                <div class="titreInfo">Nom</div>
+                <div class="titreInfo">Médailles à valider</div>
+            </div>
+            {{#routines}}
+            <div class="enfant">
+                <div class="enfantInfo">{{prenom}}</div>
+                <div class="enfantInfo">{{nbrMedaillesAValider}}</div>
+            </div>
+            {{/routines}}
+        </div>
+            
+        <div class="message">Pour effectuer la validation rendez-vous sur le <a href="http://poudlard-dev.mooo.com:8899/routine/">site</a>.</div>
+        
+        <div class="signature">L'équipe routine</div>
+    </body>
+</html>
+

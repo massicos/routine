@@ -3,6 +3,7 @@
     "montantParMedaille": 0.25,
     "nom": "Massicotte",
     "mdp": "bonmdp",
+    "mdpAcces": "bonmdp2",
     "routines": [
         {
             "itemsRoutine": [

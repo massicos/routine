@@ -71,4 +71,18 @@ class famille_test extends PHPUnit_Framework_TestCase {
         $routine = $this->famille->getRoutineParNomRoutinePrenom("Routine A", "Léanne Json vide");
         $this->assertEquals(false, $routine);
     }
+    
+    public function test_aMedailleAValider() {
+        $this->assertEquals(true, $this->famille->gotMedailleAValider());
+    }
+    
+    public function test_aMedailleAValider0() {
+        $this->famille = new Famille(0, "json");
+        $this->assertEquals(false, $this->famille->gotMedailleAValider());
+    }
+    
+    public function test_aMedailleAValider2() {
+        $this->famille = new Famille(2, "json");
+        $this->assertEquals(false, $this->famille->gotMedailleAValider());
+    }    
 }
