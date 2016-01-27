@@ -37,10 +37,31 @@ $(document).ready(function() {
 
     $(".tableauBordTempsHeureFinBoutonGo").click(function() {
         var enfant = $(this).closest(".enfant");
-        var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
-        var routineView = new RoutineView(routine);
-        routineView.affichageBoutonGo(enfant);
+        if (validerHeure(enfant)) {
+            var routine = trouverRoutine($(enfant).find(".nomEnfant").text());
+            var routineView = new RoutineView(routine);
+            routineView.affichageBoutonGo(enfant);            
+        }
     });
+    
+    function validerHeure(enfant) {
+        var heure = $(enfant).find(".tableauBordTempsHeuresFinInput").val();
+        var minutes = $(enfant).find(".tableauBordTempsMinutesFinInput").val();
+
+        if (!$.isNumeric(heure) || !$.isNumeric(minutes)) {
+            alert("Veuillez saisir des heures et des minutes valides.");
+            return false;
+        }
+        else if (heure < 0 || heure > 23) {
+            alert("Veuillez saisir une heure valides.");
+            return false;
+        }
+        else if (minutes < 0 || minutes > 59) {
+            alert("Veuillez saisir des minutes valides.");
+            return false;
+        }
+        return true;
+    }
 
     $(".tableauBordTempsHeureFinBoutonStop").click(function() {
         var enfant = $(this).closest(".enfant");
