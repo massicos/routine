@@ -7,36 +7,7 @@ $(function () {
         modal: true,
         buttons: {
             "OK": function () {
-
-                url = "/routine" + config.getSuffixeCheminpParNiveau() +
-                        "/services/famille_modeParent.php?mdp=" + $("#mdpParent").val();
-                var jqxhr = $.ajax( {
-                url: url,
-                dataType: "json",
-                async: false,
-                context: this
-                })
-                .done(function(msg) {
-                    console.log( "success " +  msg.nom + " " + msg.modeParent);
-                    if (msg.modeParent) {
-                        $("#btnOuvrirDialogModeParent").hide();
-                        famille.setModeParent(true);
-                        tableauBordView.affichageModeParent($(".tableauBord"));
-                        $(this).dialog("close");
-                    } else {
-                        $("#modeParentMessage").text("Erreur, mot de passe invalide.");
-                        $("#mdpParent").val("");
-                        $("#modeParentMessage").show();
-                    }
-
-                })
-                .fail(function(msg) {
-                    console.log( "error" + msg.erreur);
-                    $("#modeParentMessage").text("Erreur, problème de communication.");
-                 })
-                .always(function() {
-                    console.log( "complete" );
-                });
+                authentificationModeParent();
             },
             Cancel: function () {
                 $(this).dialog("close");
@@ -72,5 +43,43 @@ $(function () {
             console.log( "complete" );
         });
     });
+    
+    $("#mdpParent").keypress(function(event) {
+        if (event.which == 13) {
+            console.log("Enter !!");
+            authentificationModeParent();
+        }
+    });
 
+    function authentificationModeParent() {
+        url = "/routine" + config.getSuffixeCheminpParNiveau() +
+                "/services/famille_modeParent.php?mdp=" + $("#mdpParent").val();
+        var jqxhr = $.ajax( {
+        url: url,
+        dataType: "json",
+        async: false,
+        context: this
+        })
+        .done(function(msg) {
+            console.log( "success " +  msg.nom + " " + msg.modeParent);
+            if (msg.modeParent) {
+                $("#btnOuvrirDialogModeParent").hide();
+                famille.setModeParent(true);
+                tableauBordView.affichageModeParent($(".tableauBord"));
+                monDialog.dialog("close");
+            } else {
+                $("#modeParentMessage").text("Erreur, mot de passe invalide.");
+                $("#mdpParent").val("");
+                $("#modeParentMessage").show();
+            }
+
+        })
+        .fail(function(msg) {
+            console.log( "error" + msg.erreur);
+            $("#modeParentMessage").text("Erreur, problème de communication.");
+         })
+        .always(function() {
+            console.log( "complete" );
+        });        
+    }
 });
