@@ -25,14 +25,6 @@ function Routine(prenom, nbrEtoiles, nbrMedailles, nbrMedaillesAValider, idFamil
         return this.prenom;
     }
 
-    this.getPrenomNormalise = getPrenomNormalise
-    function getPrenomNormalise(){
-        if (this.prenom == "Charles") {
-            return "charles";
-        }
-        return "leanne";
-    };
-
     this.setPrenom = setPrenom;
     function setPrenom(prenom)
     {

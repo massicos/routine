@@ -26,7 +26,7 @@ $(document).ready(function() {
                 if (!routine.estEnCoursItemRoutine()) {
                     var tempsLibre = routine.getTempsLibreSecondes(new Date());
                     var routineView = new RoutineView(routine);
-                    routineView.rafraichirTempsJeux($("#enfant_" + routine.getPrenomNormalise()), tempsLibre);
+                    routineView.rafraichirTempsJeux($("#enfant_" + i), tempsLibre);
                 }
             }
         }
@@ -438,7 +438,7 @@ $(document).ready(function() {
       	 var obj = $(enfant).find(".tempsJeux");
       	 tempsJeuxRoutine = Math.round(tempsJeuxRoutine / 60);
       	 $(enfant).find(".tableauBordTempsLibreMinutes").text(tempsJeuxRoutine);
-          $(enfant).find(".tableauBordTempsLibre").show();
+         $(enfant).find(".tableauBordTempsLibre").show();
       	 if (tempsJeuxRoutine >  60) {
               tempsJeuxRoutine = 60;
       	 }

@@ -3,7 +3,7 @@
             $max = count($familleStdObj->routines);
             for ($i = 0; $i < $max; $i++) {
             ?>
-            <div class="enfant" id="enfant_<?php echo $familleStdObj->routines[$i]->prenom ?>">
+            <div class="enfant" id="enfant_<?php echo $i ?>">
                 <div class="enfantInfo">
                     <div class="enfantInfoPerso">
                         <img class="photoEnfant"
