@@ -31,6 +31,14 @@
                                     <span class="tableauBordTempsLibreMinutes">0</span>
                                     minutes</span>
                             </div>
+                            <div style="display:inline-flex">
+                                <div id="canvas-holder_itemRoutine<?php echo $i ?>" style="width:40%">
+                                    <canvas id="chart-area_tempsLibre<?php echo $i ?>" width="300" height="300" />
+                                </div>
+                                <div id="canvas-holder_itemRoutine<?php echo $i ?>" style="width:40%">
+                                    <canvas id="chart-area_tempsLibre<?php echo $i ?>" width="300" height="300" />
+                                </div>   
+                            </div>
                         </div>
                         <div class="enfantInfoResultat">
                             <div class="nbrEtoilesImg"></div>

@@ -8,6 +8,40 @@ $(document).ready(function() {
     var headerView = new HeaderView(famille);
     headerView.affichageInitial();
 
+    var config1 = {
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: [
+                    20,
+                    20
+                ],
+                backgroundColor: [
+                    "orange",
+                    "#CCCCCC",
+                ],
+            }],
+            labels: [
+                "Temps restant",
+                "Temps passé"
+            ]
+        },
+        options: {
+            responsive: true
+        }
+    };
+
+    timerChart1 = new TimerChart(config1, "chart-area_a0");
+    timerChart1.showChart();
+    timerChart2 = new TimerChart(config1, "chart-area_b0");
+    timerChart2.showChart();    
+    
+    function rafraichirInfoPage() {
+        timerChart1.rafraichirInfo();
+        setTimeout(rafraichirInfoPage, 1000);
+    }   
+    setTimeout(rafraichirInfoPage, 1000);
+    
 	function trouverRoutine(prenom) {
         var max = famille.getNbrRoutines();
 		for ( var i = 0; i < max; i++) {

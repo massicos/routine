@@ -25,6 +25,8 @@ try {
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/styleRoutine.css">
         <link rel="stylesheet" href="css/base/jquery.ui.all.css">
+        <script src="js/lib/Chart.js"></script>
+        <script src="js/lib/timerChart.js"></script>
         <script src="js/lib/jquery.min.js"></script>
 
         <script src="js/lib/ui/jquery.ui.core.js"></script>
